@@ -808,7 +808,7 @@ byte py_pickup(int pickup)
 			strip_name(tmp, k_idx);
 
 			/* Build up the pickup string */
-			my_strcat(buf, tmp, sizeof(buf));
+			(void)my_strcat(buf, tmp, sizeof(buf));
 
 			/* Added another kind of treasure */
 			count++;
@@ -843,7 +843,7 @@ byte py_pickup(int pickup)
 	}
 
 	/* Free the gold array */
-	FREE(treasure);
+	C_FREE(treasure,FIRST_SPECIAL_TREASURE,byte);
 
 
 	/* Scan the remaining objects */
