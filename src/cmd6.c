@@ -4215,7 +4215,7 @@ int device_chance(const object_type *o_ptr)
 	int skill = p_ptr->skill_dev;
 
 	/* Object is an artifact - use artifact level */
-	if (artifact_p(o_ptr))
+	if(artifact_p(o_ptr))
 	{
 		lev = a_info[o_ptr->artifact_index].level;
 
@@ -4267,7 +4267,8 @@ int device_chance(const object_type *o_ptr)
 	if (p_ptr->afraid) chance -= chance / 5;
 
 	/* Blindness or lack of light makes things a little harder */
-	if ((p_ptr->blind) || (no_light())) chance -= chance / 4;
+	if ((p_ptr->blind) || (no_light() && (p_ptr->see_infra <= 0))) chance -= chance / 4;
+
 
 	/* Set bounds */
 	if (chance < 0) chance = 0;
@@ -4471,7 +4472,8 @@ void use_device(int tval)
 			if (flush_failure) flush();
 
 			/* Staffs of Doomspells have a mind of their own. */
-			if ((o_ptr->sval == SV_STAFF_DOOMSPELLS) && (one_in_(10)))
+			if ((o_ptr->tval == TV_STAFF) &&
+				(o_ptr->sval == SV_STAFF_DOOMSPELLS) && (one_in_(10)))
 			{
 				doomspells(one_in_(2), MAX(50, p_ptr->depth));
 				used_via_failure = TRUE;
