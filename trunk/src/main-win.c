@@ -789,7 +789,7 @@ static int new_palette(void)
 	if (hBmPal)
 	{
 		/* Allocate an array of palette entries */
-		LPPALETTEENTRY lppe = (tagPALETTEENTRY*) ralloc(PAL_SIZE * sizeof(PALETTEENTRY));
+		LPPALETTEENTRY lppe = ralloc(PAL_SIZE * sizeof(PALETTEENTRY));
 
 		/* Grab the first 236 entries from the current graphics palette */
 		int nEntries = GetPaletteEntries(hBmPal, 0, PAL_SIZE, lppe);
