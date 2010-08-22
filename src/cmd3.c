@@ -697,9 +697,9 @@ void do_cmd_wield(void)
 	/* Hack -- Removing two weapons at a time requires special-case code */
 	if (remove_two_weapons)
 	{
-		/* Take off both existing weapons */
-		(void)inven_takeoff(INVEN_WIELD, 255);
+		/* Take off both existing weapons, removing arm slot first - JM */
 		(void)inven_takeoff(INVEN_ARM, 255);
+		(void)inven_takeoff(INVEN_WIELD, 255);
 	}
 
 	/* Removal of one item */
@@ -2309,7 +2309,7 @@ void do_cmd_query_symbol(void)
 	if (!n)
 	{
 		/* XXX XXX Free the "who" array */
-		FREE(who);
+		C_FREE(who, z_info->r_max, u16b);
 
 		return;
 	}
@@ -2351,7 +2351,7 @@ void do_cmd_query_symbol(void)
 	else if (!strchr("yYrR", query))
 	{
 		/* XXX XXX Free the "who" array */
-		FREE(who);
+		C_FREE(who, z_info->r_max, u16b);
 
 		return;
 	}
@@ -2481,7 +2481,7 @@ void do_cmd_query_symbol(void)
 
 
 	/* Free the "who" array */
-	FREE(who);
+	C_FREE(who, z_info->r_max, u16b);
 }
 
 
