@@ -563,8 +563,8 @@ void compact_objects(int size)
 			}
 
 			/* Free the "obj_value and obj_index" arrays */
-			FREE(obj_value);
-			FREE(obj_index);
+			C_FREE(obj_value, o_max, s32b);
+			C_FREE(obj_index, o_max, s16b);
 		}
 	}
 
@@ -2557,7 +2557,7 @@ static bool make_artifact(object_type *o_ptr)
 		}
 
 		/* Free the "art_chance" array */
-		FREE(art_chance);
+		C_FREE(art_chance, z_info->a_max, s16b);
 	}
 
 
@@ -3732,7 +3732,12 @@ void apply_random_qualities(object_type *o_ptr)
 	/* Make ego-item light sources more interesting */
 	if ((xtra & (XTRA_LIGHT_QUALITY)) && (one_in_(2)))
 	{
-		int choice = randint(7);
+		int choice;
+		if((o_ptr->ego_item_index == EGO_BRIGHTNESS) ||
+		   (o_ptr->ego_item_index == EGO_SHADOWS))
+		   choice = randint(6) + 1;
+		else
+			choice = randint(7);
 
 		/* Larger light radius */
 		if ((choice == 1) && (o_ptr->ego_item_index != EGO_BRIGHTNESS))
@@ -3745,25 +3750,32 @@ void apply_random_qualities(object_type *o_ptr)
 		}
 
 		/* Requires no fuel */
-		if (choice == 2) f3 |= (TR3_NOFUEL);
+		else if (choice == 2) f3 |= (TR3_NOFUEL);
 
 		/* Grants see invisible */
-		if (choice == 3) f3 |= (TR3_SEE_INVIS);
+		else if (choice == 3) f3 |= (TR3_SEE_INVIS);
 
 		/* Grants resist blindness */
-		if (choice == 4) f2 |= (TR2_RES_BLIND);
+		else if (choice == 4) f2 |= (TR2_RES_BLIND);
 
 		/* Grants resist light */
-		if (choice == 5) f2 |= (TR2_RES_LITE);
+		else if (choice == 5) f2 |= (TR2_RES_LITE);
 
 		/* Grants resist dark */
-		if (choice == 6) f2 |= (TR2_RES_DARK);
+		else if (choice == 6) f2 |= (TR2_RES_DARK);
 
 		/* Activates to light up a room */
-		if ((choice == 7) && (!o_ptr->activate))
+		else if ((choice == 7) && (!o_ptr->activate))
 		{
 			o_ptr->activate = ACTIV_RANDOM_LIGHT_AREA;
 			o_ptr->b_cost += 1500;
+
+			/* Lights of Shadows activate for darkness */
+			if (o_ptr->ego_item_index == EGO_SHADOWS)
+			{
+				o_ptr->activate = ACTIV_RANDOM_DARK_AREA;
+			}
+
 		}
 	}
 
