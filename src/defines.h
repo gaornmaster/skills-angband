@@ -667,12 +667,33 @@
 #define LEV_REQ_RECHARGE     30  /* S_DEVICE - allow essence-based recharging */
 
 
-#define LEV_REQ_WRESTLE_STR_BONUS1   40  /* STR and DEX bonuses */
-#define LEV_REQ_WRESTLE_STR_BONUS2   75
-#define LEV_REQ_KARATE_STR_BONUS1    60
-#define LEV_REQ_KARATE_DEX_BONUS1    40
-#define LEV_REQ_KARATE_DEX_BONUS2    80
-#define LEV_REQ_WRESTLE_DEX_BONUS1   60
+/* Infravision increases from perception */
+
+#define LEV_REQ_PERCEPTION_INFRA1    10
+#define LEV_REQ_PERCEPTION_INFRA2    30
+#define LEV_REQ_PERCEPTION_INFRA3    50
+#define LEV_REQ_PERCEPTION_INFRA4    70
+
+
+/* Bonuses accrued by martial artists */
+
+#define LEV_REQ_MARTIAL_FA           75
+#define LEV_REQ_MARTIAL_RESIST       90
+#define LEV_REQ_MARTIAL_STAT1        35
+#define LEV_REQ_MARTIAL_STAT2        60
+#define LEV_REQ_MARTIAL_STAT3        85
+
+#define LEV_REQ_KARATE_SPEED1        80
+#define LEV_REQ_KARATE_SPEED2        95
+
+#define LEV_REQ_WREST_BLOW1          60
+#define LEV_REQ_WREST_BLOW2          80
+
+
+#define LEV_REQ_KARATE_BLOW1         50
+#define LEV_REQ_KARATE_BLOW2         60
+#define LEV_REQ_KARATE_BLOW3         80
+#define LEV_REQ_KARATE_BLOW4         90
 
 
 
@@ -711,10 +732,10 @@
 #define TALENT_ID_CHARGES          24
 #define TALENT_XX12                25
 
-#define TALENT_D_OR_NAB_OBJECT     26
-#define TALENT_POISON_AMMO         27
-#define TALENT_HIT_AND_RUN         28
-#define TALENT_XX14                29
+#define TALENT_DARKNESS            26
+#define TALENT_D_OR_NAB_OBJECT     27
+#define TALENT_POISON_AMMO         28
+#define TALENT_HIT_AND_RUN         29
 
 #define TALENT_PRED_WEATH          30
 #define TALENT_SNEAKING            31
@@ -727,7 +748,7 @@
 
 #define TALENT_RECHARGING          38
 #define TALENT_WEAPON_SMITH        39
-#define TALENT_ARMOR_SMITH        40
+#define TALENT_ARMOR_SMITH         40
 #define TALENT_MISSILE_SMITH       41
 #define TALENT_ALCHEMY             42
 #define TALENT_SAVE_BOTTLE         43
@@ -1776,7 +1797,8 @@
 #define EGO_BRIGHTNESS            142
 #define EGO_PHLOGISTON            143
 #define EGO_ELDAMAR               144
-#define EGO_SHADOWS               145
+#define EGO_PERIL                 145
+#define EGO_SHADOWS               146
 
 /* miscellaneous */
 #define EGO_TELEPORTATION         154
@@ -3025,7 +3047,8 @@
 #define DISPLAY_INVISIBILITY      21   /* p_ptr->invisibility */
 /* xxx */
 
-
+/* Maximum number of custom 'displays' */
+#define DISPLAY_MAX               23
 
 /*
  * Start of customized display area
@@ -5266,11 +5289,6 @@
 #define MAX_MACRO_TRIGGER 200
 #define MAX_MACRO_MOD 12
 
-
-/*
- * Given an array, determine how many elements are in the array.
- */
-#define N_ELEMENTS(a) (int)(sizeof(a) / sizeof((a)[0]))
 
 /*
  * Quest description modes.
