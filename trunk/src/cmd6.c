@@ -218,14 +218,14 @@ cptr do_object(int mode, object_type *o_ptr)
 				/* Resist poison helps a lot */
 				if (!(p_ptr->resist_pois || p_ptr->oppose_pois))
 				{
-					dam = MIN(p_ptr->chp - 20, rand_range(80, 120));
+					dam = MIN(MAX(0, p_ptr->chp - 20), rand_range(80, 120));
 
 					(void)set_poisoned(p_ptr->poisoned + rand_range(150, 200));
 					if (take_hit(dam, 0, NULL, "a Mushroom of Envenomation")) break;
 
 					msg_print("You vomit and pass out!");
-					(void)set_food(p_ptr->food_starving - 1);
-					(void)set_paralyzed(p_ptr->paralyzed + rand_range(4, 8));
+					(void)set_food(p_ptr->food_fainting - 1);
+					(void)set_paralyzed(p_ptr->paralyzed + rand_range(4, 6));
 
 					(void)do_dec_stat(A_STR, rand_range(3, 6), FALSE,
 						"The disease attacks your vitality!",
@@ -235,7 +235,7 @@ cptr do_object(int mode, object_type *o_ptr)
 				}
 				else if (!(p_ptr->resist_pois && p_ptr->oppose_pois))
 				{
-					dam = MIN(p_ptr->chp - 5, rand_range(20, 30));
+					dam = MIN(MAX(0, p_ptr->chp - 5), rand_range(20, 30));
 
 					(void)set_poisoned(p_ptr->poisoned + rand_range(30, 45));
 					if (take_hit(dam, 0, NULL,
@@ -267,7 +267,7 @@ cptr do_object(int mode, object_type *o_ptr)
 				disease(&dam);
 
 				/* Do not kill the character */
-				dam = MIN(dam, p_ptr->chp - 40);
+				dam = MIN(dam, MAX(0, p_ptr->chp - 40));
 				if (dam < 0) dam = 0;
 
 				/* Apply adjusted damage */
@@ -298,7 +298,7 @@ cptr do_object(int mode, object_type *o_ptr)
 				disease(&dam);
 
 				/* Do not kill the character */
-				dam = MIN(dam, p_ptr->chp - 40);
+				dam = MIN(dam, MAX(0, p_ptr->chp - 40));
 				if (dam < 0) dam = 0;
 
 				/* Apply a bit of pure damage */
@@ -327,7 +327,7 @@ cptr do_object(int mode, object_type *o_ptr)
 			else
 			{
 				/* Do not kill the character */
-				dam = MIN(p_ptr->chp - 1, rand_range(50, 100));
+				dam = MIN(MAX(0, p_ptr->chp - 1), rand_range(50, 100));
 				if (dam < 0) dam = 0;
 				(void)take_hit(dam, 0,
 					"Your nerves and muscles feel weak and lifeless!",
