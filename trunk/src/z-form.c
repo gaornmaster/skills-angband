@@ -431,7 +431,7 @@ void xstr_encode(char *str, size_t len)
 			else
 			{
 				/* Get the encode (within brackets) */
-				my_strcpy(encode, format("[%s]", latin1_encode[n].tag), sizeof(encode));
+				(void)my_strcpy(encode, format("[%s]", latin1_encode[n].tag), sizeof(encode));
 
 				/* Save it (making sure not to overflow the string) */
 				for (t = encode; *t; t++)
@@ -1217,7 +1217,7 @@ char *vformat(cptr fmt, va_list vp)
 		if (len < format_len-1) break;
 
 		/* Grow the buffer */
-		KILL(format_buf);
+		C_KILL(format_buf, format_len, char);
 		format_len = format_len * 2;
 		C_MAKE(format_buf, format_len, char);
 	}
@@ -1228,7 +1228,7 @@ char *vformat(cptr fmt, va_list vp)
 
 void vformat_kill(void)
 {
-	KILL(format_buf);
+	C_KILL(format_buf, format_len, char);
 }
 
 
