@@ -751,7 +751,7 @@ errr process_pref_file_command(char *buf)
 			macro_trigger_name[max_macrotrigger] = string_make(tmp);
 
 			/* Free the buffer */
-			FREE(tmp);
+			C_FREE(tmp, strlen(zz[0]) + 1, char);
 
 			/* Normal keycode */
 			macro_trigger_keycode[0][max_macrotrigger] = string_make(zz[1]);
@@ -1556,6 +1556,7 @@ static void display_player_middle(void)
 
 	prt_lnum("Unspent Exp   ",   p_ptr->exp,       12, 27, TERM_L_GREEN);
 	prt_lnum("Gold          ",   p_ptr->au,        13, 27, TERM_L_GREEN);
+	prt_lnum("Turns         ",   turn,             14, 27, TERM_L_BLUE);
 
 
 
@@ -2150,6 +2151,8 @@ static cptr short_flag_names[128] =
 
 /*
  * Special display, part 1
+ *
+ * This function is now pretty cludgy, but it provides more information -JM
  */
 static void display_player_flag_info(void)
 {
@@ -2157,6 +2160,10 @@ static void display_player_flag_info(void)
 
 	int row, col;
 	int attr, attr_title;
+	bool immune;
+	bool bad_flag;
+	bool resist;
+	bool temp_resist;
 
 	int flag;
 	cptr name;
@@ -2188,9 +2195,16 @@ static void display_player_flag_info(void)
 		for (y = 0; y < 8; y++)
 		{
 			attr_title = TERM_WHITE;
+			bad_flag = FALSE;
+			immune = FALSE;
+			resist = FALSE;
+			temp_resist = FALSE;
 
 			/* Get flag index */
 			flag = get_flag_here(4 + x, y);
+
+			if ((flag / 32 == 3) && ((1L << (flag % 32)) >= TR3_SOULSTEAL)) bad_flag = TRUE;
+
 
 			/* If no flag belongs in this position, we leave it empty */
 			if (flag < 0)
@@ -2222,7 +2236,7 @@ static void display_player_flag_info(void)
 				/* This object has the current flag */
 				if (f[flag / 32] & (1L << (flag % 32)))
 				{
-					attr_title = TERM_GREEN;
+					resist = TRUE;
 					c_put_str(TERM_WHITE, "+", row, col + n);
 				}
 
@@ -2237,32 +2251,32 @@ static void display_player_flag_info(void)
 				{
 					if (f[2] & (TR2_IM_ACID))
 					{
-						attr_title = TERM_GREEN;
-						c_put_str(TERM_L_BLUE, "*", row, col + n);
+						immune = TRUE;
+						c_put_str(TERM_L_PURPLE, "*", row, col + n);
 					}
 				}
 				if (flag == RES_ELEC)
 				{
 					if (f[2] & (TR2_IM_ELEC))
 					{
-						attr_title = TERM_GREEN;
-						c_put_str(TERM_L_BLUE, "*", row, col + n);
+						immune = TRUE;
+						c_put_str(TERM_L_PURPLE, "*", row, col + n);
 					}
 				}
 				if (flag == RES_FIRE)
 				{
 					if (f[2] & (TR2_IM_FIRE))
 					{
-						attr_title = TERM_GREEN;
-						c_put_str(TERM_L_BLUE, "*", row, col + n);
+						immune = TRUE;
+						c_put_str(TERM_L_PURPLE, "*", row, col + n);
 					}
 				}
 				if (flag == RES_COLD)
 				{
 					if (f[2] & (TR2_IM_COLD))
 					{
-						attr_title = TERM_GREEN;
-						c_put_str(TERM_L_BLUE, "*", row, col + n);
+						immune = TRUE;
+						c_put_str(TERM_L_PURPLE, "*", row, col + n);
 					}
 				}
 
@@ -2282,7 +2296,7 @@ static void display_player_flag_info(void)
 			/* Check flags */
 			if (f_player[flag / 32] & (1L << (flag % 32)))
 			{
-				attr_title = TERM_GREEN;
+				resist = TRUE;
 				c_put_str(TERM_WHITE, "+", row, col + n);
 			}
 
@@ -2291,47 +2305,96 @@ static void display_player_flag_info(void)
 			{
 				if (f_player[2] & (TR2_IM_ACID))
 				{
-					attr_title = TERM_GREEN;
-					c_put_str(TERM_L_BLUE, "*", row, col + n);
+					immune = TRUE;
+					c_put_str(TERM_L_PURPLE, "*", row, col + n);
+				}
+				else if (p_ptr->oppose_acid)
+				{
+					temp_resist = TRUE;
+					c_put_str(TERM_GREEN, "+", row, col + n);
 				}
 			}
 			if (flag == RES_ELEC)
 			{
 				if (f_player[2] & (TR2_IM_ELEC))
 				{
-					attr_title = TERM_GREEN;
-					c_put_str(TERM_L_BLUE, "*", row, col + n);
+					immune = TRUE;
+					c_put_str(TERM_L_PURPLE, "*", row, col + n);
+				}
+				else if (p_ptr->oppose_elec)
+				{
+					temp_resist = TRUE;
+					c_put_str(TERM_GREEN, "+", row, col + n);
 				}
 			}
 			if (flag == RES_FIRE)
 			{
 				if (f_player[2] & (TR2_IM_FIRE))
 				{
-					attr_title = TERM_GREEN;
-					c_put_str(TERM_L_BLUE, "*", row, col + n);
+					immune = TRUE;
+					c_put_str(TERM_L_PURPLE, "*", row, col + n);
+				}
+				else if (p_ptr->oppose_fire)
+				{
+					temp_resist = TRUE;
+					c_put_str(TERM_GREEN, "+", row, col + n);
 				}
 			}
 			if (flag == RES_COLD)
 			{
 				if (f_player[2] & (TR2_IM_COLD))
 				{
-					attr_title = TERM_GREEN;
-					c_put_str(TERM_L_BLUE, "*", row, col + n);
+					immune = TRUE;
+					c_put_str(TERM_L_PURPLE, "*", row, col + n);
+				}
+				else if (p_ptr->oppose_cold)
+				{
+					temp_resist = TRUE;
+					c_put_str(TERM_GREEN, "+", row, col + n);
 				}
 			}
+
+			/* Hack -- Cancel immunities specially -JM */
+			if (immune && (f_cancel[flag/32] & (1L << (flag % 32 - 4))))
+			{
+				immune = FALSE;
+			}
+
 
 			/* Check to see if the character cancels this flag */
 			if (f_cancel[flag / 32] & (1L << (flag % 32)))
 			{
 				/* For "good" flags, cancellation is bad. */
 				attr = TERM_L_RED;
-
 				/* For "bad" flags, cancellation is good */
-				if ((flag / 32 == 3) && ((1L << (flag % 32)) >= TR3_SOULSTEAL))
+				if (bad_flag)
 					attr = TERM_L_BLUE;
 
+				resist = FALSE;
+
 				/* Note cancellation */
-				c_put_str(attr, "X", row, col + n);
+				if (temp_resist)
+				{
+					c_put_str(attr, "~", row, col + n);
+				}
+				else
+					c_put_str(attr, "X", row, col + n);
+				
+			}
+
+			/* Choose the correct color to display based on the level of resistance */
+			if (!bad_flag)
+			{
+				if (immune)   attr_title = TERM_L_PURPLE;
+				else if (temp_resist && resist)
+							  attr_title = TERM_L_BLUE;
+				else if (temp_resist || resist)
+							  attr_title = TERM_GREEN;
+			}
+			else
+			{
+				if (immune || temp_resist || resist)
+					attr_title = TERM_RED;
 			}
 
 
@@ -2346,6 +2409,8 @@ static void display_player_flag_info(void)
 		}
 	}
 }
+
+
 
 /*
  * Display internal stats, equipment and innate modifiers to them, and
@@ -3800,7 +3865,7 @@ errr file_character(cptr name, bool full)
 			fprintf(fff, "  [Last Messages]\n\n");
 			while (msgs-- > 0)
 			{
-				my_strcpy(buf, message_str(msgs), sizeof(buf));
+				(void)my_strcpy(buf, message_str(msgs), sizeof(buf));
 				x_fprintf(fff, encoding, "%s\n", format_literal(buf));
 			}
 			fprintf(fff, "\n\n");
@@ -6382,15 +6447,15 @@ static errr enter_score(void)
 	(void)strnfmt(the_score.what, sizeof(the_score.what), "%s", VERSION_STRING);
 
 	/* Calculate and save the points */
-	sprintf(the_score.pts, "%9ld", (long)total_points());
+	(void)strnfmt(the_score.pts, sizeof(the_score.pts), "%9ld", (long)total_points());
 	the_score.pts[9] = '\0';
 
 	/* Save the current gold */
-	sprintf(the_score.gold, "%9ld", (long)p_ptr->au);
+	(void)strnfmt(the_score.gold, sizeof(the_score.gold), "%9ld", (long)p_ptr->au);
 	the_score.gold[9] = '\0';
 
 	/* Save the current turn */
-	sprintf(the_score.turns, "%9ld", (long)turn);
+	(void)strnfmt(the_score.turns, sizeof(the_score.turns), "%9ld", (long)turn);
 	the_score.turns[9] = '\0';
 
 	/* Save the date in standard encoded form (9 chars) */
@@ -6400,10 +6465,10 @@ static errr enter_score(void)
 	(void)strnfmt(the_score.who, sizeof(the_score.who), "%-.30s", op_ptr->full_name);
 
 	/* Save the player info XXX XXX XXX */
-	sprintf(the_score.uid, "%7d", player_uid);
-	sprintf(the_score.sex, "%c", (p_ptr->psex ? 'm' : 'f'));
-	sprintf(the_score.p_r, "%2d", p_ptr->prace);
-	sprintf(the_score.p_mag, "%2d", p_ptr->realm);
+	(void)strnfmt(the_score.uid, sizeof(the_score.uid), "%7d", player_uid);
+	(void)strnfmt(the_score.sex, sizeof(the_score.sex), "%c", (p_ptr->psex ? 'm' : 'f'));
+	(void)strnfmt(the_score.p_r, sizeof(the_score.p_r), "%2d", p_ptr->prace);
+	(void)strnfmt(the_score.p_mag, sizeof(the_score.p_mag), "%2d", p_ptr->realm);
 
 	/* Save the title */
 	character_title = get_title(25, FALSE, FALSE);
@@ -6420,8 +6485,8 @@ static errr enter_score(void)
 	}
 
 	/* Save the level and such */
-	sprintf(the_score.cur_dun, "%3d", p_ptr->depth);
-	sprintf(the_score.max_dun, "%3d", p_ptr->max_depth);
+	(void)strnfmt(the_score.cur_dun, sizeof(the_score.cur_dun), "%3d", p_ptr->depth);
+	(void)strnfmt(the_score.max_dun, sizeof(the_score.max_dun), "%3d", p_ptr->max_depth);
 
 	/* Save the cause of death (31 chars) */
 	(void)strnfmt(the_score.how, sizeof(the_score.how), "%-.31s", p_ptr->died_from);
@@ -6526,13 +6591,13 @@ errr predict_score(void)
 	(void)strnfmt(the_score.what, sizeof(the_score.what), "%s", VERSION_STRING);
 
 	/* Calculate and save the points */
-	sprintf(the_score.pts, "%9ld", (long)total_points());
+	(void)strnfmt(the_score.pts, sizeof(the_score.pts), "%9ld", (long)total_points());
 
 	/* Save the current gold */
-	sprintf(the_score.gold, "%9ld", (long)p_ptr->au);
+	(void)strnfmt(the_score.gold, sizeof(the_score.gold), "%9ld", (long)p_ptr->au);
 
 	/* Save the current turn */
-	sprintf(the_score.turns, "%9ld", (long)turn);
+	(void)strnfmt(the_score.turns, sizeof(the_score.turns), "%9ld", (long)turn);
 
 	/* Hack -- no time needed */
 	strcpy(the_score.day, "TODAY");
@@ -6542,12 +6607,12 @@ errr predict_score(void)
 
 	/* Save the player info XXX XXX XXX */
 #ifdef SAVEFILE_USE_UID
-	sprintf(the_score.uid, "%7d", player_uid);
+	(void)strnfmt(the_score.uid, sizeof(the_score.uid), "%7d", player_uid);
 #endif /* SAVEFILE_USE_UID */
 
-	sprintf(the_score.sex, "%c", (p_ptr->psex ? 'm' : 'f'));
-	sprintf(the_score.p_r, "%2d", p_ptr->prace);
-	sprintf(the_score.p_mag, "%2d", p_ptr->realm);
+	(void)strnfmt(the_score.sex, sizeof(the_score.sex), "%c", (p_ptr->psex ? 'm' : 'f'));
+	(void)strnfmt(the_score.p_r, sizeof(the_score.p_r), "%2d", p_ptr->prace);
+	(void)strnfmt(the_score.p_mag, sizeof(the_score.p_mag), "%2d", p_ptr->realm);
 
 	/* Save the title */
 	character_title = get_title(25, FALSE, FALSE);
@@ -6564,8 +6629,8 @@ errr predict_score(void)
 	}
 
 	/* Save the level and such */
-	sprintf(the_score.cur_dun, "%3d", p_ptr->depth);
-	sprintf(the_score.max_dun, "%3d", p_ptr->max_depth);
+	(void)strnfmt(the_score.cur_dun, sizeof(the_score.cur_dun), "%3d", p_ptr->depth);
+	(void)strnfmt(the_score.max_dun, sizeof(the_score.max_dun), "%3d", p_ptr->max_depth);
 
 	/* Hack -- no cause of death */
 	strcpy(the_score.how, "alive and well");
