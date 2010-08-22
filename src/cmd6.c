@@ -6759,6 +6759,17 @@ cptr do_activation_aux(int mode, object_type *o_ptr)
 			}
 			break;
 		}
+		case ACTIV_RANDOM_DARK_AREA:
+		{
+			timeout1 = 15;     timeout2 = 30;
+
+			if (info) return (format("Darken a room or the local area every %d-%d turns", timeout1, timeout2));
+			if (act)
+			{
+				unlite_area(0, 3);
+			}
+			break;
+		}
 
 		case ACTIV_EGO_HERO:
 		{

@@ -1573,6 +1573,7 @@
 #define ACTIV_RANDOM_BERSERK         190
 #define ACTIV_RANDOM_LIGHT_AREA      191
 #define ACTIV_RANDOM_SELF_KNOWLEDGE  192
+#define ACTIV_RANDOM_DARK_AREA       193
 
 
 /* Ego-item activations */
