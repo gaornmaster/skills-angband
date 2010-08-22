@@ -580,12 +580,14 @@ bool set_hero(int v)
 	if ((v) && (!p_ptr->hero))
 	{
 		if (extra_hp_player(10)) notice = TRUE;
-		if (p_ptr->afraid)
-		{
-			/* No extraneous messages for removal of fear */
-			p_ptr->afraid = 0;
-			notice = TRUE;
-		}
+	}
+
+	/* Can still become afraid if hero, must do this regardless -JM */
+	if (p_ptr->afraid)
+	{
+		/* No extraneous messages for removal of fear */
+		p_ptr->afraid = 0;
+		notice = TRUE;
 	}
 
 	/* Set hero, output messages */
@@ -1675,7 +1677,7 @@ bool set_stun(int v)
 	}
 
 	/* Decrease stun */
-	else if (!new_aux)
+	else if (!new_aux && old_aux)
 	{
 		/* Message */
 		message(MSG_RECOVER, 0, "You are no longer stunned.");
@@ -2653,7 +2655,8 @@ bool set_self_knowledge(int v, cptr msg)
 
 /*
  * Shapechange code. Most of the work is done by calc_bonuses().
- * We just handle the messages and adjust current mana.
+ *
+ * Mana now exclusively dealt with in calc_mana - JM
  */
 void shapechange(s16b shape)
 {
@@ -2685,10 +2688,6 @@ void shapechange(s16b shape)
 		/* Messages */
 		msg_format("You assume the form of a %s.", shapedesc);
 		msg_print("Your equipment merges into your body.");
-
-		/* Hack -- apply mana penalty to current spellpoints too */
-		p_ptr->csp *= 2;
-		p_ptr->csp /= 3;
 	}
 
 	/* Return to normal form */
@@ -2696,13 +2695,6 @@ void shapechange(s16b shape)
 	{
 		/* Message */
 		msg_print("You return to your normal form.");
-
-		/* Hack - Restore current mana as well */
-		if (p_ptr->csp > 0)
-		{
-			p_ptr->csp *= 3;
-			p_ptr->csp /= 2;
-		}
 	}
 
 	/* Update stuff */
@@ -2807,6 +2799,56 @@ void check_experience(void)
 
 	/* Handle stuff */
 	handle_stuff();
+}
+
+
+
+/*
+ * Calculate the amount of experience the character's skills are "worth",
+ * ignoring any racial or practice adjustments, and using maximum rather
+ * than current values.
+ */
+s32b calc_spent_exp_max(void)
+{
+	int i, level;
+	s32b cost;
+
+	s32b tot_exp = 0L;
+
+	/* Tally up all skills */
+	for (i = 0; i < NUM_SK_USED; i++)
+	{
+		/* Skip non-existent skills */
+		if (skill_info[i].cost_adj == 0) continue;
+
+		/* Use current skills */
+		level = p_ptr->pskills[i].max;
+
+		/* Paranoia -- level must be between 0 and 100 */
+		if (level <   0) level =   0;
+		if (level > 100) level = 100;
+
+		/* Get the cost to get to the current skill level */
+		cost = player_exp[level];
+
+		/* Apply level difficulty factor (10x inflation) */
+		cost *= skill_info[i].cost_adj;
+
+		/* Apply cost reduction for similar skills */
+		adv_cost_reduce_similar(i, &cost, 2);
+
+		/* Sum up adjusted values */
+		tot_exp += cost;
+	}
+
+	/* Deflate */
+	tot_exp /= 10L;
+
+	/* Apply experience cost divisor */
+	tot_exp /= EXP_ADJ;
+
+	/* Return the value */
+	return (tot_exp);
 }
 
 /*
@@ -3063,6 +3105,8 @@ static int danger_color(int base, int hurt)
  * Hack -- this function allows the user to save (or quit) the game
  * when he dies, since the "You die." message is shown before setting
  * the player to "dead".
+ *
+ * Note: this function can heal the player with a negative argument -JM
  *
  * Return TRUE if the character dies or is leaving.
  */
