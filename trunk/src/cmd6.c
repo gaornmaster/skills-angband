@@ -353,8 +353,8 @@ cptr do_object(int mode, object_type *o_ptr)
 
 		case SV_FOOD_METAMORPHOSIS:
 		{
-			/* Seldom change race at first, always change it afterwards */
-			int race_odds = (!aware ? 15 : 1);
+			/* Seldom change race at first, frequently change it afterwards */
+			int race_odds = (!aware ? 15 : 3);
 
 			if (info) return ("");
 
@@ -384,6 +384,7 @@ cptr do_object(int mode, object_type *o_ptr)
 				if ((!p_ptr->resist_nexus) && (one_in_(race_odds)))
 				{
 					int new_race;
+					int chp, mhp;
 
 					/* Choose a second, different race */
 					for (new_race = p_ptr->prace;
@@ -394,8 +395,16 @@ cptr do_object(int mode, object_type *o_ptr)
 					p_ptr->prace = new_race;
 					rp_ptr = &race_info[p_ptr->prace];
 
+					/* Store current and maximum hit points -JM */
+					chp = p_ptr->chp;
+					mhp = p_ptr->mhp;
+
 					/* Reroll hp for new race */
 					get_extra();
+
+					/* Hack -- Reset chp to appropriate value -JM */
+					calc_hitpoints();
+					p_ptr->chp = div_round(p_ptr->mhp * chp, mhp);
 
 					/* Message */
 					msg_format("You polymorph into a %s!",
@@ -489,7 +498,7 @@ cptr do_object(int mode, object_type *o_ptr)
 		{
 			if (info) return ("");
 
-			if (set_blind(0, "The veil of darkness lifts")) obj_ident = TRUE;
+			if (set_blind(0, "The veil of darkness lifts.")) obj_ident = TRUE;
 			break;
 		}
 
@@ -973,7 +982,7 @@ cptr do_object(int mode, object_type *o_ptr)
 			if (info) return (format("(damage %dd%d)", o_ptr->dd, o_ptr->ds));
 
 			/* Hurt, but do not (immediately) kill, the character */
-			(void)take_hit(p_ptr->chp - 10, 0,
+			(void)take_hit(MAX(0, p_ptr->chp - 10), 0,
 				"Massive explosions rupture your body!",
 				"a potion of Detonations");
 
