@@ -1177,7 +1177,7 @@ static s16b spell_chance(int spell)
 	if (p_ptr->cumber_glove) skill = 2 * skill / 3;
 
 	/* Reduce failure rate by "effective" level adjustment */
-	fail -= (skill - s_ptr->slevel) / 2;
+	fail -= (skill - s_ptr->slevel);
 
 	/* Adjust failure rate according to spell stat */
 	fail += ((int)(adj_mag_fail[p_ptr->stat_ind[mp_ptr->spell_stat]]) - 128);
@@ -1194,6 +1194,9 @@ static s16b spell_chance(int spell)
 
 	/* Fear makes spells a little harder */
 	if (p_ptr->afraid) fail += 10;
+
+	/* Darkness makes if more difficult to cast */
+	if (no_light()) fail += 10;
 
 	/* Always a 5 percent chance of working */
 	if (fail > 95) fail = 95;
@@ -1214,7 +1217,8 @@ static bool can_study_or_cast(void)
 	if (p_ptr->realm == NONE) note = "You know no magical realm.";
 	else if (p_ptr->berserk)  note = "You are too berserk!";
 	else if (p_ptr->blind)    note = "You are blind!";
-	else if (no_light())      note = "It is dark; you cannot see!";
+	else if (no_light() && ( (p_ptr->realm == DRUID) || (p_ptr->realm == MAGE) ))
+	                          note = "It is dark; you cannot see!";
 	else if (p_ptr->confused) note = "You are too confused!";
 	else if (p_ptr->image)    note = "You are hallucinating!";
 
@@ -2038,6 +2042,12 @@ cptr do_spell(int mode, int spell)
 		/* Get spell power (up to 100, or 75 for non-specialists) */
 		if (!limit_power) spower = get_skill(S_MAGIC, 0, 100);
 		else              spower = get_skill(S_MAGIC, 0,  75);
+
+		/* Necromancers cast stronger spells in the darkness */
+		if (p_ptr->realm == NECRO) spower += darkness_ratio(3) / 20;
+
+		/* Priests dislike the darkness */
+		if (p_ptr->realm == PRIEST) spower -= darkness_ratio(3) / 20;
 
 		/* Get extra power (over and above spell level */
 		xtra_spower = MAX(1, spower - s_ptr->slevel);
@@ -5740,14 +5750,21 @@ cptr do_spell(int mode, int spell)
 	/* A spell was cast for the first time */
 	if ((okay) && !(p_ptr->spell_flags[spell] & (PY_SPELL_WORKED)))
 	{
-		/* Gain experience (assign to spell level) */
-		gain_exp(MAX(1, s_ptr->sexp * s_ptr->slevel), S_MAGIC);
+		/* No longer gain experience (assign to spell level) - JM */
+		/* gain_exp(MAX(1, s_ptr->sexp * s_ptr->slevel), S_MAGIC); */
 
 		/* The spell worked */
 		p_ptr->spell_flags[spell] |= (PY_SPELL_WORKED);
 
 		/* Redraw object recall (later!) */
 		p_ptr->window |= (PW_OBJECT);
+	}
+
+
+	/* Shapechange *before* mana is deducted -JM */
+	if (do_shapechange)
+	{
+		shapechange(do_shapechange);
 	}
 
 	/* Sufficient mana */
@@ -5793,11 +5810,6 @@ cptr do_spell(int mode, int spell)
 		}
 	}
 
-	/* Shapechange after mana is deducted */
-	if (do_shapechange)
-	{
-		shapechange(do_shapechange);
-	}
 
 	/* Update spells */
 	p_ptr->update |= (PU_SPELLS);
