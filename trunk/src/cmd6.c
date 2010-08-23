@@ -2465,7 +2465,7 @@ cptr do_device(int mode, object_type *o_ptr, bool *ident, bool *used,
 
 		case SV_STAFF_CURE_MEDIUM:
 		{
-			pow = 20;
+			pow = 10;
 
 			if (info) return (format("(heal about %d%%, reduce cuts)", pow));
 			if (use)
@@ -2478,7 +2478,7 @@ cptr do_device(int mode, object_type *o_ptr, bool *ident, bool *used,
 
 		case SV_STAFF_HEALING:
 		{
-			pow = 40;
+			pow = 30;
 
 			if (info) return (format("(heal about %d%%, reduce cuts)", pow));
 			if (use)
@@ -3869,17 +3869,27 @@ static bool can_read_scroll(void)
 		msg_print("You can't see anything.");
 		return (FALSE);
 	}
-	if (no_light())
-	{
-		msg_print("You have no light to read by.");
-		return (FALSE);
-	}
 	if (p_ptr->confused)
 	{
 		msg_print("You are too confused!");
 		return (FALSE);
 	}
 	return (TRUE);
+}
+
+/*
+ * Hook to determine if an object is readable
+ */
+static bool item_tester_hook_scroll(const object_type *o_ptr)
+{
+	if (o_ptr->tval == TV_SCROLL)
+	{
+		if (!no_light() || (o_ptr->flags2 & TR2_GLOW_WORDS) )
+        {
+		      return (TRUE);
+        }
+     }
+     return (FALSE);
 }
 
 
@@ -3943,7 +3953,7 @@ void use_object(int tval)
 		if (!can_read_scroll()) return;
 
 		/* Restrict choices to scrolls */
-		item_tester_tval = TV_SCROLL;
+		item_tester_hook = item_tester_hook_scroll;
 
 		/* Get an item */
 		q = "Read which scroll?";
