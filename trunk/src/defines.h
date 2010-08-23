@@ -364,6 +364,11 @@
  */
 #define ESSENCE_PROB    125
 
+/*
+ * The multiplier of additional gold when disallowing stores to buy items (OPT_birth_stores_only_sell)
+ */
+#define GOLD_ADJ 4
+
 
 /*
  * Refueling constants
@@ -3436,7 +3441,7 @@
 #define TR2_XX24               0x01000000L   /*  */
 #define TR2_XX25               0x02000000L   /*  */
 #define TR2_XX26               0x04000000L   /*  */
-#define TR2_XX27               0x08000000L   /*  */
+#define TR2_GLOW_WORDS         0x08000000L   /* Item can be read in darkness */
 #define TR2_IGNORE_ACID        0x10000000L   /* Item ignores Acid Damage */
 #define TR2_IGNORE_ELEC        0x20000000L   /* Item ignores Elec Damage */
 #define TR2_IGNORE_FIRE        0x40000000L   /* Item ignores Fire Damage */
@@ -4311,7 +4316,7 @@
 #define OPT_birth_no_artifacts             104
 #define OPT_birth_no_return_stair          105
 #define OPT_birth_smart_cheat              106
-
+#define OPT_birth_stores_only_sell         107
 
 
 /*
@@ -4399,7 +4404,7 @@
 #define birth_no_artifacts          op_ptr->opt[OPT_birth_no_artifacts]
 #define birth_no_return_stair       op_ptr->opt[OPT_birth_no_return_stair]
 #define birth_smart_cheat           op_ptr->opt[OPT_birth_smart_cheat]
-
+#define birth_stores_only_sell      op_ptr->opt[OPT_birth_stores_only_sell]
 
 
 /*
@@ -5332,3 +5337,15 @@
 #define DSP_UNLOCK      0x00002000  /* Unlock the main view */
 #define DSP_POPUP       0x00004000  /* Apply pop-up window rules */
 #define DSP_POPDOWN     0x00008000  /* Cancel pop-up window rules */
+
+/* History message types */
+#define HISTORY_PLAYER_BIRTH     0x0001	/* Player was born */
+#define HISTORY_ARTIFACT_UNKNOWN 0x0002	/* Player found but not IDd an artifact */
+#define HISTORY_ARTIFACT_KNOWN   0x0004	/* Player has IDed an artifact */
+#define HISTORY_ARTIFACT_LOST    0x0008	/* Player had an artifact and lost it */
+#define HISTORY_PLAYER_DEATH     0x0010	/* Player has been slain */
+#define HISTORY_SLAY_UNIQUE      0x0020	/* Player has slain a unique monster */
+#define HISTORY_USER_INPUT       0x0040	/* User-added note */
+#define HISTORY_SAVEFILE_IMPORT  0x0080	/* Added when an older version savefile is imported */
+#define HISTORY_GAIN_LEVEL       0x0100	/* Player gained a level */
+#define HISTORY_GENERIC          0x0200	/* Anything else not covered here (unused) */
