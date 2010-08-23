@@ -563,7 +563,7 @@ static cptr k_info_flags2[] =
 	"XXX5",
 	"XXX6",
 	"XXX7",
-	"XXX8",
+	"GLOW_WORDS",
 	"IGNORE_ACID",
 	"IGNORE_ELEC",
 	"IGNORE_FIRE",
