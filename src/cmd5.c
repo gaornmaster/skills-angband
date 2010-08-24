@@ -5760,13 +5760,6 @@ cptr do_spell(int mode, int spell)
 		p_ptr->window |= (PW_OBJECT);
 	}
 
-
-	/* Shapechange *before* mana is deducted -JM */
-	if (do_shapechange)
-	{
-		shapechange(do_shapechange);
-	}
-
 	/* Sufficient mana */
 	if (spell_cost <= p_ptr->csp)
 	{
@@ -5808,6 +5801,12 @@ cptr do_spell(int mode, int spell)
 			/* Reduce constitution */
 			(void)dec_stat(A_CON, 1, perm);
 		}
+	}
+
+	/* Shapechange after mana is deducted -JM */
+	if (do_shapechange)
+	{
+		shapechange(do_shapechange);
 	}
 
 
