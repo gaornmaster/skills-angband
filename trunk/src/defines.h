@@ -5347,5 +5347,5 @@
 #define HISTORY_SLAY_UNIQUE      0x0020	/* Player has slain a unique monster */
 #define HISTORY_USER_INPUT       0x0040	/* User-added note */
 #define HISTORY_SAVEFILE_IMPORT  0x0080	/* Added when an older version savefile is imported */
-#define HISTORY_GAIN_LEVEL       0x0100	/* Player gained a level */
+#define HISTORY_GAIN_POWER       0x0100	/* Player gained in power */
 #define HISTORY_GENERIC          0x0200	/* Anything else not covered here (unused) */

@@ -666,6 +666,9 @@ static void py_pickup_aux(int o_idx, bool msg)
 	/* Attempt to sense the object, if it has not already been sensed */
 	sense_object(o_ptr, slot, FALSE, FALSE);
 
+	/* Note if an artifact */
+	if (artifact_p(o_ptr)) history_add_artifact(o_ptr->artifact_index, (o_ptr->ident & IDENT_KNOWN));
+
 	/* Delete the original object */
 	delete_object_idx(o_idx);
 }

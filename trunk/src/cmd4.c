@@ -5116,10 +5116,12 @@ void do_cmd_colors(void)
 
 /*
  * Note something in the message recall.  -CK-
+ *                       and the history -JM-
  */
 void do_cmd_note(void)
 {
 	char tmp[1024];
+	char buf[1024];
 
 	/* Default */
 	strcpy(tmp, "");
@@ -5130,8 +5132,14 @@ void do_cmd_note(void)
 	/* Ignore empty notes */
 	if (!tmp[0] || (tmp[0] == ' ')) return;
 
+	/* Make message */
+	strnfmt(buf, sizeof(tmp), "Note: %s", tmp);
+
 	/* Add the note to the message recall */
-	msg_format("Note: %s", tmp);
+	message(0, 0, buf);
+
+	/* Add the note to history */
+	history_add(buf, HISTORY_USER_INPUT, 0);
 }
 
 

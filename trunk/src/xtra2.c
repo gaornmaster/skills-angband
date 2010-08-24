@@ -3117,6 +3117,7 @@ bool take_hit(int dam, int msg_type, cptr hit_str, cptr kb_str)
 	int warning = (p_ptr->mhp * op_ptr->hitpoint_warn / 10);
 
 	int delay = 0;
+	char buf[80];
 
 
 #ifdef ALLOW_BORG
@@ -3178,6 +3179,10 @@ bool take_hit(int dam, int msg_type, cptr hit_str, cptr kb_str)
 
 		/* Note cause of death */
 		(void)my_strcpy(p_ptr->died_from, kb_str, sizeof(p_ptr->died_from));
+
+		/* Note death in history */
+		(void) strnfmt(buf, 80, "Killed by %s", kb_str);
+		history_add(buf, HISTORY_PLAYER_DEATH, 0);
 
 		/* No longer a winner */
 		p_ptr->total_winner = FALSE;
