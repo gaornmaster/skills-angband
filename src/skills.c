@@ -168,22 +168,22 @@ s16b get_skill_race(int skill, int min, int max)
 		{
 			/* Mages, Necromancers, and Druids */
 			if (p_ptr->oath & (OATH_OF_SORCERY | YAVANNAS_FELLOWSHIP
-				| BLACK_MYSTERY)) 
+				| BLACK_MYSTERY))
 			{
 				range = (range + 1) * 2 / 3;
 			}
 
 			/* Priests */
-			else if (p_ptr->oath & COVENANT_OF_FAITH) 
+			else if (p_ptr->oath & COVENANT_OF_FAITH)
 			{
 				if (skill == S_SWORD || skill == S_POLEARM)
 					range = (range + 1) / 2;
 				else
 					range = (range + 3) * 5 / 6;
 			}
-			
+
 			/* Paladins */
-			else if (p_ptr->realm == PRIEST) 
+			else if (p_ptr->realm == PRIEST)
 			{
 				if (skill == S_SWORD || skill == S_POLEARM)
 					range = (range + 1) * 2 / 3;
@@ -887,7 +887,7 @@ static bool can_take_oath(byte oath)
 
 			/* Must already know the realm of magic */
 			/* And meet the minimum required realm skill -JM */
-			if ((oath == OATH_OF_SORCERY) && 
+			if ((oath == OATH_OF_SORCERY) &&
 				((p_ptr->realm != MAGE) || (get_skill(S_WIZARDRY,0,100) < MAGIC_OATH_REQ)))
 				return (FALSE);
 			if ((oath == YAVANNAS_FELLOWSHIP) &&
@@ -1069,11 +1069,11 @@ static bool can_raise_skill_confirm(int warning)
  */
 static int can_raise_skill(int skill, bool verbose, int auto_raise)
 {
-	
+
 	int lev = p_ptr->pskills[skill].max;
-	
+
 	/* Cap maximum power at 100 -JM */
-	if (calc_max_power() == PY_MAX_POWER) 
+	if (calc_max_power() == PY_MAX_POWER)
 	{
 		if (verbose) prt("You need no more practice.",18,2);
 		return (-1);
@@ -1766,12 +1766,12 @@ static int adv_skill(int skill, bool pay_exp)
 				skill_comment(TERM_L_BLUE, "You feel protected from slowing and paralysis.");
 			if (p_ptr->pskills[skill].max == LEV_REQ_MARTIAL_RESIST)
 				skill_comment(TERM_L_BLUE, "Your are no longer troubled by sound attacks.");
-			
+
 		}
 
 		/* Karate */
 		if (skill == S_KARATE)
-		{ 
+		{
 			if (p_ptr->pskills[skill].max == LEV_REQ_MARTIAL_STAT1)
 				skill_comment(TERM_L_BLUE, "Your dexterity increases.");
 			if (p_ptr->pskills[skill].max == LEV_REQ_MARTIAL_STAT2)
@@ -1786,7 +1786,7 @@ static int adv_skill(int skill, bool pay_exp)
 				skill_comment(TERM_L_BLUE, "You accelerate.");
 			if (p_ptr->pskills[skill].max == LEV_REQ_KARATE_SPEED2)
 				skill_comment(TERM_L_BLUE, "You accelerate.");
-		
+
 		}
 
 		/* Piety */
@@ -2759,7 +2759,9 @@ void do_cmd_skills(void)
 	/* Old player's skills and unused experience */
 	skill_data old_pskills[NUM_SKILLS];
 	int old_exp;
-	byte old_oath, old_realm;
+	byte old_oath, old_realm, old_power, old_ten_power, ten_power;
+
+	char buf[30];
 
 
 	/*
@@ -2793,6 +2795,7 @@ void do_cmd_skills(void)
 	old_exp = p_ptr->exp;
 	old_oath = p_ptr->oath;
 	old_realm = p_ptr->realm;
+	old_power = p_ptr->power;
 
 
 	/* Continue until satisfied */
@@ -3034,6 +3037,15 @@ void do_cmd_skills(void)
 
 	/* Flush any pending messages */
 	message_flush();
+
+	/* Note any changes in power */
+	old_ten_power = (old_power ) / 10;
+	ten_power = (p_ptr->power) / 10;
+	if (old_ten_power < ten_power)
+    {
+        strnfmt(buf, sizeof(buf), "Reached power %d", ten_power * 10);
+        history_add(buf, HISTORY_GAIN_POWER, 0);
+    }
 
 
 	/* Restore previous display */

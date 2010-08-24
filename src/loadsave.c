@@ -299,6 +299,29 @@ static void note(cptr msg)
 	(void)Term_fresh();
 }
 
+
+void do_history(void)
+{
+	size_t i;
+	u32b tmp32u;
+
+	/* Handle count of history items */
+	if (!load_file) tmp32u = history_get_num();
+	do_u32b(&tmp32u);
+	if (load_file) history_init(tmp32u);
+
+	for (i = 0; i < tmp32u; i++)
+	{
+		do_u16b(&history_list[i].type);
+		do_s32b(&history_list[i].turn);
+		do_s16b(&history_list[i].dlev);
+		do_s16b(&history_list[i].clev);
+		do_byte(&history_list[i].a_idx);
+		do_string(history_list[i].event, 200);
+	}
+}
+
+
 /*
  * Handle an object
  */
@@ -975,7 +998,6 @@ static void do_options(void)
 			}
 		}
 	}
-
 
 	/*** Window Options ***/
 
@@ -2877,6 +2899,9 @@ static errr do_savefile(void)
 		}
 	}
 
+	/* Handle history */
+	do_history();
+
 
 	/* Saving a file -- write checksums (always) */
 	if (!load_file)
@@ -3799,4 +3824,3 @@ void savefile_load(bool force_menu)
 		}
 	}
 }
-

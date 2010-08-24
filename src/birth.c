@@ -874,6 +874,9 @@ void player_wipe(bool full)
 
 	/* Wipe the monsters */
 	wipe_m_list();
+
+	/* Clear the history */
+	history_clear();
 }
 
 
@@ -2104,6 +2107,9 @@ bool player_birth(void)
 	}
 
 	p_ptr->specialty = SPECIALTY_NONE;
+
+	/* Record a prosperous beginning */
+	history_add("Started the adventure of a lifetime", HISTORY_PLAYER_BIRTH, 0);
 
 	/* Restore previous display */
 	display_change(DSP_RESTORE, 0, 0);

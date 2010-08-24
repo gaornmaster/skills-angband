@@ -110,7 +110,7 @@ typedef struct flavor_type flavor_type;
 typedef struct move_moment_type move_moment_type;
 typedef struct proj_graphics_type proj_graphics_type;
 typedef struct graphics_data_type graphics_data_type;
-
+typedef struct history_info history_info;
 
 /**** Available structs ****/
 
@@ -1607,3 +1607,12 @@ struct move_moment_type
 	s16b moment;
 };
 
+struct history_info
+{
+	u16b type;			/* Kind of history item */
+	s16b dlev;			/* Dungeon level when this item was recorded */
+	s16b clev;			/* Character level when this item was recorded */
+	byte a_idx;			/* Artifact this item relates to */
+	s32b turn;			/* Turn this item was recorded on */
+	char event[80];	    /* The text of the item */
+};

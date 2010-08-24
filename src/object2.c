@@ -605,11 +605,11 @@ void wipe_o_list(void)
 		/* Skip dead objects */
 		if (!o_ptr->k_idx) continue;
 
-		/* Hack -- Preserve unknown artifacts */
-		if (artifact_p(o_ptr) && !object_known_p(o_ptr))
+		/* Hack -- Either preserve artifact or notice their loss */
+		if (artifact_p(o_ptr))
 		{
-			/* Mega-Hack -- Preserve the artifact */
-			a_info[o_ptr->artifact_index].cur_num = 0;
+            if (object_known_p(o_ptr))  history_lose_artifact(o_ptr->artifact_index);   /* Note the loss */
+			else	                    a_info[o_ptr->artifact_index].cur_num = 0;      /* Mega-Hack -- Preserve the artifact */
 		}
 
 		/* Monster */
@@ -980,6 +980,10 @@ void object_known(object_type *o_ptr)
 
 	/* Now we know about the item */
 	o_ptr->ident |= (IDENT_KNOWN);
+
+    /* Add artifacts to history */
+	if (artifact_p(o_ptr))
+	  history_add_artifact(o_ptr->artifact_index, TRUE);
 }
 
 

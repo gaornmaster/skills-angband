@@ -2379,7 +2379,7 @@ static void display_player_flag_info(void)
 				}
 				else
 					c_put_str(attr, "X", row, col + n);
-				
+
 			}
 
 			/* Choose the correct color to display based on the level of resistance */
@@ -3992,6 +3992,9 @@ errr file_character(cptr name, bool full)
 
 	/* Skip a line */
 	fprintf(fff, "\n");
+
+    /* Display history information */
+    history_dump(fff);
 
 	/* Close the file */
 	(void)my_fclose(fff);
