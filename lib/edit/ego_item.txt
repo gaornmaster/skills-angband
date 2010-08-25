@@ -1277,7 +1277,7 @@ P:-9:3
 1:LIGHT
 2:STEALTH | INFRA
 X:XTRA_LIGHT_QUALITY
-D:It sucks the light from around you, sheathing you in protective
+D:It sucks the light from around you, sheathing you in protective 
 D:darkness.
 
 
