@@ -2685,7 +2685,7 @@ static int buy_and_sell(object_type *o_ptr, s32b *price, bool buying,
 
 
     /* For some, the stores don't want your items */
-	if (birth_stores_only_sell)
+	if (birth_stores_only_sell && buying)
 	{
 	    *price = 0;
 	    return 2; /* Fixed price */
