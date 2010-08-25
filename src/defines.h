@@ -366,8 +366,9 @@
 
 /*
  * The multiplier of additional gold when disallowing stores to buy items (OPT_birth_stores_only_sell)
+ * Scales with level to reflect monetary expenditures more accurately
  */
-#define GOLD_ADJ 4
+#define GOLD_ADJ  ((birth_stores_only_sell)?((200 + (p_ptr->depth * 3 + (100 / 2))) / 100) : 1)
 
 
 /*
