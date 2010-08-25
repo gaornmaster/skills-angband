@@ -3884,7 +3884,7 @@ static bool item_tester_hook_scroll(const object_type *o_ptr)
 {
 	if (o_ptr->tval == TV_SCROLL)
 	{
-		if (!no_light() || (o_ptr->flags2 & TR2_GLOW_WORDS) )
+		if (!no_light() || (k_info[o_ptr->k_idx].flags2 & TR2_GLOW_WORDS) )
         {
 		      return (TRUE);
         }
