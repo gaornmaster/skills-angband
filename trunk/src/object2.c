@@ -4653,6 +4653,10 @@ bool make_gold(object_type *o_ptr)
 	int i;
 	int treasure = 0;
 	int gold_depth, first_gold_idx;
+	int adj;
+
+	if (birth_stores_only_sell && p_ptr->depth > 0) adj = GOLD_ADJ;
+	else                        adj = 1;
 
 	/* Make a special treasure */
 	if (coin_type >= SV_SPECIAL_GOLD_MIN)
@@ -4703,8 +4707,8 @@ bool make_gold(object_type *o_ptr)
 	object_prep(o_ptr, treasure);
 
 	/* Treasure can be worth between 1/2 and the full maximal value. */
-	o_ptr->pval = rand_range(k_info[treasure].cost / 2,
-	                         k_info[treasure].cost);
+	o_ptr->pval = rand_range(k_info[treasure].cost / 2 * adj,
+	                         k_info[treasure].cost * adj);
 
 	/* Success */
 	return (TRUE);
@@ -4743,6 +4747,9 @@ bool make_special_gold(object_type *o_ptr)
 
 	/* Special treasures increase in value with depth */
 	price += m_bonus(k_info[treasure].cost * 5, object_level, MAX_DEPTH);
+
+    /* Adjust price for birth options */
+    if (birth_stores_only_sell) price *= GOLD_ADJ;
 
 	/* Neaten up values */
 	price -= price % 500;

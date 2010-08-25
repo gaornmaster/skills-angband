@@ -2684,6 +2684,13 @@ static int buy_and_sell(object_type *o_ptr, s32b *price, bool buying,
 	bool final  = FALSE;
 
 
+    /* For some, the stores don't want your items */
+	if (birth_stores_only_sell)
+	{
+	    *price = 0;
+	    return 2; /* Fixed price */
+	}
+
 	/* Determine markup */
 	if (o_ptr->ident & (IDENT_FIXED)) markup = 0;
 	else markup = price_markup(object_value(o_ptr));
