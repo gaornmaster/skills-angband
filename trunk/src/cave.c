@@ -3233,7 +3233,7 @@ void forget_view(void)
 							info |= (CAVE_MARK);
 						}
 
-					
+
 						/* Perma-lit or temporarily lit grids */
 						else if (info & (CAVE_GLOW | CAVE_LITE))
 						{
@@ -4080,11 +4080,11 @@ byte projectable(int y1, int x1, int y2, int x2, u32b flg)
 	}
 
 	/* Usually, cannot pass through non-projectable grid */
-	if (!(flg & (PROJECT_PASS)))
-	{
-		/* Require projectable terrain */
-		if (!cave_project_bold(y, x)) return (PROJECT_NO);
-	}
+	//if (!(flg & (PROJECT_PASS)))
+	//{
+	//	/* Require projectable terrain */
+	//	if (!cave_passable_bold(y, x)) return (PROJECT_NO);
+	//}
 
 	/* Promise a clear bolt shot if we have verified that there is one */
 	if ((flg & (PROJECT_STOP)) || (flg & (PROJECT_CHCK)))
