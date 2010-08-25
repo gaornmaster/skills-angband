@@ -411,7 +411,7 @@ static int alchemy_choose_item(int *tval, int *sval,
 			if (need_essence)
 			{
 				/* No essence cost, so must be illegal */
-				if ((!k_ptr->e_type[0]) && (!is_grenade)) continue;
+				if ((!k_ptr->e_num[0]) && (!is_grenade)) continue;
 
 				/* Scan the essence costs */
 				for (j = 0; j < 4; j++)
