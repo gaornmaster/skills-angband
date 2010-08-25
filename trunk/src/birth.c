@@ -842,6 +842,8 @@ void player_wipe(bool full)
 	/* And does not use multiple lives  XXX */
 	op_ptr->opt[OPT_beginner_play] = FALSE;
 
+	/* Clear the history */
+	history_clear();
 
 	/* The below is only done when needed */
 	if (!full) return;
@@ -874,9 +876,6 @@ void player_wipe(bool full)
 
 	/* Wipe the monsters */
 	wipe_m_list();
-
-	/* Clear the history */
-	history_clear();
 }
 
 
