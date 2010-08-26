@@ -1063,7 +1063,14 @@ bool magic_disarm(int y, int x, int chance)
 	return (obvious);
 }
 
-
+bool item_tester_hook_trap(const object_type *o_ptr)
+{
+    if (o_ptr->tval != TV_POUCH)  /* You can put almost anything in a trap */
+    {
+        return (TRUE);
+    }
+    return (FALSE);
+}
 
 /*
  * Interact with a monster trap.
@@ -1176,6 +1183,7 @@ int load_trap(int y, int x)
 			/* Get an item */
 			cptr q = "Load which item?";
 			cptr s = "You have nothing to load the trap with.";
+			item_tester_hook = item_tester_hook_trap;
 			if (!get_item(&item, q, s, (USE_INVEN | USE_EQUIP | USE_FLOOR)))
 				continue;
 			item_to_object(o_ptr, item);
