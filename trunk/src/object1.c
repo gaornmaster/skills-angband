@@ -2853,6 +2853,12 @@ s16b wield_slot(const object_type *o_ptr)
 		{
 			return (INVEN_Q1);
 		}
+
+		case TV_POUCH:
+		{
+		    return (INVEN_POUCH);
+		}
+
 	}
 
 	/* No slot available */
