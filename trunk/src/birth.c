@@ -836,8 +836,9 @@ void player_wipe(bool full)
 	/* No stealing */
 	num_recent_thefts = 0;
 
-	/* Character type is always normal to begin with */
-	p_ptr->character_type = PCHAR_NORMAL;
+	/* Character type is always normal to begin with -- except for ironman players */
+    if (ironman_play) p_ptr->character_type = PCHAR_IRONMAN;
+    else              p_ptr->character_type = PCHAR_NORMAL;
 
 	/* And does not use multiple lives  XXX */
 	op_ptr->opt[OPT_beginner_play] = FALSE;
