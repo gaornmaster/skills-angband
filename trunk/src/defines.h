@@ -592,8 +592,8 @@
 #define NECRO     4
 #define NONE      0
 
-
-
+/* Book for player realm */
+#define PLAYER_BOOK_TVAL  ((p_ptr->realm == 0) ? 0 : (p_ptr->realm == 1)? TV_MAGIC_BOOK : (p_ptr->realm == 2) ? TV_PRAYER_BOOK : (p_ptr->realm == 3) ? TV_NATURE_BOOK : TV_DARK_BOOK)
 
 /* Skill Indexes (see the table "skill_type") */
 #define S_NOSKILL       -1       /* no skill */
