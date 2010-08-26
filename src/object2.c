@@ -797,6 +797,27 @@ void get_obj_num_prep(void)
 	}
 }
 
+/*
+ * Returns the index for the realm that is correct for the player.
+ */
+int get_equivalent_book(int index, byte realm)
+{
+    int i;
+    int tval = PLAYER_BOOK_TVAL;
+    int sval = k_info[index].sval;
+
+    /* Book is already acceptable, no work to be done */
+    if (k_info[index].tval == tval) return index;
+
+    /* Find appropriate item -- match tval and sval */
+    for (i = 0; i < 800; i++)
+    {
+        if ((k_info[i].tval == tval) && (k_info[i].sval == sval)) return i;
+
+    }
+
+    return index;  /* Failure :(*/
+}
 
 
 /*
@@ -814,6 +835,7 @@ s16b get_obj_num(int level)
 {
 	int i, j, z;
 	int lev1, lev2, chance1, chance2;
+    int new_index, fix_freq;
 
 	object_kind *k_ptr;
 
@@ -945,6 +967,18 @@ s16b get_obj_num(int level)
 		/* Decrement */
 		value -= chance_kind_table[i];
 	}
+
+    /* Sometimes correct magic book to equivalent book of the correct realm */
+	if (is_magic_book(&k_info[i]) && p_ptr->realm)
+	{
+        /* Ironmen get correct townbooks, everyone gets more of the correct books*/
+        if (ironman_play && k_info[i].sval <= 4) fix_freq = 1;
+        else                                     fix_freq = 3;  /* One in 3 gives a 50% overall chance of getting a book of the correct realm */
+
+        /* Change the index */
+        if (one_in_(fix_freq)) i = get_equivalent_book(i, p_ptr->realm);
+	}
+
 
 	/* Return the object index */
 	return (i);
