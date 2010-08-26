@@ -4747,7 +4747,7 @@ int player_flags_pval(u32b flag_pval, bool shape)
 		if(skill >= LEV_REQ_PERCEPTION_INFRA4) pval++;
 
 	}
-	
+
 
 
 	/* Giants are great at tunneling */
@@ -5173,20 +5173,20 @@ static void analyze_weapons(void)
 		if (p_ptr->barehand == S_KARATE)
 		{
 			skill = get_skill(S_KARATE, 0, 100);
-			if (skill > LEV_REQ_KARATE_BLOW1) p_ptr->num_blow++;
-			if (skill > LEV_REQ_KARATE_BLOW2) p_ptr->num_blow++;
-			if (skill > LEV_REQ_KARATE_BLOW3) p_ptr->num_blow++;
-			if (skill > LEV_REQ_KARATE_BLOW4) p_ptr->num_blow++;
+			if (skill >= LEV_REQ_KARATE_BLOW1) p_ptr->num_blow++;
+			if (skill >= LEV_REQ_KARATE_BLOW2) p_ptr->num_blow++;
+			if (skill >= LEV_REQ_KARATE_BLOW3) p_ptr->num_blow++;
+			if (skill >= LEV_REQ_KARATE_BLOW4) p_ptr->num_blow++;
 		}
 		else if (p_ptr->barehand == S_WRESTLING)
 		{
 			skill = get_skill(S_WRESTLING, 0, 100);
-			if (skill > LEV_REQ_WREST_BLOW1) p_ptr->num_blow++;
-			if (skill > LEV_REQ_WREST_BLOW2) p_ptr->num_blow++;
+			if (skill >= LEV_REQ_WREST_BLOW1) p_ptr->num_blow++;
+			if (skill >= LEV_REQ_WREST_BLOW2) p_ptr->num_blow++;
 		}
 
-		
-		
+
+
 		/* Note that we are bare-handed */
 		p_ptr->barehanded = TRUE;
 	}
@@ -5767,7 +5767,7 @@ static void calc_bonuses(void)
 		p_ptr->to_d     += ((int)(adj_str_td[p_ptr->stat_ind[A_STR]]) - 128);
 		p_ptr->dis_to_d += ((int)(adj_str_td[p_ptr->stat_ind[A_STR]]) - 128);
 	}
-		
+
 	p_ptr->to_a     += ((int)(adj_dex_ta[p_ptr->stat_ind[A_DEX]]) - 128);
 	p_ptr->dis_to_a += ((int)(adj_dex_ta[p_ptr->stat_ind[A_DEX]]) - 128);
 
