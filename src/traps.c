@@ -1959,6 +1959,15 @@ static void hit_monster_trap(int who, int y, int x, int t_idx)
 		/* Destroy one sometimes */
 		if (breakage_chance(o_ptr))	o_ptr->number--;
 
+        /* Make sure to clear out stack if necessary */
+        if (!o_ptr->number)
+        {
+            /* Trap is now linked to the second object (if any) */
+            t_ptr->hold_o_idx = o_ptr->next_o_idx;
+
+            /* Wipe the object */
+            object_wipe(o_ptr);
+        }
 	}
 
 	/* Object is a magical device */
