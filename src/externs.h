@@ -319,6 +319,7 @@ extern void transfer_attributes_to_missile(object_type *i_ptr,
 extern void do_cmd_fire(void);
 extern void do_cmd_throw(void);
 extern void do_cmd_barehanded(void);
+extern void learn_about_damage(int damage);
 
 
 /* birth.c */

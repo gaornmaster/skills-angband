@@ -1463,33 +1463,13 @@ static void display_player_middle(void)
 		/* Hack -- add in weapon info if known */
 		if (object_known_p(o_ptr)) show_m_tohit += o_ptr->to_h;
 		if (object_known_p(o_ptr)) show_m_todam += o_ptr->to_d;
-
-		/* Show Skill and Deadliness */
-		prt_num("+ to Skill       ", show_m_tohit, 14, 1, TERM_L_BLUE);
-
-		if (show_m_todam > 0)
-			prt_num("Deadliness (%)   ", deadliness_conversion[show_m_todam], 15, 1, TERM_L_BLUE);
-		else
-			prt_num("Deadliness (%)   ", -deadliness_conversion[-show_m_todam], 15, 1, TERM_L_BLUE);
 	}
 
-	/* Using martial arts */
-	else
-	{
-		/* Point to the right variable */
-		s16b *temp = &p_ptr->karate_dam;
-		if (p_ptr->barehand != S_KARATE) temp = &p_ptr->wrestling_dam;
+        /* Show Skill and Deadliness */
+        prt_num("+ to Skill       ", show_m_tohit, 14, 1, TERM_L_BLUE);
 
-		/* Display average damage */
-		prt_num("Average Damage   ", (*temp + 5) / 10, 14, 1, TERM_L_BLUE);
-
-		/* Note which martial art we're using */
-		if (p_ptr->barehand == S_KARATE)
-			put_str("    (using Karate)   ", 15, 1);
-		else
-			put_str("     (Wrestling)     ", 15, 1);
-	}
-
+        /* Display average damage */
+        prt_num("Average Damage   ", (p_ptr->avg_dam + 5) / 10, 14, 1, TERM_L_BLUE);
 
 
 	/* Dump the shooting bonuses to hit/dam */

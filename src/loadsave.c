@@ -1439,8 +1439,8 @@ static errr do_character(void)
 
 
 	/* Space for expansion */
-	do_s16b(&p_ptr->karate_dam);
-	do_s16b(&p_ptr->wrestling_dam);
+	do_s16b(&p_ptr->avg_dam);
+	do_s16b(&blank_u16b);
 
 
 	/* Only save monster targets -- grid targets can cause real trouble */

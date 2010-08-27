@@ -1553,7 +1553,7 @@ static int barehand_dam_to_dice(int dam, int *dice, int *sides)
  * The damage displayed is an approximate running average, with recent
  * attacks slowly overriding old ones.
  */
-static void learn_about_ma_damage(int damage, bool karate)
+void learn_about_damage(int damage)
 {
 	s16b *temp;
 
@@ -1561,9 +1561,7 @@ static void learn_about_ma_damage(int damage, bool karate)
 	damage = rand_spread(damage, div_round(damage, 2));
 	if (damage <= 0) damage = 1;
 
-	/* Point to the right variable */
-	if (karate) temp = &p_ptr->karate_dam;
-	else        temp = &p_ptr->wrestling_dam;
+	temp = &p_ptr->avg_dam;
 
 	/* If we have no memory, we use a sample size of 1 */
 	if (!*temp)
@@ -1660,10 +1658,6 @@ static int py_attack_barehand(int chance, monster_type *m_ptr, char m_name[])
 
 	/* Roll out the damage. */
 	damage = damroll(dice, (s16b)sides);
-
-	/* Learn about martial art damage (before slay/brand) */
-	learn_about_ma_damage(damage, p_ptr->barehand == S_KARATE);
-
 
 	/* Apply slay and brand bonuses (if any) */
 	adjust_dam(&damage, o_ptr, m_ptr, FALSE);
