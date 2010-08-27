@@ -1173,9 +1173,7 @@ struct player_type
 
 	trap_set_type trap_set;    /* Data about monster trap setting */
 
-	s16b karate_dam;       /* Average recent damage -- karate */
-	s16b wrestling_dam;    /* Average recent damage -- wrestling */
-
+	s16b avg_dam;           /* Average recent damage */
 
 	s16b energy;			/* Current energy */
 

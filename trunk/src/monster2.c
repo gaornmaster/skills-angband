@@ -4578,6 +4578,9 @@ bool mon_take_hit(int m_idx, int who, int dam, bool *fear, cptr note)
 	/* Hurt it */
 	m_ptr->hp -= dam;
 
+	/* Learn about damage */
+	learn_about_damage(dam);
+
 	/* It is dead now */
 	if (m_ptr->hp < 0)
 	{
