@@ -432,9 +432,9 @@ D:to horseman and duelists alike.
 N:52:& Cutlass~
 G:|:W
 I:23:12:0
-W:7:0:45:85
-A:7/50:45/15
-C:0:1d7:0:0:0
+W:15:0:45:85
+A:15/50:45/15
+C:0:1d8:0:0:0
 F:SHOW_MODS
 D:A large, curved chopper with a basket hilt, well known to seamen.
 
@@ -474,9 +474,9 @@ D:the hilt to form a perfect cross.
 N:58:& Scimitar~
 G:|:W
 I:23:18:0
-W:15:0:75:275
-A:15/25:20/50:50/25
-C:0:2d5:0:0:0
+W:30:0:75:275
+A:30/25:40/50:50/25
+C:0:1d10:0:0:0
 F:SHOW_MODS
 D:A single-edged slashing sword with a blade like a crescent.
 
@@ -495,8 +495,8 @@ D:blade and a chisel tip.
 N:61:& Bastard Sword~
 G:|:W
 I:23:21:0
-W:30:0:100:350
-A:30/60:100/35
+W:40:0:100:350
+A:40/60:100/35
 C:0:2d7:0:0:0
 F:SHOW_MODS
 D:Also known as the hand-and-a-half blade.  A larger-than-normal straight-
@@ -511,8 +511,8 @@ D:sided sword with two cutting edges.
 N:65:& Two-Handed Sword~
 G:|:W
 I:23:25:0
-W:40:0:140:775
-A:40/75:100/45
+W:50:0:140:775
+A:50/75:100/45
 C:0:2d10:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:A great, double-edged broadsword which few can wield in one hand.
@@ -533,7 +533,7 @@ N:68:& Executioner's Sword~
 G:|:W
 I:23:28:0
 W:50:0:190:1250
-A:50/60:100/35
+A:60/60:100/35
 C:0:2d12:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:A giant, curved blade designed to cleave the head cleanly from the 
@@ -542,8 +542,8 @@ D:body.
 N:69:& Bluesteel Blade~
 G:|:B
 I:23:29:0
-W:65:0:70:4500
-A:65/20
+W:75:0:70:4500
+A:75/20
 C:0:2d11:0:0:0
 F:VORPAL | SHOW_MODS
 D:A steel-blue sword, crafted with skill and sorcery, capable of inflicting 
@@ -669,9 +669,9 @@ D:A stout wooden staff with multiple chains attached.
 N:85:& Lead-Filled Mace~
 G:\:D
 I:21:15:0
-W:25:0:180:500
-A:25/50:100/30
-C:0:3d4:0:0:0
+W:30:0:180:500
+A:30/50:100/30
+C:0:3d5:0:0:0
 F:SHOW_MODS
 X:CAN_BE_HEAVY
 D:A heavy war club topped with a mass of lead-filled steel, capable of 
@@ -686,7 +686,7 @@ G:\:y
 I:21:18:0
 W:55:0:220:600
 A:55/50:100/35
-C:0:3d6:0:0:0
+C:0:3d7:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 X:CAN_BE_HEAVY
 D:A massive oaken block with multiple gleaming chains attached to slash flesh and 
@@ -700,7 +700,7 @@ G:\:P
 I:21:20:0
 W:85:0:300:4500
 A:85/10
-C:0:4d8:0:0:0
+C:0:5d8:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 X:MAYBE_IMPACT
 D:A giant's weapon, enchanted with shattering power that breaks bones, bodies, 
@@ -768,7 +768,7 @@ G:/:u
 I:22:5:0
 W:20:0:160:300
 A:20/50:50/25
-C:5:1d13:0:0:0
+C:5:1d11:0:0:0
 F:SHOW_MODS | TWO_HANDED_DES
 D:A long, heavy spear with an iron head and reinforced shaft.
 
@@ -833,7 +833,7 @@ G:/:W
 I:22:15:0
 W:35:0:190:550
 A:35/25:30/75:100/40
-C:8:3d4:0:0:0
+C:8:1d13:0:0:0
 F:TWO_HANDED_REQ | SHOW_MODS
 D:A reinforced wooden pole eight feet long, topped by a massive knife blade 
 D:that can be used to thrust or chop.
@@ -843,7 +843,7 @@ G:/:W
 I:22:16:0
 W:40:0:190:750
 A:40/75:100/50
-C:8:3d5:0:0:0
+C:8:1d14:0:0:0
 F:TWO_HANDED_REQ | SHOW_MODS
 D:The most successful of the polearms, the halberd has a long haft mounted 
 D:with a heavy axe blade and opposing spike, and topped by a thrusting spine.
@@ -855,7 +855,7 @@ G:/:W
 I:22:18:0
 W:45:0:180:1000
 A:45/50:100/30
-C:3:4d3:0:0:0
+C:3:1d16:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:The long crescent blade stands out from the handle of this polearm, and 
 D:it is swung with two hands to harvest grain or blood.
@@ -865,7 +865,7 @@ G:/:B
 I:22:19:0
 W:70:0:180:4000
 A:70/15
-C:3:7d3:0:10:0
+C:3:1d20:0:10:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:A reaper's weapon, the long blade almost hums in anticipation of the 
 D:blood it will spill.
