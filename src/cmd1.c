@@ -404,6 +404,9 @@ bool quiver_carry(object_type *o_ptr, int o_idx)
 	/* Check for autopickup (has to have a "=g" inscription) */
 	autop = auto_pickup_okay(o_ptr, FALSE, FALSE);
 
+	/* Hack - Also allow autopickup when poisoning missiles already in the quiver */
+	if (o_idx == -1) autop = (TRUE);
+
 	/* No missiles to combine with and no autopickup. */
 	if (!ammo_num & !autop) return (FALSE);
 
@@ -475,7 +478,7 @@ bool quiver_carry(object_type *o_ptr, int o_idx)
 			msg_format("You have %s (%c).", o_name, index_to_label(i));
 
 			/* Delete the object */
-			delete_object_idx(o_idx);
+			if (o_idx != -1) delete_object_idx(o_idx);
 
 			/* Recalculate quiver size */
 			find_quiver_size();
