@@ -1217,8 +1217,6 @@ static bool can_study_or_cast(void)
 	if (p_ptr->realm == NONE) note = "You know no magical realm.";
 	else if (p_ptr->berserk)  note = "You are too berserk!";
 	else if (p_ptr->blind)    note = "You are blind!";
-	else if (no_light() && ( (p_ptr->realm == DRUID) || (p_ptr->realm == MAGE) ))
-	                          note = "It is dark; you cannot see!";
 	else if (p_ptr->confused) note = "You are too confused!";
 	else if (p_ptr->image)    note = "You are hallucinating!";
 
@@ -1789,6 +1787,19 @@ void do_cmd_browse(void)
 	do_cmd_browse_aux(o_ptr);
 }
 
+/*
+ * Validate book selection
+ *  (note some of the restriction is handled by item_tester_tval)
+ */
+bool item_tester_hook_book(const object_type *o_ptr)
+{
+    /* Require either light or a book with glowing words */
+    if (!no_light() || (o_ptr->flags2 & TR2_GLOW_WORDS))
+    {
+        return (TRUE);
+    }
+}
+
 
 /*
  * Cast a spell, or output spell info, description, or calculate mana.
@@ -1833,7 +1844,6 @@ cptr do_spell(int mode, int spell)
 
 	cptr q = "";
 	cptr s = "";
-
 
 	/* Get the spell */
 	s_ptr = &mp_ptr->info[spell];
@@ -1881,28 +1891,33 @@ cptr do_spell(int mode, int spell)
 
 		/* Restrict choices to spell books */
 		item_tester_tval = mp_ptr->spell_book;
+		item_tester_hook = item_tester_hook_book;
 
 
 		/* Get a realm-flavored description. */
 		if (p_ptr->realm == MAGE)
 		{
 			q = "Use which magic book?";
-			s = "You have no magic books that you can use.";
+			if (no_light()) s = "You have no magic books that you can use. (check your light?)";
+			else            s = "You have no magic books that you can use.";
 		}
 		if (p_ptr->realm == PRIEST)
 		{
 			q = "Use which holy book?";
-			s = "You have no holy books that you can use.";
+			if (no_light()) s = "You have no holy books that you can use. (check your light?)";
+			else            s = "You have no holy books that you can use.";
 		}
 		if (p_ptr->realm == DRUID)
 		{
 			q = "Use which stone of lore?";
-			s = "You have no stones that you can use.";
+			if (no_light()) s = "You have no stones that you can use. (check your light?)";
+			else            s = "You have no stones that you can use.";
 		}
 		if (p_ptr->realm == NECRO)
 		{
 			q = "Use which tome?";
-			s = "You have no tomes that you can use.";
+			if (no_light()) s = "You have no tomes that you can use. (check your light?)";
+			else            s = "You have no tomes that you can use.";
 		}
 
 		/* Get an item */
