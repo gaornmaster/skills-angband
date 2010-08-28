@@ -6457,6 +6457,29 @@ int reorder_pack(int slot, int store_num, bool verbose)
 
 
 /*
+ * Switch primary and secondary weapons
+ */
+bool switch_weapons(bool allow_empty)
+{
+    object_type obj;
+    object_type *o_ptr = &obj;
+
+    object_type *i_ptr = &inventory[INVEN_WIELD];
+    object_type *j_ptr = &inventory[INVEN_ARM];
+
+    /* Disallow empty primary weapons if necessary */
+    if (allow_empty || (is_melee_weapon(i_ptr) && is_melee_weapon(j_ptr)))
+    {
+        object_copy(o_ptr, i_ptr);
+        object_copy(i_ptr, j_ptr);
+        object_copy(j_ptr, o_ptr);
+        object_wipe(o_ptr);
+        return (TRUE);
+    }
+	return (FALSE);
+}
+
+/*
  * Copy of "get_tag" (in object1.c) that looks only at the given
  * inventory slot, and accepts any letter between '@' and the number.
  * Stores the number found.
