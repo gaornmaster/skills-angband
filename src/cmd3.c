@@ -407,6 +407,7 @@ void do_cmd_wield(void)
 
 	bool remove_two_weapons = FALSE;
 	bool hidden_curse = FALSE;
+	bool replace_primary_weapon = FALSE;
 
 
 	/* Restrict the choices */
@@ -551,6 +552,7 @@ void do_cmd_wield(void)
 				{
 					/* Automatically use primary wield slot */
 					slot = INVEN_WIELD;
+					replace_primary_weapon = TRUE;
 				}
 
 				/* Both wield slots are available */
@@ -563,6 +565,7 @@ void do_cmd_wield(void)
 					q = "Use which slot (a or i)?";
 					s = "Oops.";
 					if (!get_item(&slot, q, s, USE_EQUIP)) return;
+					if (slot == INVEN_WIELD) replace_primary_weapon = TRUE;
 				}
 			}
 
@@ -697,9 +700,15 @@ void do_cmd_wield(void)
 	/* Hack -- Removing two weapons at a time requires special-case code */
 	if (remove_two_weapons)
 	{
-		/* Take off both existing weapons, removing arm slot first - JM */
+		/* Take off both existing weapons */
 		(void)inven_takeoff(INVEN_ARM, 255);
 		(void)inven_takeoff(INVEN_WIELD, 255);
+	}
+	/* Hack -- Replacing the primary weapon sometimes moves the secondary weapon -- move it back */
+	else if (replace_primary_weapon)
+	{
+	    (void)inven_takeoff(slot, 255);
+	    if (is_melee_weapon(&inventory[INVEN_WIELD])) (void)switch_weapons(TRUE);
 	}
 
 	/* Removal of one item */
