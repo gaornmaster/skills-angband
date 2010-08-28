@@ -1546,6 +1546,27 @@ static int barehand_dam_to_dice(int dam, int *dice, int *sides)
 	return 0;
 }
 
+/*
+ * Learn about the recent hit rate for your attacks
+ *
+ * The hit rate displayed is an approximate running average, with recent
+ * attacks very slowly overriding old ones.
+ */
+
+void learn_about_hits(int hit, bool offhand)
+{
+    s16b *temp;
+
+    /* Select the correct hand */
+    if (offhand)    temp = &p_ptr->avg_hit_offhand;
+    else            temp = &p_ptr->avg_hit;
+
+    /* Revise (or create) estimate of hit rate */
+    if (*temp <= 0) *temp = hit * 100;
+    else            *temp = div_round(*temp * 99, 100) + hit;
+
+}
+
 
 /*
  * Learn about the damage done in martial arts.
@@ -1553,7 +1574,7 @@ static int barehand_dam_to_dice(int dam, int *dice, int *sides)
  * The damage displayed is an approximate running average, with recent
  * attacks slowly overriding old ones.
  */
-void learn_about_damage(int damage)
+void learn_about_damage(int damage, bool offhand)
 {
 	s16b *temp;
 
@@ -1561,7 +1582,8 @@ void learn_about_damage(int damage)
 	damage = rand_spread(damage, div_round(damage, 2));
 	if (damage <= 0) damage = 1;
 
-	temp = &p_ptr->avg_dam;
+	if (offhand) temp = &p_ptr->avg_dam_offhand;
+	else         temp = &p_ptr->avg_dam;
 
 	/* If we have no memory, we use a sample size of 1 */
 	if (!*temp)
@@ -1610,8 +1632,8 @@ static int py_attack_barehand(int chance, monster_type *m_ptr, char m_name[])
 
 
 	/* Calculate raw damage -JM
-	 * 
-	 * Note that Karate does significantly less raw damage than wrestling, 
+	 *
+	 * Note that Karate does significantly less raw damage than wrestling,
 	 * even taking into account the extra blows it recieves.  Because karate
 	 * should be getting better criticals than wrestling due to the smaller dice.
 	 *
@@ -1780,6 +1802,7 @@ bool py_attack(int y, int x)
 	bool impact = FALSE;
 	bool dead = FALSE;
 	bool stop = FALSE;
+	bool offhand = FALSE;
 	int do_force_back = 0;
 	u16b combat_mods = 0;
 
@@ -2033,6 +2056,8 @@ bool py_attack(int y, int x)
 
 				/* Check first arm -- primary weapon must be in this slot */
 				o_ptr = &inventory[INVEN_WIELD];
+
+				offhand = FALSE;
 			}
 			else if (i == 2)
 			{
@@ -2042,6 +2067,8 @@ bool py_attack(int y, int x)
 				/* Check second arm -- require a weapon */
 				o_ptr = &inventory[INVEN_ARM];
 				if (!is_melee_weapon(o_ptr)) continue;
+
+				offhand = TRUE;
 			}
 
 			/* Characters cannot wield more than two weapons. */
@@ -2065,8 +2092,10 @@ bool py_attack(int y, int x)
 			if (!test_hit_combat(chance + sleeping_bonus,
 			         r_ptr->ac + terrain_adjust, m_ptr->ml))
 			{
+                learn_about_hits(0, offhand);
 				continue;
 			}
+			else learn_about_hits(1, offhand);
 
 			/* Monster evaded or resisted */
 			if (monster_evade_or_resist(o_ptr, m_ptr, BLOW_MELEE))
@@ -2132,12 +2161,14 @@ bool py_attack(int y, int x)
 				hurt = contact_danger_check(r_ptr);
 			}
 
-
 			/* Paranoia -- No negative damage */
 			if (damage < 0) damage = 0;
 
 			/* Practice the melee skill */
 			skill_being_used = sweapon(o_ptr->tval);
+
+			/* Learn about damage */
+			learn_about_damage(damage, offhand);
 
 			/* Damage, check for fear and death. */
 			if (mon_take_hit(cave_m_idx[y][x], -1, damage, &fear, NULL))

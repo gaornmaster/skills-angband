@@ -1174,6 +1174,10 @@ struct player_type
 	trap_set_type trap_set;    /* Data about monster trap setting */
 
 	s16b avg_dam;           /* Average recent damage */
+	s16b avg_dam_offhand;   /* Average damage for the off-hand weapon */
+
+	s16b avg_hit;           /* Average recent hit rate */
+	s16b avg_hit_offhand;   /* Average hit rate for the off-hand weapon */
 
 	s16b energy;			/* Current energy */
 

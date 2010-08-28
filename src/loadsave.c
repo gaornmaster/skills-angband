@@ -1437,11 +1437,12 @@ static errr do_character(void)
 	/* Social class */
 	do_s16b(&p_ptr->sc);
 
-
-	/* Space for expansion */
+    /* Damage and hit-rate running totals */
 	do_s16b(&p_ptr->avg_dam);
-	do_s16b(&blank_u16b);
+	do_s16b(&p_ptr->avg_dam_offhand);
 
+	do_s16b(&p_ptr->avg_hit);
+	do_s16b(&p_ptr->avg_hit_offhand);
 
 	/* Only save monster targets -- grid targets can cause real trouble */
 	if (!load_file)

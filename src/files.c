@@ -1431,6 +1431,19 @@ static void prt_num(cptr header, int num, int row, int col, byte color)
 	c_put_str(color, out_val, row, col + len);
 }
 
+/*
+ * Print two number separated by slash with header at given row, column
+ */
+static void prt_2num(cptr header, int num, int num2, int row, int col, byte color)
+{
+	int len = strlen(header);
+	char out_val[32];
+	(void)strnfmt(out_val, sizeof(out_val), "%d/%d", num, num2);
+    (void)strnfmt(out_val, sizeof(out_val), "%7s", out_val);
+	c_put_str(color, out_val, row, col + len);
+
+	put_str(header, row, col);
+}
 
 
 /*
@@ -1455,7 +1468,8 @@ static void display_player_middle(void)
 
 	/* Combat information -- melee */
 	put_str("       (Melee)       ", 12, 1);
-	prt_num("Blows per round  ", p_ptr->num_blow, 13, 1, TERM_L_BLUE);
+	if (p_ptr->twoweap) prt_2num("Blows per round ", p_ptr->num_blow, p_ptr->num_blow2, 13, 1, TERM_L_BLUE);
+	else prt_num("Blows per round  ", p_ptr->num_blow, 13, 1, TERM_L_BLUE);
 
 	/* Using a weapon */
 	if (is_melee_weapon(o_ptr))
@@ -1465,11 +1479,15 @@ static void display_player_middle(void)
 		if (object_known_p(o_ptr)) show_m_todam += o_ptr->to_d;
 	}
 
-        /* Show Skill and Deadliness */
-        prt_num("+ to Skill       ", show_m_tohit, 14, 1, TERM_L_BLUE);
+    /* Display hit rate */
 
-        /* Display average damage */
-        prt_num("Average Damage   ", (p_ptr->avg_dam + 5) / 10, 14, 1, TERM_L_BLUE);
+    if (p_ptr->twoweap) prt_2num("Hit Rate        ", p_ptr->avg_hit, p_ptr->avg_hit_offhand, 14, 1, TERM_L_BLUE);
+    else prt_num("Hit Rate         ", p_ptr->avg_hit, 14, 1, TERM_L_BLUE);
+
+    /* Display average damage */
+    if (p_ptr->twoweap) prt_2num("Average Damage  ", (p_ptr->avg_dam + 5) / 10, (p_ptr->avg_dam_offhand + 5) / 10, 15, 1, TERM_L_BLUE);
+    else prt_num("Average Damage   ", (p_ptr->avg_dam + 5) / 10, 15, 1, TERM_L_BLUE);
+
 
 
 	/* Dump the shooting bonuses to hit/dam */
