@@ -2757,6 +2757,7 @@
 #define USE_EQUIP      0x01		/* Allow equip items */
 #define USE_INVEN      0x02		/* Allow inven items */
 #define USE_FLOOR      0x04		/* Allow floor items */
+#define USE_AUTO       0x08     /* Automatically use item if only one choice */
 
 /*
  * Bit flags for the "drop_near" function
