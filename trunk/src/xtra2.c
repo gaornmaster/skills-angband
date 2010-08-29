@@ -4768,7 +4768,7 @@ static int target_set_interactive_aux(int y, int x, int mode, cptr info)
 		feat = f_info[cave_feat[y][x]].mimic;
 
 		/* Require knowledge about grid, or ability to see grid */
-		if (!(cave_info[y][x] & (CAVE_MARK)) && !player_can_see_bold(y,x))
+		if (!(cave_info[y][x] & (CAVE_MARK)) && !player_can_see_or_infra_bold(y,x))
 		{
 			/* Forget feature */
 			feat = FEAT_NONE;

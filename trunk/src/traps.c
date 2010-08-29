@@ -765,7 +765,7 @@ bool remove_trap(int y, int x, int t_idx)
 	}
 
 	/* Refresh grids that the character can see */
-	if (player_can_see_bold(y, x)) lite_spot(y, x);
+	if (player_can_see_or_infra_bold(y, x)) lite_spot(y, x);
 
 	/* Verify traps (remove marker if appropriate) */
 	trap = verify_trap(y, x, 0);
