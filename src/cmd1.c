@@ -56,7 +56,7 @@ void search(void)
 			if (!los(py, px, y, x)) continue;
 
 			/* If grid is not lit, chance is greatly reduced */
-			if (!player_can_see_bold(y, x)) chance2 /= 3;
+			if (!player_can_see_or_infra_bold(y, x)) chance2 /= 3;
 
 			/* Invisible trap that is not directly under the character */
 			if ((cave_invisible_trap(y, x)) && ((y != py) || (x != px)))
@@ -382,7 +382,7 @@ bool quiver_carry(object_type *o_ptr, int o_idx)
 	int ammo_num, added_ammo_num;
 	int attempted_quiver_slots;
 
-	bool blind = ((p_ptr->blind) || (no_light()));
+	bool blind = ((p_ptr->blind) || (no_light() && (p_ptr->see_infra == 0)));
 	bool autop;
 	int old_num;
 
@@ -738,7 +738,7 @@ byte py_pickup(int pickup)
 	int can_pickup = 0;
 	bool call_function_again = FALSE;
 
-	bool blind = ((p_ptr->blind) || (no_light()));
+	bool blind = ((p_ptr->blind) || (no_light() && (p_ptr->see_infra == 0)));
 
 	bool force_display_list = FALSE;
 	bool msg = TRUE;

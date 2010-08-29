@@ -5114,7 +5114,7 @@ void drop_near(object_type *j_ptr, int chance, int y, int x, byte flags)
 			objs++;
 
 			/* Hack -- skip unseen objects in view */
-			if ((!o_ptr->marked) && (player_can_see_bold(ty, tx))) continue;
+			if ((!o_ptr->marked) && (player_can_see_or_infra_bold(ty, tx))) continue;
 
 			/* Check for possible combination */
 			if (object_similar(o_ptr, j_ptr)) comb = TRUE;
@@ -5246,7 +5246,7 @@ void drop_near(object_type *j_ptr, int chance, int y, int x, byte flags)
 		else
 		{
 			/* Message XXX XXX */
-			if (player_can_see_bold(by, bx))
+			if (player_can_see_or_infra_bold(by, bx))
 			{
 				msg_format("The %s disappear%s.", o_name, (plural ? "" : "s"));
 			}
@@ -5260,7 +5260,7 @@ void drop_near(object_type *j_ptr, int chance, int y, int x, byte flags)
 	}
 
 	/* Sound (only if seen) */
-	if (player_can_see_bold(by, bx)) sound(MSG_DROP);
+	if (player_can_see_or_infra_bold(by, bx)) sound(MSG_DROP);
 
 	/* Update object list window */
 	p_ptr->window |= (PW_O_LIST);

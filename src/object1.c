@@ -4170,7 +4170,7 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 	bool allow_inven = FALSE;
 	bool allow_floor = FALSE;
 
-	bool blind = ((p_ptr->blind) || (no_light()));
+	bool blind = ((p_ptr->blind) || (no_light() && (p_ptr->see_infra == 0)));
 
 	bool toggle = FALSE;
 
