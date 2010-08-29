@@ -3326,6 +3326,7 @@ void forget_view(void)
 
 			/* Grid cannot be "CAVE_SEEN" */
 			fast_cave_info[g] &= ~(CAVE_SEEN);
+			fast_cave_info[g] &= ~(CAVE_INFR);
 		}
 	}
 
