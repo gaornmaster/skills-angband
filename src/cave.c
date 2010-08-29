@@ -784,7 +784,7 @@ void map_info(int y, int x, byte *ap, char *cp, byte *tap, char *tcp)
 
 
 	/* Grid is memorized (or seen) */
-	else if ((info & (CAVE_MARK)) || (info & (CAVE_SEEN)))
+	else if ((info & (CAVE_MARK)) || (info & (CAVE_SEEN)) || (info & (CAVE_INFR)))
 	{
 		/* Get this feature */
 		f_ptr = &f_info[feat];
@@ -803,7 +803,6 @@ void map_info(int y, int x, byte *ap, char *cp, byte *tap, char *tcp)
 			a = f_ptr->x_attr;
 			c = f_ptr->x_char;
 		}
-
 		/* Lighting:  Grid is not seen, or we are blind */
 		else if (!(info & (CAVE_SEEN)) || (p_ptr->blind))
 		{
@@ -1197,8 +1196,8 @@ void note_spot(int y, int x)
 	/* Get cave info */
 	info = cave_info[y][x];
 
-	/* Require "seen" flag */
-	if (!(info & (CAVE_SEEN))) return;
+	/* Require "seen" or "infr" flag */
+	if (!(info & (CAVE_SEEN)) && !(info & (CAVE_INFR))) return;
 
 
 	/* Hack -- memorize objects */
@@ -3047,7 +3046,7 @@ void forget_view(void)
 		info = fast_cave_info[g];
 
 		/* Save "CAVE_SEEN" grids */
-		if (info & (CAVE_SEEN))
+		if ((info & (CAVE_SEEN)) || (info & (CAVE_INFR)))
 		{
 			/* Set "CAVE_TEMP" flag */
 			info |= (CAVE_TEMP);
@@ -3230,7 +3229,7 @@ void forget_view(void)
 						else if (p->d < infra)
 						{
 							/* Mark as noticed */
-							info |= (CAVE_MARK);
+							info |= (CAVE_INFR);
 						}
 
 
@@ -3298,11 +3297,7 @@ void forget_view(void)
 						}
 						else if (p->d < infra)
 						{
-							/* Mark only "interesting" features */
-							if(!(f_info[cave_feat[GRID_Y(g)][GRID_X(g)]].flags & (TF_FLOOR)))
-							{
-								info |= (CAVE_MARK);
-							}
+							info |= (CAVE_INFR);
 						}
 
 
@@ -3344,7 +3339,7 @@ void forget_view(void)
 		info = fast_cave_info[g];
 
 		/* Was not "CAVE_SEEN", is now "CAVE_SEEN" */
-		if ((info & (CAVE_SEEN)) && !(info & (CAVE_TEMP)))
+		if (((info & (CAVE_SEEN)) || (info & (CAVE_INFR)) && !(info & (CAVE_TEMP)))
 		{
 			int y, x;
 
@@ -3358,7 +3353,7 @@ void forget_view(void)
 			/* Redraw */
 			lite_spot(y, x);
 		}
-		else if ( (info & (CAVE_MARK)) )
+		else if ((info & (CAVE_MARK)))
 		{
 			int y, x;
 

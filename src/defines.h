@@ -3183,7 +3183,7 @@
 #define CAVE_EFFT         0x0200  /* Is being hit by an effect */
 #define CAVE_LITE         0x0400  /* Temporary light (light source) */
 #define CAVE_TRAP         0x0800  /* Has at least one trap */
-#define CAVE_XX12         0x1000  /*  */
+#define CAVE_INFR         0x1000  /* Actually seeable by character by infravision */
 #define CAVE_XX13         0x2000  /*  */
 #define CAVE_XX14         0x4000  /*  */
 #define CAVE_XX15         0x8000  /*  */
