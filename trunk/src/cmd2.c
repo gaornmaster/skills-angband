@@ -871,7 +871,7 @@ bool hit_chest_trap(int y, int x, object_type *o_ptr)
 			}
 
 			/* Message */
-			if (!player_can_see_bold(y1, x1))
+			if (!player_can_see_or_infra_bold(y1, x1))
 				msg_print("The chest vanishes!");
 			else if ((y1 != y) || (x1 != x))
 				msg_print("The chest blinks away!");
@@ -2106,7 +2106,7 @@ static bool do_cmd_tunnel_aux(int y, int x)
 				place_object(y, x, FALSE, FALSE, FALSE);
 
 				/* Observe new object */
-				if ((cave_o_idx[y][x] != 0) && (player_can_see_bold(y, x)))
+				if ((cave_o_idx[y][x] != 0) && (player_can_see_or_infra_bold(y, x)))
 				{
 					msg_print("You have found something!");
 				}

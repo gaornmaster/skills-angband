@@ -3806,7 +3806,7 @@ static void process_move(monster_type *m_ptr, int ty, int tx, bool bash)
 					else cave_set_feat(ny, nx, FEAT_OPEN);
 
 					/* Handle doors in sight */
-					if (player_can_see_bold(ny, nx))
+					if (player_can_see_or_infra_bold(ny, nx))
 					{
 						/* Always disturb */
 						disturb(0, 0);

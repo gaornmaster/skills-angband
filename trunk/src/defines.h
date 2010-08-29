@@ -4965,6 +4965,14 @@
 	((cave_info[Y][X] & (CAVE_SEEN)) != 0)
 
 /*
+ * Determine if a "legal" grid can be seen with regular vision or infravision directly by the character
+ *
+ * Note the use of comparison to zero to force a "boolean" result
+ */
+#define player_can_see_or_infra_bold(Y,X) \
+	(((cave_info[Y][X] & (CAVE_SEEN)) != 0) || ((cave_info[Y][X] & (CAVE_INFR)) != 0))
+
+/*
  * Determine if a "legal" grid is within line of fire of the character
  *
  * Note the use of comparison to zero to force a "boolean" result

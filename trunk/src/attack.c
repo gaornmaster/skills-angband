@@ -3013,7 +3013,7 @@ void do_cmd_fire(void)
 		y = ny;
 
 		/* Only do visuals if the player can "see" the missile */
-		if (panel_contains(y, x) && player_can_see_bold(y, x) &&
+		if (panel_contains(y, x) && player_can_see_or_infra_bold(y, x) &&
 		    (path_gx[i] != PATH_G_NONE))
 		{
 			/* Full delay if monster in way */
@@ -3510,7 +3510,7 @@ void do_cmd_throw(void)
 		y = ny;
 
 		/* Only do visuals if the player can "see" the missile */
-		if (panel_contains(y, x) && player_can_see_bold(y, x) &&
+		if (panel_contains(y, x) && player_can_see_or_infra_bold(y, x) &&
 		    (path_gx[i] != PATH_G_NONE))
 		{
 			/* Full delay if monster in way */
