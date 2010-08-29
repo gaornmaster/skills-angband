@@ -3339,7 +3339,7 @@ void forget_view(void)
 		info = fast_cave_info[g];
 
 		/* Was not "CAVE_SEEN", is now "CAVE_SEEN" */
-		if (((info & (CAVE_SEEN)) || (info & (CAVE_INFR)) && !(info & (CAVE_TEMP)))
+		if (((info & (CAVE_SEEN)) || (info & (CAVE_INFR))) && !(info & (CAVE_TEMP)))
 		{
 			int y, x;
 
