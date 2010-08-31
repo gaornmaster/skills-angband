@@ -819,7 +819,7 @@ G:/:D
 I:22:12:0
 W:50:0:200:1000
 A:50/50
-C:0:4d4:0:0:0
+C:0:2d11:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:An enormous two-handed battle axe, carried by Dwarven champions, who 
 D:compete to see who can cleave the most orc heads.
