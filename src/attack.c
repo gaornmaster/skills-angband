@@ -303,7 +303,7 @@ static int critical_melee(int chance, bool visible, char m_name[],
 {
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-	u32b f1, f2, f3;
+	u32b f1 = 0L, f2 = 0L, f3 = 0L;
 	int max;
 
 	bool vorpal = FALSE;
