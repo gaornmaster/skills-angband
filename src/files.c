@@ -2352,6 +2352,12 @@ static void display_player_flag_info(void)
 				}
 			}
 
+			if (flag == RES_POIS && p_ptr->oppose_pois)
+			{
+				temp_resist = TRUE;
+				c_put_str(TERM_GREEN, "+", row, col + n);
+			}
+
 			/* Hack -- Cancel immunities specially -JM */
 			if (immune && (f_cancel[flag/32] & (1L << (flag % 32 - 4))))
 			{
