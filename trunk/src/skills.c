@@ -2795,7 +2795,7 @@ void do_cmd_skills(void)
 	old_exp = p_ptr->exp;
 	old_oath = p_ptr->oath;
 	old_realm = p_ptr->realm;
-	old_power = p_ptr->power;
+	old_power = calc_max_power();
 
 
 	/* Continue until satisfied */
@@ -3040,7 +3040,7 @@ void do_cmd_skills(void)
 
 	/* Note any changes in power */
 	old_ten_power = (old_power ) / 10;
-	ten_power = (p_ptr->power) / 10;
+	ten_power = (calc_max_power()) / 10;
 	if (old_ten_power < ten_power)
     {
         strnfmt(buf, sizeof(buf), "Reached power %d", ten_power * 10);
