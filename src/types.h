@@ -1272,6 +1272,7 @@ struct player_type
 	s16b target_who;			/* Target identity */
 	s16b target_row;			/* Target location */
 	s16b target_col;			/* Target location */
+	s16b max_dist;				/* Maximum projection distance with current weapon (fired or thrown) */
 
 	s16b health_who;			/* Health bar trackee */
 

@@ -2601,7 +2601,6 @@ static void calc_ranged_path(int range, int y0, int x0, int *ty, int *tx,
 	if (reduce > range / 3) reduce = range / 3;
 	range -= reduce;
 
-
 	/* Get distance to target */
 	dy = *ty - y0;
 	dx = *tx - x0;
@@ -2750,8 +2749,26 @@ void do_cmd_fire(void)
 		return;
 	item_to_object(j_ptr, item);
 
+	/* Strength increases distance, weight reduces it */
+	tdis = adj_str_blow[p_ptr->stat_ind[A_STR]] * 8 /
+		((i_ptr->weight > 3) ? i_ptr->weight : 3);
+
+	/* Max distance depends on skill */
+	if (tdis > 12 + get_skill(sbow(o_ptr->tval), 0, 8))
+	    tdis = 12 + get_skill(sbow(o_ptr->tval), 0, 8);
+
+    /* Hack -- set maximum distance for use in target_able */
+    p_ptr->max_dist = tdis;
+
 	/* Get a direction (or cancel) */
-	if (!get_aim_dir(&dir)) return;
+	if (!get_aim_dir(&dir))
+	{
+	    p_ptr->max_dist = 0;
+	    return;
+	}
+
+	/* Clear max distance */
+	p_ptr->max_dist = 0;
 
 	/* Use some energy ("p_ptr->num_fire" has a standard value of 2) */
 	p_ptr->energy_use = div_round(200, p_ptr->num_fire);
@@ -2819,14 +2836,6 @@ void do_cmd_fire(void)
 
 	/* Describe the object */
 	object_desc(o_name, sizeof(o_name), i_ptr, FALSE, 3);
-
-	/* Strength increases distance, weight reduces it */
-	tdis = adj_str_blow[p_ptr->stat_ind[A_STR]] * 8 /
-		((i_ptr->weight > 3) ? i_ptr->weight : 3);
-
-	/* Max distance depends on skill */
-	if (tdis > 12 + get_skill(sbow(o_ptr->tval), 0, 8))
-	    tdis = 12 + get_skill(sbow(o_ptr->tval), 0, 8);
 
 	/* Shots are usually not perfectly accurate */
 	inaccuracy = 5 - get_skill(sbow(o_ptr->tval), 0, 5);
@@ -3352,9 +3361,25 @@ void do_cmd_throw(void)
 	/* Check for throwing weapon */
 	if (f1 & (TR1_THROWING)) throwing_weapon = TRUE;
 
+	/* Strength increases distance, weight reduces it */
+	tdis = adj_str_blow[p_ptr->stat_ind[A_STR]] * 6 / ((o_ptr->weight > 5) ? o_ptr->weight : 5);
+
+	/* Max distance depends on skill */
+	if (tdis > 10 + get_skill(S_THROWING, 0, 10))
+	    tdis = 10 + get_skill(S_THROWING, 0, 10);
+
+    /* Set max_dist for use in target_able */
+    p_ptr->max_dist = tdis;
 
 	/* Get a direction (or cancel) */
-	if (!get_aim_dir(&dir)) return;
+	if (!get_aim_dir(&dir))
+	{
+	    p_ptr->max_dist = 0;
+        return;
+	}
+
+	/* Important -- Clear out maximum distance */
+	p_ptr->max_dist = 0;
 
 	/* Take a turn */
 	p_ptr->energy_use = 100;
@@ -3406,14 +3431,6 @@ void do_cmd_throw(void)
 	/* Describe the object */
 	object_desc(o_name, sizeof(o_name), i_ptr, FALSE, 2);
 
-
-	/* Strength increases distance, weight reduces it */
-	tdis = adj_str_blow[p_ptr->stat_ind[A_STR]] * 6 /
-		((i_ptr->weight > 5) ? i_ptr->weight : 5);
-
-	/* Max distance depends on skill */
-	if (tdis > 10 + get_skill(S_THROWING, 0, 10))
-	    tdis = 10 + get_skill(S_THROWING, 0, 10);
 
 
 	/* Thrown objects always deviate slightly from their course */
