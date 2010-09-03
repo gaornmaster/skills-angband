@@ -31,7 +31,7 @@ V:1.0.1
 # 'C' is for ego-item bonuses or penalties to Skill, Deadliness, and AC.
 #
 # 'T' is for possible 'tval' and 'sval' values of the base-item.  
-# Up to three 'T' entries are possible for a single object. The 
+# Up to four 'T' entries are possible for a single object. The 
 # ego-item can only be generated from items of this tval, with sval 
 # in the specified range.
 #
@@ -1279,6 +1279,19 @@ P:-9:3
 X:XTRA_LIGHT_QUALITY
 D:It sucks the light from around you, sheathing you in protective 
 D:darkness.
+
+
+### Books ###
+
+N:150:(fireproof)
+W:0:1:0:1000
+C:0:0:0:0
+T:90:0:2
+T:91:0:2
+T:92:0:2
+T:93:0:2
+F:IGNORE_FIRE
+D:The thick cover surrounds the book in protective leather.
 
 
 ### Space for additions ###

@@ -4215,7 +4215,7 @@ void apply_magic(object_type *o_ptr, int lev, int okay, bool good, bool great)
 			add_magic_to_others(o_ptr, lev, power);
 
 			/* Light sources can be ego-items */
-			if ((o_ptr->tval == TV_LITE) && (ABS(power) > 1) && (can_make_ego))
+			if (((o_ptr->tval == TV_LITE) || is_magic_book(o_ptr)) && (ABS(power) > 1) && (can_make_ego))
 			{
 				make_ego_item(o_ptr, cursed);
 			}

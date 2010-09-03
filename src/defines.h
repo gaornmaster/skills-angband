@@ -179,7 +179,7 @@
 /*
  * Number of tval/min-sval/max-sval slots per ego_item
  */
-#define EGO_TVALS_MAX    3
+#define EGO_TVALS_MAX    4
 
 /*
  * Maximum number of high scores in the high score file
@@ -368,7 +368,7 @@
  * The multiplier of additional gold when disallowing stores to buy items (OPT_birth_stores_only_sell)
  * Scales with level to reflect monetary expenditures more accurately
  */
-#define GOLD_ADJ  ((birth_stores_only_sell)?((200 + (p_ptr->depth * 3 + (100 / 2))) / 100) : 1)
+#define GOLD_ADJ  ((birth_stores_only_sell)?((200 + (p_ptr->depth * 3 + (100 / 2))) / 100) : 1)  /* Ranges from 2.5 to 5.5 */
 
 
 /*
