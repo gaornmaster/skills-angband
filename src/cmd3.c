@@ -446,8 +446,8 @@ void do_cmd_wield(void)
 		if (!get_item(&slot, q, s, USE_EQUIP)) return;
 	}
 
-	/* Ask for wield or quivering of throwing weapons */
-	if ((is_melee_weapon(o_ptr)) && (f1 & (TR1_THROWING)))
+	/* Ask for wield or quivering of special throwing weapons */
+	if ((is_melee_weapon(o_ptr)) && (f1 & (TR1_THROWING) && (ego_item_p(o_ptr) || artifact_p(o_ptr))))
 	{
 		if (!get_check("Put this throwing weapon in the quiver?"))
 			slot = INVEN_WIELD;
