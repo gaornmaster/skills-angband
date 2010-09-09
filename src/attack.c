@@ -497,7 +497,7 @@ static int critical_melee(int chance, bool visible, char m_name[],
 		}
 
 		/* Critical hits with polearms and wrestling rob the monster of energy */
-		if (o_ptr->tval == TV_POLEARM || (p_ptr->barehand == S_WRESTLING
+		if (o_ptr->tval == TV_POLEARM || (p_ptr->barehanded && p_ptr->barehand == S_WRESTLING
 			&& !((r_ptr->flags1 & (RF1_NEVER_MOVE)) || (monster_immaterial(r_ptr)))))
 		{
 			/* Discount multiple blows */
@@ -520,7 +520,7 @@ static int critical_melee(int chance, bool visible, char m_name[],
 		}
 
 		/* Karate frequently stuns, confuses, and slows monsters */
-		if(p_ptr->barehand == S_KARATE)
+		if(p_ptr->barehand == S_KARATE && p_ptr->barehanded)
 		{
 			int skill = get_skill(S_KARATE, 10, 110);
 
