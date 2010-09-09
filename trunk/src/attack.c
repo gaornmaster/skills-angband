@@ -1615,11 +1615,8 @@ static int py_attack_barehand(int chance, monster_type *m_ptr, char m_name[])
 {
 	int dice, sides;
 	int damage;
-	int add_power = 0;
 
 	int skill = get_skill(p_ptr->barehand, 0, 100);
-
-	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
 	object_type *o_ptr;
 	object_type object_type_body;
@@ -2751,14 +2748,14 @@ void do_cmd_fire(void)
 
 	/* Strength increases distance, weight reduces it */
 	tdis = adj_str_blow[p_ptr->stat_ind[A_STR]] * 8 /
-		((i_ptr->weight > 3) ? i_ptr->weight : 3);
+		((j_ptr->weight > 3) ? j_ptr->weight : 3);
 
 	/* Max distance depends on skill */
 	if (tdis > 12 + get_skill(sbow(o_ptr->tval), 0, 8))
 	    tdis = 12 + get_skill(sbow(o_ptr->tval), 0, 8);
 
-    /* Hack -- set maximum distance for use in target_able */
-    p_ptr->max_dist = tdis;
+	/* Hack -- set maximum distance for use in target_able */
+	p_ptr->max_dist = tdis;
 
 	/* Get a direction (or cancel) */
 	if (!get_aim_dir(&dir))
@@ -3663,6 +3660,7 @@ void do_cmd_throw(void)
 			}
 
 			/* Food and mushrooms do special things on impact */
+
 			if (i_ptr->tval == TV_FOOD)
 			{
 				food_hit_effect(-1, y, x, i_ptr);

@@ -3287,7 +3287,7 @@ void do_cmd_visuals(char cmd)
 	int i;
 
 	/* Allow automatic usage */
-	bool automatic = isdigit(cmd);
+	bool automatic = (isdigit(cmd) > 0);
 
 	char mark[DESC_LEN];
 

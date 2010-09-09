@@ -261,6 +261,7 @@ extern char *r_name;
 extern char *r_text;
 extern quest_type *q_info;
 extern char *q_name;
+
 extern char *q_text;
 extern flavor_type *flavor_info;
 extern char *flavor_name;
@@ -529,6 +530,7 @@ void history_unmask_unknown(void);
 bool history_lose_artifact(byte a_idx);
 void history_display(void);
 void history_init(size_t entries);
+void history_dump(FILE *fff);
 
 /* info.c */
 extern cptr obj_class_info[101];
@@ -729,6 +731,7 @@ extern int quiver_count_item(const object_type *o_ptr, int quantity);
 extern int quiver_count(void);
 extern void find_quiver_size(void);
 extern int process_quiver(int num_new, object_type *o_ptr);
+extern bool switch_weapons(bool allow_empty);
 
 
 /* quest.c */

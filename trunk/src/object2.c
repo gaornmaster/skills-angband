@@ -2776,6 +2776,7 @@ static void add_magic_to_weapon(object_type *o_ptr, int level, int power)
 
 		/* Enhance damage dice of melee weapons.  -LM- */
 		case TV_HAFTED:
+
 		case TV_POLEARM:
 		case TV_SWORD:
 		{
@@ -4686,7 +4687,6 @@ bool make_gold(object_type *o_ptr)
 	int i;
 	int treasure = 0;
 	int gold_depth, first_gold_idx;
-	int adj;
 
 	/* Make a special treasure */
 	if (coin_type >= SV_SPECIAL_GOLD_MIN)
