@@ -1793,11 +1793,12 @@ void do_cmd_browse(void)
  */
 bool item_tester_hook_book(const object_type *o_ptr)
 {
-    /* Require either light or a book with glowing words */
-    if (!no_light() || (o_ptr->flags2 & TR2_GLOW_WORDS))
-    {
-        return (TRUE);
-    }
+	/* Require either light or a book with glowing words */
+	if (!no_light() || (o_ptr->flags2 & TR2_GLOW_WORDS))
+ 	{
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
 
