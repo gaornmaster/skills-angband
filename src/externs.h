@@ -534,7 +534,7 @@ void history_dump(FILE *fff);
 
 /* info.c */
 extern cptr obj_class_info[101];
-extern void object_info(char *buf, object_type *o_ptr);
+extern void object_info(char *buf, object_type *o_ptr, bool reveal_flavor);
 extern cptr item_activation(object_type *o_ptr);
 extern void object_details(object_type *o_ptr, bool mental, bool known);
 extern void self_knowledge(bool full);

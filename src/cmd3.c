@@ -1258,7 +1258,7 @@ void do_cmd_observe(object_type *o_ptr, bool in_store)
 	if (mental)
 	{
 		/* Get the specific object type's information. */
-		object_info(info_text, i_ptr);
+		object_info(info_text, i_ptr, TRUE);
 
 		/* No object kind info. */
 		strcpy(object_kind_info, "");
@@ -1268,7 +1268,7 @@ void do_cmd_observe(object_type *o_ptr, bool in_store)
 	else if ((known) || (aware))
 	{
 		/* Get the specific object type's information, if any. */
-		object_info(info_text, i_ptr);
+		object_info(info_text, i_ptr, object_aware_p(i_ptr));
 
 		/* Get information about the general object kind. */
 		(void)my_strcpy(object_kind_info, format("%s", obj_class_info[i_ptr->tval]),
