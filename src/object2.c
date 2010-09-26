@@ -5764,6 +5764,35 @@ bool inven_carry_okay(const object_type *o_ptr)
 	return (FALSE);
 }
 
+/*
+ * Check if we have space for an item in the quiver without overflow
+ */
+bool quiver_carry_okay(const object_type *o_ptr)
+{
+    int ammo_num, added_ammo_num, attempted_quiver_slots;
+
+	/* Paranoia */
+	if (!o_ptr) return (FALSE);
+
+	/* Must be suitable for the quiver */
+	if (!is_missile(o_ptr) && !(o_ptr->flags1 & TR1_THROWING)) return (FALSE);
+
+	ammo_num = quiver_count();
+
+	/* Get the new item's quiver size */
+	added_ammo_num = quiver_count_item(o_ptr, o_ptr->number);
+
+	/* How many quiver slots would be needed */
+	attempted_quiver_slots = ((ammo_num + added_ammo_num + 98) / 99);
+
+	/* Is there room, given normal inventory? */
+	if (attempted_quiver_slots + p_ptr->inven_cnt > INVEN_PACK)
+	{
+		return (FALSE);
+	}
+
+    return (TRUE);
+}
 
 /*
  * Add an item to the player's inventory, and return the slot used.
@@ -6822,9 +6851,9 @@ int process_quiver(int num_new, object_type *o_ptr)
 			/* Determine the "value" of the pack item */
 			j_value = object_value(j_ptr);
 
-			/* Objects sort by decreasing value */
-			if (i_value > j_value) break;
-			if (i_value < j_value) continue;
+			/* Objects sort by *increasing* value, which makes it easier to preserve good ammo */
+			if (i_value > j_value) continue;
+			if (i_value < j_value) break;
 		}
 
 		/* Never move down */
