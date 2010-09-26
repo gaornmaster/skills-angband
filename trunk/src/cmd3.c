@@ -409,7 +409,6 @@ void do_cmd_wield(void)
 	bool hidden_curse = FALSE;
 	bool replace_primary_weapon = FALSE;
 
-
 	/* Restrict the choices */
 	item_tester_hook = item_tester_hook_wear;
 
@@ -446,10 +445,10 @@ void do_cmd_wield(void)
 		if (!get_item(&slot, q, s, USE_EQUIP)) return;
 	}
 
-	/* Ask for wield or quivering of special throwing weapons */
-	if ((is_melee_weapon(o_ptr)) && (f1 & (TR1_THROWING) && (ego_item_p(o_ptr) || artifact_p(o_ptr))))
+	/* Ask for wield or quivering of special throwing weapons, default to yes */
+	if ((is_melee_weapon(o_ptr)) && (f1 & (TR1_THROWING)))
 	{
-		if (!get_check("Put this throwing weapon in the quiver?"))
+		if (!get_check_default("Put this throwing weapon in the quiver?", TRUE))
 			slot = INVEN_WIELD;
 	}
 
@@ -629,7 +628,9 @@ void do_cmd_wield(void)
 		int ammo_num, add_num;
 
 		/* Get a quantity, save it */
+		get_quantity_default = o_ptr->number;
 		num = add_num = (int)get_quantity(NULL, 0, o_ptr->number);
+		get_quantity_default = 0;
 
 		/* Allow cancel */
 		if (!add_num) return;
