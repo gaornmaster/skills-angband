@@ -4512,6 +4512,12 @@
 	 (monster_nonliving((R))) ? " is destroyed." : " dies.")
 
 
+/* Player macros */
+#define oath_caster ((p_ptr->oath & (OATH_OF_SORCERY)) || \
+		(p_ptr->oath & (YAVANNAS_FELLOWSHIP)) || \
+		(p_ptr->oath & (COVENANT_OF_FAITH)) || \
+		(p_ptr->oath & (BLACK_MYSTERY)))
+
 
 
 /*

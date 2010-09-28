@@ -3790,8 +3790,6 @@ void calc_mana(void)
 	int spell_stat_index = p_ptr->stat_ind[mp_ptr->spell_stat];
 
 	bool old_cumber_armor = p_ptr->cumber_armor;
-	bool oath_caster = FALSE;
-
 
 	/* Hack -- Must know a realm of magic */
 	if (p_ptr->realm == NONE)
@@ -3799,16 +3797,6 @@ void calc_mana(void)
 		p_ptr->msp = 0;
 		return;
 	}
-
-	/* Note Oath-bound spellcaster */
-	if ((p_ptr->oath & (OATH_OF_SORCERY)) ||
-		(p_ptr->oath & (YAVANNAS_FELLOWSHIP)) ||
-		(p_ptr->oath & (COVENANT_OF_FAITH)) ||
-		(p_ptr->oath & (BLACK_MYSTERY)))
-	{
-		oath_caster = TRUE;
-	}
-
 
 	/* Get mana level (60% for non-Oath spellcasters) */
 	if (oath_caster)
