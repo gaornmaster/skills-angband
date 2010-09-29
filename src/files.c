@@ -3418,6 +3418,13 @@ static bool file_character_options(FILE *fff)
 		flag = TRUE;
 	}
 
+	if (no_skill_cap && (calc_max_power() == 100))
+	{
+		fprintf(fff, "You have transcended the limits of normal players.\n\n", VERSION_NAME);
+
+		flag = TRUE;
+	}
+
 
 	/* Rolled for stats, etc. a fairly large number of times */
 	if (p_ptr->birth_roll_requirement >= 2500L)

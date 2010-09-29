@@ -2344,7 +2344,7 @@ cptr option_text[OPT_MAX] =
 	NULL,
 	"cheat_know",				/* OPT_cheat_know */
 	"beginner_play",			/* OPT_beginner_play */
-	NULL,
+	"no_skill_cap",             /* OPT_no_skill_cap */
 	NULL,
 	NULL,
 	NULL,
@@ -2481,8 +2481,8 @@ cptr option_desc[OPT_MAX] =
 	NULL,
 	NULL,
 	"Know complete monster info",		/* OPT_cheat_know */
-	"Allow multiple lives",		/* OPT_beginner_play */
-	NULL,
+	"Allow multiple lives",				/* OPT_beginner_play */
+	"Allow skill increase past power 100", 			/* OPT_no_skill_cap */
 	NULL,
 	NULL,
 	NULL,
@@ -2618,7 +2618,7 @@ const bool option_norm[OPT_MAX] =
 	FALSE,		/* xxx */
 	FALSE,		/* OPT_cheat_know */
 	FALSE,		/* OPT_beginner_play */
-	FALSE,		/* xxx */
+	FALSE,		/* OPT_no_skill_cap */
 	FALSE,		/* xxx */
 	FALSE,		/* xxx */
 	FALSE,		/* xxx */
@@ -2765,7 +2765,7 @@ const byte option_page[OPT_PAGE_MAX][OPT_PAGE_PER] =
 		255,
 		255,
 		OPT_cheat_know,
-		255,
+		OPT_no_skill_cap,
 		255,
 		255,
 		255,
