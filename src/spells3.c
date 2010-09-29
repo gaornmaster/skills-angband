@@ -3167,7 +3167,7 @@ void sense_object(object_type *o_ptr, int slot, bool strong, bool force_heavy)
 	if ((p_ptr->confused) || (p_ptr->image) || (p_ptr->berserk)) return;
 
 	/* Need to be able to look at the object */
-	if ((p_ptr->blind) || (no_light())) return;
+	if ((p_ptr->blind) || (no_light() && (p_ptr->see_infra == 0))) return;
 
 	/* Object is already known */
 	if (object_known_p(o_ptr)) return;
