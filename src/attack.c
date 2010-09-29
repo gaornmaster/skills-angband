@@ -3857,6 +3857,15 @@ void do_cmd_throw(void)
 }
 
 
+/*
+ * Either switch between karate and wrestling, or switch primary/secondary weapons.
+ */
+void do_cmd_weapon_switch()
+{
+	if (p_ptr->barehanded)	do_cmd_barehanded();
+	else 					(void) switch_weapons(FALSE);
+}
+
 
 /*
  * Select unarmed combat skill.
