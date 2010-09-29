@@ -4308,6 +4308,7 @@
 #define OPT_CHEAT_HEADER                   90
 #define OPT_cheat_know                     93
 #define OPT_beginner_play                  94
+#define OPT_no_skill_cap                   95
 
 
 	/* Birth options (appear only on the character birth screen) */
@@ -4397,6 +4398,7 @@
 	/* Assistance/Cheating options */
 #define cheat_know                  op_ptr->opt[OPT_cheat_know]
 #define beginner_play               op_ptr->opt[OPT_beginner_play]
+#define no_skill_cap                op_ptr->opt[OPT_no_skill_cap]
 
 
 	/* Birth options */
