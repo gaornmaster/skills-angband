@@ -630,7 +630,6 @@ void do_cmd_wield(void)
 		/* Get a quantity, save it */
 		get_quantity_default = o_ptr->number;
 		num = add_num = (int)get_quantity(NULL, 0, o_ptr->number);
-		get_quantity_default = 0;
 
 		/* Allow cancel */
 		if (!add_num) return;
