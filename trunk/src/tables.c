@@ -3341,8 +3341,8 @@ const skill_type skill_info[NUM_SKILLS] =
 	{"Perception", "ability to notice the things around you",            7},
 	{"Stealth", "stealth",                                               6},
 	{"Disarming", "ability to disarm traps",                             4},
-	{"Dodging", "ability to evade attacks and use armor effectively",   6},
-	{"Spell Resistance", "resistance to magical attacks",                6},
+	{"Dodging", "ability to evade attacks and use armor effectively",    6},
+	{"Spell Resistance", "extra resistance to magical attacks",          4},
 
 	{"Weaponsmithing", "ability to forge weapons",                      10},
 	{"Bowmaking", "ability to make bows and arrows",                    10},

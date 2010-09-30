@@ -826,7 +826,7 @@ Dodging   (cost - 6):
      Other factors can help or hurt your dodging ability and, in extreme cases, make the game act as though you had no skill at all.  See the talent "dodging" for how to maximize your dodging ability.  Your character screen takes all factors into account.
      Dodging reduces the cost of Burglary by 1/3rd of its own cost.
 
-Spell resistance   (cost - 6):
+Spell resistance   (cost - 4):
      Increases your saving throw against magical and mental attacks (blinding, confusion, paralyzation, etc.).  Attention paid to this skill can save your life...
 
 Weaponsmithing   (cost - 10):
