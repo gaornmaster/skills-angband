@@ -4316,7 +4316,7 @@ static int add_special_melee_skill(void)
 		if (get_skill(S_BURGLARY, 0, 100) >= LEV_REQ_BURGLE)
 			{
 			/* Skilled and powerful burglars can handle heavier weapons */
-			int level = MIN(p_ptr->power, get_skill(S_BURGLARY, 50, 150));
+			int level = ((p_ptr->power + 50) +  get_skill(S_BURGLARY, 50, 150)) / 2;
 
 			/* Apply a bonus for relatively light weapons */
 			if (weight < level)
@@ -5491,9 +5491,11 @@ static void calc_bonuses(void)
 
 
 	/* Saving throw (ranges from ~7 to ~100, plus bonuses) */
-	p_ptr->skill_sav  = rp_ptr->r_sav;
-	p_ptr->skill_sav += get_skill(S_SAVE, 10, 80);
+	p_ptr->skill_sav  = rp_ptr->r_sav;       /* -4 to 10 */
+	p_ptr->skill_sav += p_ptr->power / 4;    /* 0 to 25 guarantee a minimum saving throw */
+	p_ptr->skill_sav += get_skill(S_SAVE, 10, 55); /* 10 to 55 from skill (see below for more from skill)*/
 	p_ptr->skill_sav += player_flags_pval(TR_PVAL_SAVE, TRUE) * 5;
+											 /* -9 to 19 more from wisdom added later using adj_wis_sav[] */
 
 	/* A saving throw skill above 80 is doubly effective */
 	if (get_skill(S_SAVE, 0, 100) > 80)
