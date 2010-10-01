@@ -1264,6 +1264,7 @@ int load_trap(int y, int x)
 			/* Determine how many items we wish to load the trap with */
 			if (o_ptr->number > 1)
 			{
+				get_quantity_default = o_ptr->number;
 				i = (int)get_quantity(format("How many items (0-%d)?", o_ptr->number), 0, o_ptr->number);
 
 				/* Cancel */
@@ -1912,8 +1913,8 @@ static void hit_monster_trap(int who, int y, int x, int t_idx)
 					/* Delete this stack of objects from the trap */
 					if (!i_ptr->number)
 					{
-						/* Trap is now linked to the second object (if any) */
-						t_ptr->hold_o_idx = i_ptr->next_o_idx;
+						/* Skip over the empty stack */
+						o_ptr->next_o_idx = i_ptr->next_o_idx;
 
 						/* Wipe the object */
 						object_wipe(i_ptr);
