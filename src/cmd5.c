@@ -5589,7 +5589,7 @@ cptr do_spell(int mode, int spell)
 					msg_print("Mind-warping forces emanate from your brain!");
 
 					/* Engage all viewable monsters in mental combat */
-					project_los(p_ptr->py, p_ptr->px, GF_PSI, pow);
+					project_los(p_ptr->py, p_ptr->px, pow, GF_PSI);
 				}
 				break;
 			}
