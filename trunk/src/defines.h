@@ -3442,7 +3442,7 @@
 #define TR2_XX23               0x00800000L   /*  */
 #define TR2_XX24               0x01000000L   /*  */
 #define TR2_XX25               0x02000000L   /*  */
-#define TR2_XX26               0x04000000L   /*  */
+#define TR2_EASY_ACTIVATE      0x04000000L   /* Item can be easily activated */
 #define TR2_GLOW_WORDS         0x08000000L   /* Item can be read in darkness */
 #define TR2_IGNORE_ACID        0x10000000L   /* Item ignores Acid Damage */
 #define TR2_IGNORE_ELEC        0x20000000L   /* Item ignores Elec Damage */

@@ -3335,7 +3335,7 @@ const skill_type skill_info[NUM_SKILLS] =
 	{"Nature Lore", "understanding of nature",                           6},
 	{"Blood Dominion", "understanding of necromancy and the undead",     6},
 
-	{"Magical Device", "understanding of magical devices",              15},
+	{"Magical Device", "understanding of magical devices",              16},
 	{"Burglary", "skill in thievery and trap-setting",                  12},
 
 	{"Perception", "ability to notice the things around you",            7},
@@ -3346,7 +3346,7 @@ const skill_type skill_info[NUM_SKILLS] =
 
 	{"Weaponsmithing", "ability to forge weapons",                      10},
 	{"Bowmaking", "ability to make bows and arrows",                    10},
-	{"Armor Forging", "ability to forge armor",                         14},
+	{"Armor Forging", "ability to forge armor",                         15},
 	{"Alchemy", "ability to create scrolls, potions, rings, & amulets",  8},
 	{"Magical Infusion", "ability to magically enhance objects",        13},
 
