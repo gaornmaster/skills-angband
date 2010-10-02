@@ -798,7 +798,7 @@ Blood Dominion   (cost - 6):
      Determines ritual failure chance and reliability for necromancers.  Yields warnings (above about level 55) of undead creatures, up to and including full real-time detection.  Provides a substantial degree of protection from their blows, increases critical hit chance.  Reduces the damage you take from darkness, and makes it much less likely that you will get the Black Breath.  You cannot learn both Holy Alliance and Blood Dominion.
      If you are not a necromancer, learning blood dominion also gives you two special talents:  sense undead (25) and restore experience (85).
 
-Magical Device   (cost - 15):
+Magical Device   (cost - 16):
      Determines success rate with magical devices and all activatable items except dragon scale mail, and increases their power when used.  Makes recharging less likely to blow up items.  Allows you to learn the true effects of magical devices and activatable items more quickly and to automatically sense charges (70).
 
 Burglary   (cost - 12):
