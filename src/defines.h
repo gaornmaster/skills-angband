@@ -3495,7 +3495,13 @@
 	(TR2_IGNORE_ACID | TR2_IGNORE_ELEC | TR2_IGNORE_FIRE | TR2_IGNORE_COLD )
 
 
+#define TR1_SLAY_MASK (TR1_SLAY_ANIMAL | TR1_SLAY_EVIL | TR1_SLAY_UNDEAD | \
+		       TR1_SLAY_DEMON | TR1_SLAY_ORC | TR1_SLAY_TROLL | \
+	           TR1_SLAY_GIANT | TR1_SLAY_DRAGON | TR1_KILL_DRAGON)
 
+#define TR1_BRAND_MASK (TR1_BRAND_FIRE | TR1_BRAND_ACID | TR1_BRAND_ELEC | \
+	           TR1_BRAND_COLD | TR1_BRAND_POIS | TR1_BRAND_FLAME | \
+	           TR1_BRAND_VENOM)
 
 
 
@@ -4320,7 +4326,7 @@
 #define OPT_birth_no_return_stair          105
 #define OPT_birth_smart_cheat              106
 #define OPT_birth_stores_only_sell         107
-
+#define OPT_birth_easy_id                  108
 
 /*
  * Information for "do_cmd_options()".
@@ -4401,6 +4407,7 @@
 #define no_skill_cap                op_ptr->opt[OPT_no_skill_cap]
 
 
+
 	/* Birth options */
 #define birth_autoroll              op_ptr->opt[OPT_birth_autoroll]
 #define ironman_play                op_ptr->opt[OPT_ironman_play]
@@ -4409,6 +4416,7 @@
 #define birth_no_return_stair       op_ptr->opt[OPT_birth_no_return_stair]
 #define birth_smart_cheat           op_ptr->opt[OPT_birth_smart_cheat]
 #define birth_stores_only_sell      op_ptr->opt[OPT_birth_stores_only_sell]
+#define birth_easy_id               op_ptr->opt[OPT_birth_easy_id]
 
 
 /*
