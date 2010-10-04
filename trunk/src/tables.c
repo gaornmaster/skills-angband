@@ -2361,7 +2361,7 @@ cptr option_text[OPT_MAX] =
 	"birth_no_return_stair",          /* OPT_no_dungeon_stair */
 	"birth_smart_cheat",              /* OPT_smart_cheat */
 	"birth_stores_only_sell",         /* OPT_birth_stores_only_sell */
-	NULL,
+	"birth_easy_id",                  /* OPT_birth_easy_id */
 	NULL
 };
 
@@ -2498,7 +2498,7 @@ cptr option_desc[OPT_MAX] =
 	"No stairs back the way you came",        /* OPT_birth_no_return_stair */
 	"Monsters exploit your weaknesses",       /* OPT_birth_smart_cheat */
 	"Not a game of shopping",                 /* OPT_birth_stores_only_sell */
-	NULL,
+	"ID all wargear, extra hidden curses",    /* OPT_birth_easy_id */
 	NULL
 };
 
@@ -2635,7 +2635,7 @@ const bool option_norm[OPT_MAX] =
 	FALSE, 		/* OPT_birth_no_return_stair */
 	FALSE,		/* OPT_birth_smart_cheat */
 	TRUE,		/* OPT_birth_stores_only_sell */
-	FALSE,
+	FALSE,      /* OPT_birth_easy_id */
 	FALSE
 };
 
@@ -2761,7 +2761,7 @@ const byte option_page[OPT_PAGE_MAX][OPT_PAGE_PER] =
 		255,
 		OPT_birth_autoroll,
 		OPT_birth_stores_only_sell,
-		255,
+		OPT_birth_easy_id,
 		255,
 		255,
 		OPT_cheat_know,
@@ -3573,8 +3573,8 @@ flag_data flag_creation_data[128] =
 	{ ESSENCE_MAGIC,   0,   0, "(XXX4)" },
 	{ ESSENCE_MAGIC,   0,   0, "(XXX5)" },
 	{ ESSENCE_MAGIC,   0,   0, "(XXX6)" },
-	{ ESSENCE_MAGIC,   0,   0, "(XXX7)" },
-	{ ESSENCE_MAGIC,   0,   0, "(XXX8)" },
+	{ ESSENCE_MAGIC,   0,   0, "Easy Activate" },
+	{ ESSENCE_MAGIC,   0,   0, "Glowing Words" },
 	{ ESSENCE_ACID,    0,  10, "Ignore Acid" },
 	{ ESSENCE_ELEC,    0,  10, "Ignore Electricity" },
 	{ ESSENCE_FIRE,    0,  10, "Ignore Fire" },

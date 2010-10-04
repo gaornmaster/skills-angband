@@ -3146,6 +3146,13 @@ void sense_object(object_type *o_ptr, int slot, bool strong, bool force_heavy)
 
 	int chance;
 
+	/* Some players just know */
+	if (birth_easy_id && (is_wargear(o_ptr) || object_aware_p(o_ptr)))
+	{
+		object_known(o_ptr);
+		return;
+	}
+
 	/* Equipment bonuses make a real difference, but never too much */
 	int aware = MIN(p_ptr->skill_awr, 30);
 
