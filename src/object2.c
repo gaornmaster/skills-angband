@@ -2864,10 +2864,9 @@ static void add_magic_to_weapon(object_type *o_ptr, int level, int power)
 	}
 
 	/* Weapons and missiles in the dungeon may bear a hidden curse */
-	/* Much more likely if using birth_easy_id */
 	if ((object_level >= 15) && (!(obj_gen_flags & (OBJ_GEN_STORE))) &&
-		(((o_ptr->ego_item_index) && (one_in_((birth_easy_id)? 5 : 20))) ||
-	     ((!o_ptr->ego_item_index) && (one_in_((birth_easy_id)? 50 : 200)))))
+		(((o_ptr->ego_item_index) && (one_in_(20))) ||
+	     ((!o_ptr->ego_item_index) && (one_in_(200)))))
 	{
 		o_ptr->flags3 |= (TR3_CURSE_HIDDEN);
 	}
@@ -2965,10 +2964,9 @@ static void add_magic_to_armor(object_type *o_ptr, int level, int power)
 	}
 
 	/* Armor in the dungeon may bear a hidden curse */
-	/* Much more likely if using birth_easy_id */
 	if ((object_level >= 15) && (!(obj_gen_flags & (OBJ_GEN_STORE))) &&
-		(((o_ptr->ego_item_index) && (one_in_((birth_easy_id)? 5 : 20))) ||
-	     ((!o_ptr->ego_item_index) && (one_in_((birth_easy_id)? 50 : 200)))))
+		(((o_ptr->ego_item_index) && (one_in_(20))) ||
+	     ((!o_ptr->ego_item_index) && (one_in_(200)))))
 	{
 		o_ptr->flags3 |= (TR3_CURSE_HIDDEN);
 	}
@@ -3379,8 +3377,8 @@ static void add_magic_to_others(object_type *o_ptr, int level, int power)
 
 			/* Light sources in the dungeon may bear a hidden curse */
 			if ((object_level >= 15) && (!(obj_gen_flags & (OBJ_GEN_STORE))) &&
-				(((o_ptr->ego_item_index) && (one_in_((birth_easy_id)? 5 : 20))) ||
-				 ((!o_ptr->ego_item_index) && (one_in_((birth_easy_id)? 50 : 200)))))
+				(((o_ptr->ego_item_index) && (one_in_(20))) ||
+				 ((!o_ptr->ego_item_index) && (one_in_(200)))))
 			{
 				o_ptr->flags3 |= (TR3_CURSE_HIDDEN);
 			}

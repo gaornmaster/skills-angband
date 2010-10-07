@@ -4326,7 +4326,7 @@
 #define OPT_birth_no_return_stair          105
 #define OPT_birth_smart_cheat              106
 #define OPT_birth_stores_only_sell         107
-#define OPT_birth_easy_id                  108
+
 
 /*
  * Information for "do_cmd_options()".
@@ -4416,7 +4416,6 @@
 #define birth_no_return_stair       op_ptr->opt[OPT_birth_no_return_stair]
 #define birth_smart_cheat           op_ptr->opt[OPT_birth_smart_cheat]
 #define birth_stores_only_sell      op_ptr->opt[OPT_birth_stores_only_sell]
-#define birth_easy_id               op_ptr->opt[OPT_birth_easy_id]
 
 
 /*
