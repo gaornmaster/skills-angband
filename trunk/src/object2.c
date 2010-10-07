@@ -4634,6 +4634,9 @@ bool make_object(object_type *o_ptr, bool good, bool great, bool exact_kind)
 		}
 	}
 
+	/* Store drop depth */
+	o_ptr->drop_depth = p_ptr->depth;
+
 	/* Success */
 	return (TRUE);
 }
