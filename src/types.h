@@ -349,6 +349,8 @@ struct object_type
 
 	s16b next_o_idx;          /* Next object in stack (if any) */
 	s16b held_m_idx;          /* Monster (or trap) holding us  (if any) */
+
+	s16b drop_depth;           /* Depth where item dropped */
 };
 
 
