@@ -375,9 +375,9 @@ static errr do_item(object_type *o_ptr)
 	do_byte(&o_ptr->cost_adjust);
 
 	do_s16b(&o_ptr->drop_depth);
+	do_byte(&o_ptr->quivered);
 
 	/* Space available for expansion */
-	do_byte(&blank_u8b);
 	do_byte(&blank_u8b);
 	do_byte(&blank_u8b);
 	do_byte(&blank_u8b);

@@ -683,6 +683,9 @@ void do_cmd_wield(void)
 			return;
 		}
 
+		/* Remember that the item is quivered */
+		i_ptr->quivered = TRUE;
+
 		/* Quiver will be reorganized (again) later. */
 		p_ptr->notice |= (PN_COMBINE);
 	}
@@ -1219,7 +1222,6 @@ void do_cmd_observe(object_type *o_ptr, bool in_store)
 		item_to_object(o_ptr, item);
 	}
 
-
 	/* Get the object kind. */
 	k_ptr = &k_info[o_ptr->k_idx];
 
@@ -1231,7 +1233,6 @@ void do_cmd_observe(object_type *o_ptr, bool in_store)
 
 	/* Make singular */
 	i_ptr->number = 1;
-
 
 	/* Hack -- observe the contents of the pouch */
 	if ((i_ptr->tval == TV_POUCH) && (item >= 0))

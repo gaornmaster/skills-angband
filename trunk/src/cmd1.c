@@ -313,6 +313,9 @@ static bool auto_pickup_okay(object_type *o_ptr, bool check_pack, bool pickup, b
 	/* Option to vacuum up things on the floor (not recommended) */
 	if ((always_pickup) && (!query_floor) && (pickup)) return (TRUE);
 
+	/* Return quivered items to the quiver */
+	if (quiver && o_ptr->quivered && quiver_carry_okay(o_ptr)) return (TRUE);
+
 	/* Check inscription */
 	if (o_ptr->note)
 	{
