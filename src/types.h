@@ -351,6 +351,8 @@ struct object_type
 	s16b held_m_idx;          /* Monster (or trap) holding us  (if any) */
 
 	s16b drop_depth;           /* Depth where item dropped */
+
+	byte quivered;             /* Has item been added to quiver? */
 };
 
 

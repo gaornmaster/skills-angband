@@ -6087,7 +6087,7 @@ s16b inven_takeoff(int item, int amt)
 	object_desc(o_name, sizeof(o_name), i_ptr, TRUE, 3);
 
 	/* Took off weapon */
-	if (is_melee_weapon(i_ptr))
+	if (is_melee_weapon(i_ptr) && item < INVEN_Q1)
 	{
 		act = "You were wielding";
 
@@ -6119,6 +6119,9 @@ s16b inven_takeoff(int item, int amt)
 	{
 		act = "You removed";
 		act2 = " from your quiver";
+
+		/* Remember that the item is no longer quivered */
+		i_ptr->quivered = FALSE;
 	}
 
 	/* Took off something */
