@@ -3841,6 +3841,7 @@ W:8:0:50:200
 A:8/75:60/0
 C:10:1d2:0:0:0
 E:KNOWLEDGE 1
+F:EASY_ACTIVATE
 D:that reveals traps nearby.
 
 N:513:Door/Stair Location
