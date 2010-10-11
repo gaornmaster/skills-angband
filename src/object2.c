@@ -1839,6 +1839,16 @@ bool object_similar(const object_type *o_ptr, const object_type *j_ptr)
 			/* Probably okay */
 			break;
 		}
+		case TV_MAGIC_BOOK:
+		case TV_NATURE_BOOK:
+		case TV_DARK_BOOK:
+		case TV_PRAYER_BOOK:
+		{
+			if (o_ptr->ego_item_index != j_ptr->ego_item_index)
+			{
+				return (FALSE);
+			}
+		}
 
 		/* Various */
 		default:
