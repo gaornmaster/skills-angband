@@ -5309,6 +5309,6 @@ void display_nearby_objects(int y, int x, bool also_list_monsters)
 
 
 	/* Free the object counters */
-	C_FREE(nearby_o_count, o_max, nearby_object_type);
+	FREE(nearby_o_count);
 }
 

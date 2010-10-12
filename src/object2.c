@@ -562,8 +562,8 @@ void compact_objects(int size)
 			}
 
 			/* Free the "obj_value and obj_index" arrays */
-			C_FREE(obj_value, o_max, s32b);
-			C_FREE(obj_index, o_max, s16b);
+			FREE(obj_value);
+			FREE(obj_index);
 		}
 	}
 
@@ -2604,7 +2604,7 @@ static bool make_artifact(object_type *o_ptr)
 		}
 
 		/* Free the "art_chance" array */
-		C_FREE(art_chance, z_info->a_max, s16b);
+		FREE(art_chance);
 	}
 
 

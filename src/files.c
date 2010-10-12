@@ -751,7 +751,7 @@ errr process_pref_file_command(char *buf)
 			macro_trigger_name[max_macrotrigger] = string_make(tmp);
 
 			/* Free the buffer */
-			C_FREE(tmp, strlen(zz[0]) + 1, char);
+			FREE(tmp);
 
 			/* Normal keycode */
 			macro_trigger_keycode[0][max_macrotrigger] = string_make(zz[1]);

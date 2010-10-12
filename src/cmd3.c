@@ -2332,7 +2332,7 @@ void do_cmd_query_symbol(void)
 	if (!n)
 	{
 		/* XXX XXX Free the "who" array */
-		C_FREE(who, z_info->r_max, u16b);
+		FREE(who);
 
 		return;
 	}
@@ -2374,7 +2374,7 @@ void do_cmd_query_symbol(void)
 	else if (!strchr("yYrR", query))
 	{
 		/* XXX XXX Free the "who" array */
-		C_FREE(who, z_info->r_max, u16b);
+		FREE(who);
 
 		return;
 	}
@@ -2504,7 +2504,7 @@ void do_cmd_query_symbol(void)
 
 
 	/* Free the "who" array */
-	C_FREE(who, z_info->r_max, u16b);
+	FREE(who);
 }
 
 

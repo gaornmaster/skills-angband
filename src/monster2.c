@@ -399,8 +399,8 @@ void compact_monsters(int size)
 		}
 
 		/* Free the "mon_lev and mon_index" arrays */
-		C_FREE(mon_lev, m_max, s16b);
-		C_FREE(mon_index, m_max, s16b);
+		FREE(mon_lev);
+		FREE(mon_index);
 	}
 
 	/* Excise dead monsters (backwards!) */
