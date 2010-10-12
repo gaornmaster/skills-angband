@@ -5065,12 +5065,12 @@ int stare_into_the_palantir(void)
 			else                                   msex = 0;
 
 			name1 = m_name;
-			strcpy(name2, (msex == 2) ? "she" : ((msex == 1) ? "he" : "it"));
+			name2 = (msex == 2) ? "she" : ((msex == 1) ? "he" : "it");
 			short_m_name(m_name);
 		}
 
 		/* Messages */
-		message_format(MSG_YELLOW, 0, "%^s stares straight back at you!", name1);
+		message_format(MSG_YELLOW, 0, "%s stares straight back at you!", name1);
 		message_format(MSG_YELLOW, 0, "You and %s meet in mental combat!", name2);
 
 
