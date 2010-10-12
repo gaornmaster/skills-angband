@@ -62,7 +62,7 @@ void history_clear(void)
 {
 	if (!history_list) return;
 
-	C_FREE(history_list, history_size, history_info);
+	FREE(history_list);
 	history_ctr = 0;
 	history_size = 0;
 }
@@ -85,7 +85,7 @@ static bool history_set_num(size_t num)
 	/* XXX Should use mem_realloc() */
 	new_list = C_ZNEW(num, history_info);
 	C_COPY(new_list, history_list, history_ctr, history_info);
-	C_FREE(history_list, history_size, history_info);
+	FREE(history_list);
 
 	history_list = new_list;
 	history_size = num;

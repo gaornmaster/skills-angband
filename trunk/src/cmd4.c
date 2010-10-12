@@ -6310,7 +6310,7 @@ static int collect_artifacts(int grp_cur, int object_idx[])
 	object_idx[object_cnt] = 0;
 
 	/* Free the "okay" array */
-	C_FREE(okay, z_info->a_max, bool);
+	FREE(okay);
 
 	/* Return the number of artifacts */
 	return (object_cnt);
@@ -6692,7 +6692,7 @@ static void do_cmd_knowledge_artifacts(void)
 	}
 
 	/* XXX XXX Free the "object_idx" array */
-	C_FREE(object_idx, z_info->a_max, int);
+	FREE(object_idx);
 }
 
 
@@ -6931,7 +6931,7 @@ static void do_cmd_knowledge_monsters(void)
 	}
 
 	/* XXX XXX Free the "mon_idx" array */
-	C_FREE(mon_idx, z_info->r_max, int);
+	FREE(mon_idx);
 }
 
 
@@ -7001,7 +7001,7 @@ static void do_cmd_knowledge_kill_count(void)
 		message_flush();
 
 		/* XXX XXX Free the "who" array */
-		C_FREE(who, z_info->r_max, u16b);
+		FREE(who);
 
 		return;
 	}
@@ -7207,7 +7207,7 @@ static void do_cmd_knowledge_kill_count(void)
 	}
 
 	/* Free the "who" array */
-	C_FREE(who, z_info->r_max, u16b);
+	FREE(who);
 
 	/* Close the file */
 	(void)my_fclose(fp);
@@ -7470,7 +7470,7 @@ static void do_cmd_knowledge_objects(void)
 	}
 
 	/* XXX XXX Free the "object_idx" array */
-	C_FREE(object_idx, z_info->k_max, int);
+	FREE(object_idx);
 }
 
 

@@ -802,7 +802,7 @@ static bool place_mon_quest(int q, int lev, int m_level, int diff)
 		msg_print("There are no eligible monsters to quest for.");
 
 		/* XXX XXX Free the "monster_idx" array */
-		C_FREE(monster_idx, z_info->r_max, int);
+		FREE(monster_idx);
 
 		return (FALSE);
 	}
@@ -878,7 +878,7 @@ static bool place_mon_quest(int q, int lev, int m_level, int diff)
 	}
 
 	/* XXX XXX Free the "monster_idx" array */
-	C_FREE(monster_idx, z_info->r_max, int);
+	FREE(monster_idx);
 
 	/* Take note of quest */
 	left_panel_display(DISPLAY_QUEST, 0);

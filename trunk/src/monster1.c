@@ -2190,7 +2190,7 @@ void display_m_list(int y, int x, bool also_list_objects)
 	}
 
 	/* Free the race counters */
-	if (race_count) C_FREE(race_count, z_info->r_max, u16b);
+	if (race_count) FREE(race_count);
 }
 
 
@@ -2319,8 +2319,8 @@ void get_closest_los_monster(int n, int y0, int x0, int *ty, int *tx,
 	if (monster_count <= n)
 	{
 		/* Free some arrays */
-		C_FREE(monster_dist, m_max, int);
-		C_FREE(monster_index, m_max, int);
+		FREE(monster_dist);
+		FREE(monster_index);
 
 		return;
 	}
@@ -2360,8 +2360,8 @@ void get_closest_los_monster(int n, int y0, int x0, int *ty, int *tx,
 	*tx = m_ptr->fx;
 
 	/* Free some arrays */
-	C_FREE(monster_dist, m_max, int);
-	C_FREE(monster_index, m_max, int);
+	FREE(monster_dist);
+	FREE(monster_index);
 }
 
 

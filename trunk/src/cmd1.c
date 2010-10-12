@@ -833,7 +833,7 @@ byte py_pickup(int pickup)
 	}
 
 	/* Free the gold array */
-	C_FREE(treasure,FIRST_SPECIAL_TREASURE,byte);
+	FREE(treasure);
 
 
 	/* Scan the remaining objects */
