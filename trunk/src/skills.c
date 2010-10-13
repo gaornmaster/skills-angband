@@ -1073,7 +1073,7 @@ static int can_raise_skill(int skill, bool verbose, int auto_raise)
 	int lev = p_ptr->pskills[skill].max;
 
 	/* Cap maximum power at 100 -JM */
-	if (calc_max_power() == PY_MAX_POWER && !no_skill_cap)
+	if (calc_max_power() == PY_MAX_POWER && !no_skill_cap && (p_ptr->pskills[skill].cur == p_ptr->pskills[skill].max))
 	{
 		if (verbose) prt("You need no more practice.",18,2);
 		return (-1);
