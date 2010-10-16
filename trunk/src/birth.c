@@ -2112,6 +2112,7 @@ bool player_birth(void)
 	else if (one_in_(2))	history_add("Tries to figure out what all the fuss is about down the stairs.", HISTORY_PLAYER_BIRTH, 0);
 	else					history_add("Takes his last practice swing.", HISTORY_PLAYER_BIRTH, 0);
 
+
 	/* Restore previous display */
 	display_change(DSP_RESTORE, 0, 0);
 

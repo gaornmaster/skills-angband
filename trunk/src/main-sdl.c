@@ -114,14 +114,14 @@
 
 
 /* Include the basic and font-rendering SDL libraries (both are required) */
-#include "SDL.h"
-#include "SDL_audio.h"
-#include "SDL_ttf.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_audio.h"
+#include "SDL/SDL_ttf.h"
 
 
 /* Optional libaries:  SDL_Mixer (needed to play sounds) */
 #ifdef USE_SOUND
-#  include "SDL_mixer.h"
+#  include "SDL/SDL_mixer.h"
 #endif /* USE_SOUND */
 
 
