@@ -63,6 +63,7 @@ void history_clear(void)
 	if (!history_list) return;
 
 	FREE(history_list);
+	history_list = NULL;
 	history_ctr = 0;
 	history_size = 0;
 }
