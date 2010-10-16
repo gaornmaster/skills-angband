@@ -1882,7 +1882,7 @@ bool object_similar(const object_type *o_ptr, const object_type *j_ptr)
 	}
 
 	/* Hack -- Require compatible cost_adjustments */
-	if ((!stack_force_costs) && (o_ptr->cost_adjust != j_ptr->cost_adjust))
+	if ((!stack_force_costs) && (o_ptr->cost_adjust != j_ptr->cost_adjust) && !birth_stores_only_sell)
 	{
 		return (FALSE);
 	}

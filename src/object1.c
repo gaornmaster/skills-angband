@@ -2548,9 +2548,9 @@ void object_desc(char *buf, size_t max, const object_type *o_ptr, int pref, int 
 
 	/*
 	 * Use the price adjustment, if any.   No annoying inscription for homemade
-	 * items.
+	 * items, or if you can't sell the goods anyway.
 	 */
-	else if ((o_ptr->cost_adjust > 0) && (o_ptr->cost_adjust < 100) &&
+	else if (!birth_stores_only_sell && (o_ptr->cost_adjust > 0) && (o_ptr->cost_adjust < 100) &&
 	         (o_ptr->cost_adjust != 20))
 	{
 		char *q = discount_buf;
