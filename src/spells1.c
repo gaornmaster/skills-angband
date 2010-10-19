@@ -3039,7 +3039,7 @@ static bool project_m(int who, int y, int x, int dam, int typ, u32b flg)
 			}
 			else if (r_ptr->d_char == 'A')
 			{
-				strcpy(note, "is immune!");
+				strcpy(note, " is immune!");
 				dam = 0;
 			}
 			break;
