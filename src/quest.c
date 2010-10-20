@@ -1159,7 +1159,7 @@ void inn_purchase(int item)
 	int i, qlev;
 	bool found = FALSE;
 	int m_level;
-	int add_depth;
+	int add_depth, base_depth;
 
 	/* We always offer easy quests */
 	avail_quest = 1;
@@ -1189,18 +1189,18 @@ void inn_purchase(int item)
 	/* Quit if no quest chosen */
 	if (item == -1) return;
 
+	/* Base depth might be based on power or depth */
+	base_depth = MAX(1, MAX(2 * p_ptr->power / 3, p_ptr->depth));
+
 	/* Get added depth of monsters (no variance for very early quest) */
-	add_depth = ((p_ptr->max_depth <= 2) ? 2 : rand_range(2, 5));
+	add_depth = ((p_ptr->max_depth <= 2) ? 2 : rand_range(3, 5));
 
 	/* Get level for quest */
-	qlev = MAX(1, p_ptr->max_depth) + add_depth;
-
-	/* Get approximate level of monster (apply character power if high) */
-	m_level = MAX(2 * p_ptr->power / 3, qlev);
+	qlev = base_depth + add_depth;
 
 	/* Adjust approximate level of monster according to depth */
 	/* Add a depth of two for each additional level of difficulty -JM */
-	m_level = 1 + m_level + qlev / 30 + item * 2;
+	m_level = qlev + qlev / 20 + item * 2 + 1;
 
 
 	/* We've run out of OOD monsters.  XXX */
