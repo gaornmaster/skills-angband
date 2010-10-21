@@ -532,7 +532,7 @@ static void remove_font_win(window_type *win_ptr)
 	win_ptr->font_file = NULL;
 
 	/* Notify other applications that a font is no longer available  */
-	SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+	PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 }
 
 
