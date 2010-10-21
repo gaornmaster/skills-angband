@@ -2031,7 +2031,6 @@ static void process_command(void)
 
 		/* Cast a spell */
 		case 'm':
-		case 'p':
 		{
 			(void)do_spell(SPELL_CAST, 0);
 			break;
@@ -2223,7 +2222,13 @@ static void process_command(void)
 		/* Use talents */
 		case '[':
 		{
-			do_cmd_talents();
+			do_cmd_talents(TALENT_UTILITY);
+			break;
+		}
+
+		case 'p':
+		{
+			do_cmd_talents(TALENT_WARRIOR);
 			break;
 		}
 

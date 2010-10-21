@@ -121,7 +121,7 @@ void do_cmd_sneaking(void)
 	}
 
 	/* Start sneaking */
-	else if (can_use_talent(TALENT_SNEAKING) > 0)
+	else if (can_use_talent(TALENT_SNEAKING, TALENT_UTILITY) > 0)
 	{
 		/* Set the sneaking flag */
 		p_ptr->sneaking = TRUE;
@@ -134,8 +134,7 @@ void do_cmd_sneaking(void)
 	}
 	else
 	{
-		msg_format("You are not good enough at %s to sneak effectively.",
-			skill_info[talent_info[TALENT_SNEAKING].skill].name);
+		msg_format("You are not good enough at Stealth to sneak effectively.");
 	}
 }
 

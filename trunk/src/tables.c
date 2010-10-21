@@ -28,6 +28,12 @@ const s16b ddd[9] =
 { 2, 8, 6, 4, 3, 1, 9, 7, 5 };
 
 /*
+ * Global array for looping through directions circularly
+ */
+const s16b ddc[8] =
+{ 4, 7, 8, 9, 6, 3, 2, 1};
+
+/*
  * Global arrays for converting "keypad direction" into offsets
  */
 const s16b ddx[10] =
@@ -3365,7 +3371,7 @@ const skill_type skill_info[NUM_SKILLS] =
 /*
  * Talent information table.
  *
- * name, index, skill, min_level, timeout
+ * name, index, skills, min_level, timeout, oath requirements, show on warrior screen
  *
  * Name - name of the talent.  Names longer than 22 characters are trouble.
  * Index char - the list index of the talent, and therefore the command
@@ -3374,90 +3380,91 @@ const skill_type skill_info[NUM_SKILLS] =
  *    ments for only one at any given time.  You can change indexes between
  *    versions of the game; just don't do it needlessly.  Note that indexes
  *    should be in alphabetical order.  Sneaking should have an index of 's'.
- * Skill - skill required for talent.
+ * Skills - skills, one of which is required for talent.
  * Level - level of skill (from 1 to 100) required to use this talent.
  *    Many talents also have other requirements.
  * Timeout - Time between uses of this talent.
+ * Oath - oath requirement
+ * Type of talent
+ *  1 - warrior
+ *  2 - utility
  */
 talent_type talent_info[NUM_TALENTS] =
 {
 	/* Combat talents */
-	{"Turn skin to stone",          'a', S_WRESTLING,    65, 140},
-	{"Berserk fury",                'b', S_WRESTLING,    80, 140},
-	{"Resist damage",               'c', S_KARATE,       90, 140},
-	{"Learn about monster",         'd', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{"Turn skin to stone",          'a', 1, {S_WRESTLING},                   65, 140, OATH_OF_IRON, TALENT_WARRIOR},
+	{"Berserk fury",                'b', 1, {S_WRESTLING},                   80, 140, OATH_OF_IRON, TALENT_WARRIOR},
+	{"Resist damage",               'c', 1, {S_KARATE},                      90, 140, OATH_OF_IRON, TALENT_WARRIOR},
+	{"Learn about monster",         'd', 1, {NUM_SKILLS},                     0,   0, OATH_OF_IRON, TALENT_WARRIOR},
+	{"Whirlwind Attack",            'e', 3, {S_SWORD, S_POLEARM, S_HAFTED},  30,   0,            0, TALENT_WARRIOR},
+	{"Circle Kick",                 'f', 1, {S_KARATE},                      30,  20,            0, TALENT_WARRIOR},
+	{"Impact Blow",                 'g', 1, {S_HAFTED},                      30,  10,            0, TALENT_WARRIOR},
+	{"Earthquakes",                 'q', 1, {S_HAFTED},                      60, 140, OATH_OF_IRON, TALENT_WARRIOR},
 
 	/* Specialized realm talents */
-	{"Detect magic",                'e', S_WIZARDRY,     40,  40},
-	{"Phase warp",                  'f', S_WIZARDRY,     70,  10},
-	{"Tap magical energy",          'g', S_WIZARDRY,     75,  10},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{"Detect magic",                'e', 1, {S_WIZARDRY},                    40,  40, 0,            TALENT_UTILITY},
+	{"Phase warp",                  'f', 1, {S_WIZARDRY},                    70,  10, 0,            TALENT_UTILITY},
+	{"Tap magical energy",          'g', 1, {S_WIZARDRY},                    75,  10, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
-	{"Sense evil",                  'h', S_PIETY,        30,  50},
-	{"Restore stats",               'i', S_PIETY,        75, 400},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{"Sense evil",                  'h', 1, {S_PIETY},                       30,  50, 0,            TALENT_UTILITY},
+	{"Restore stats",               'i', 1, {S_PIETY},                       75, 400, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
-	{"Sense animals",               'j', S_NATURE,       25,  40},
-	{"Mend self",                   'k', S_NATURE,       50,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{"Sense animals",               'j', 1, {S_NATURE},                      25,  40, 0,            TALENT_UTILITY},
+	{"Mend self",                   'k', 1, {S_NATURE},                      50,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
-	{"Sense undead",                'l', S_DOMINION,     25,  40},
-	{"Restore experience",          'm', S_DOMINION,     85, 400},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{"Sense undead",                'l', 1, {S_DOMINION},                    25,  40, 0,            TALENT_UTILITY},
+	{"Restore experience",          'm', 1, {S_DOMINION},                    85, 400, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
 	/* Magical device */
-	{"Sense charges",               'n', S_DEVICE,       70,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{"Sense charges",               'n', 1, {S_DEVICE},                      70,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
 	/* Burglary */
-	{"Darkness",                    '-', S_BURGLARY,     20,  10},
-	{"Detect & nab objects",        'o', S_BURGLARY,     40,   0},
-	{"Poison ammo",                 'p', S_BURGLARY,     55,   0},
-	{"Hit and run",                 'q', S_BURGLARY,     70,  10},
+	{"Darkness",                    '-', 1, {S_BURGLARY},                    20,  10, 0,            TALENT_UTILITY},
+	{"Detect & nab objects",        'o', 1, {S_BURGLARY},                    40,   0, 0,            TALENT_UTILITY},
+	{"Poison ammo",                 'p', 1, {S_BURGLARY},                    55,   0, 0,            TALENT_UTILITY},
+	{"Hit and run",                 'q', 1, {S_BURGLARY},                    70,  10, 0,            TALENT_UTILITY},
 
 	/* Utility skills */
-	{"Predict weather",             'r', S_PERCEPTION,    0, WEATHER_LENGTH},
-	{"Sneaking",                    's', S_STEALTH,      10,   0},
-	{"Sense area",                  't', S_PERCEPTION,   55,  70},
-	{"Superstealth",                'u', S_STEALTH,      75, 200},
+	{"Predict weather",             'r', 1, {S_PERCEPTION},                   0, WEATHER_LENGTH, 0,            TALENT_UTILITY},
+	{"Sneaking",                    's', 1, {S_STEALTH},                     10,   0, 0,            TALENT_UTILITY},
+	{"Sense area",                  't', 1, {S_PERCEPTION},                  55,  70, 0,            TALENT_UTILITY},
+	{"Superstealth",                'u', 1, {S_STEALTH},                     75, 200, 0,            TALENT_UTILITY},
 
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
 	/* Object-manipulation talents */
-	{"Recharging",                  'v', S_INFUSION,     30,   0},
-	{"Weapon forging",              'w', S_FORGE_WEAPON, 15,   0},
-	{"Armor forging",               'x', S_FORGE_ARMOR,  15,   0},
-	{"Bowmaking/Fletchery",         'y', S_FORGE_BOW,    15,   0},
-	{"Alchemy",                     'z', S_ALCHEMY,      LEV_REQ_ALCHEMY,   0},
-	{"Save/stop saving",            '$', S_ALCHEMY,      LEV_REQ_ALCHEMY,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
+	{"Recharging",                  'v', 1, {S_INFUSION},                    30,   0, 0,            TALENT_UTILITY},
+	{"Weapon forging",              'w', 1, {S_FORGE_WEAPON},                15,   0, 0,            TALENT_UTILITY},
+	{"Armor forging",               'x', 1, {S_FORGE_ARMOR},                 15,   0, 0,            TALENT_UTILITY},
+	{"Bowmaking/Fletchery",         'y', 1, {S_FORGE_BOW},                   15,   0, 0,            TALENT_UTILITY},
+	{"Alchemy",                     'z', 1, {S_ALCHEMY},                     LEV_REQ_ALCHEMY,   0, 0,            TALENT_UTILITY},
+	{"Save/stop saving",            '$', 1, {S_ALCHEMY},                     LEV_REQ_ALCHEMY,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
 	/* Miscellaneous */
-	{"Dragon-breathing",            '[', NUM_SKILLS,      0,   2},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0},
-	{NULL,                          '?', NUM_SKILLS,      0,   0}
+	{"Dragon-breathing",            '[', 1, {NUM_SKILLS},                     0,   2, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY}
 };
-
-
-
 
 /*
  * Creation-related data for object flags

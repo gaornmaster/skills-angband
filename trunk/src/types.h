@@ -946,10 +946,14 @@ struct skill_data
 struct talent_type
 {
 	cptr name;              /* Name of this talent */
-	char index;             /* Index of talent */
-	byte skill;             /* Skill this talent is based on */
+	char index;             /* Index of talent (character used to access) */
+	byte skill_count;       /* Number of skills for this talent */
+	byte skill[5];          /* Skill(s) this talent is based on */
+
 	byte min_level;         /* Value of skill needed to use */
 	s16b timeout;           /* Time between uses of this talent */
+	byte oath;              /* Required oath(s) */
+	int type;               /* Type of talent (warrior or utility) */
 };
 
 /*

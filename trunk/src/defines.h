@@ -710,10 +710,10 @@
 #define TALENT_BERSERK              1
 #define TALENT_RESIST_DAM           2
 #define TALENT_PROBING              3
-#define TALENT_XXX1                 4
-#define TALENT_XXX2                 5
-#define TALENT_XXX3                 6
-#define TALENT_XXX4                 7
+#define TALENT_WHIRLWIND            4
+#define TALENT_CIRCLEKICK           5
+#define TALENT_IMPACTBLOW           6
+#define TALENT_EARTHQUAKES          7
 
 #define TALENT_DET_MAGIC            8
 #define TALENT_PHASE_WARP           9
@@ -2812,6 +2812,10 @@
 #define TALENT_INFO        2
 #define TALENT_DESC        3
 #define TALENT_CHECK       4
+
+/* Talent type */
+#define TALENT_WARRIOR 0x00000001
+#define TALENT_UTILITY 0x00000002
 
 
 /*
