@@ -2758,14 +2758,7 @@ void do_cmd_fire(void)
 	p_ptr->max_dist = tdis;
 
 	/* Get a direction (or cancel) */
-	if (!get_aim_dir(&dir))
-	{
-	    p_ptr->max_dist = 0;
-	    return;
-	}
-
-	/* Clear max distance */
-	p_ptr->max_dist = 0;
+	if (!get_aim_dir(&dir)) return;
 
 	/* Use some energy ("p_ptr->num_fire" has a standard value of 2) */
 	p_ptr->energy_use = div_round(200, p_ptr->num_fire);
@@ -2992,7 +2985,6 @@ void do_cmd_fire(void)
 
 	/* Hack -- Handle stuff */
 	handle_stuff();
-
 
 	/* Calculate path of projection */
 	calc_ranged_path(tdis, py, px, &ty, &tx, dir, inaccuracy);
@@ -3369,14 +3361,7 @@ void do_cmd_throw(void)
     p_ptr->max_dist = tdis;
 
 	/* Get a direction (or cancel) */
-	if (!get_aim_dir(&dir))
-	{
-	    p_ptr->max_dist = 0;
-        return;
-	}
-
-	/* Important -- Clear out maximum distance */
-	p_ptr->max_dist = 0;
+	if (!get_aim_dir(&dir)) return;
 
 	/* Take a turn */
 	p_ptr->energy_use = 100;
