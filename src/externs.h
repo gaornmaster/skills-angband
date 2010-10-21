@@ -16,6 +16,7 @@
 
 /* tables.c */
 extern const s16b ddd[9];
+extern const s16b ddc[8];
 extern const s16b ddx[10];
 extern const s16b ddy[10];
 extern const s16b ddx_ddd[9];
@@ -991,8 +992,8 @@ extern void store_init(int which);
 extern void pseudo_probe(void);
 extern int dodging_ability(int max);
 extern bool can_precog(int max_chance, int cutoff);
-extern int can_use_talent(int talent);
-extern void do_cmd_talents(void);
+extern int can_use_talent(int talent, int talent_choice);
+extern void do_cmd_talents(int talent_choice);
 
 /* traps.c */
 extern trap_kind t_kind_info[TRAP_KIND_MAX];

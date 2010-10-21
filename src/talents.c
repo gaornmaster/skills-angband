@@ -354,7 +354,7 @@ static bool item_tester_unknown_charges(const object_type *o_ptr)
  *
  * Return "B" if a talent can be browsed, and "Y" if it can also be used.
  */
-static cptr do_talent(int talent, int mode)
+static cptr do_talent(int talent, int mode, int talent_choice)
 {
 	bool can_use = TRUE;
 
@@ -367,12 +367,15 @@ static cptr do_talent(int talent, int mode)
 	/* Usage variables */
 	int skill;
 	int reliability = 0;
+	int skill_maximum = -1;
+	int i;
 
 	/* Talent-specific variables */
 	int dam1, dam2;
 	int dur1, dur2;
 	int pow, pow1, pow2;
 	int dir;
+	int talent_skill;
 
 	talent_type *t_ptr;
 
@@ -386,7 +389,6 @@ static cptr do_talent(int talent, int mode)
 	/* Error-checking -- require a name */
 	if (!t_ptr->name) return ("N");
 
-
 	/* Talent is still timed out */
 	if (((use) || (check)) && (p_ptr->ptalents[talent].count))
 	{
@@ -395,16 +397,31 @@ static cptr do_talent(int talent, int mode)
 	}
 
 	/* Get skill (note that there may not always be one) */
-	skill = get_skill(t_ptr->skill, 0, 100);
+	for (i = 0; i < t_ptr->skill_count; i++)
+	{
+		skill = get_skill(t_ptr->skill[i], 0, 100);
 
+		if (skill > skill_maximum)
+		{
+			skill_maximum = skill;
+			talent_skill = t_ptr->skill[i];
+		}
+	}
+	skill = skill_maximum;
 
 	/* Most talents depend on one skill */
-	if (t_ptr->skill < NUM_SKILLS)
+	if (talent_skill < NUM_SKILLS)
 	{
 		reliability = skill - t_ptr->min_level;
 
 		/* Note that skill is not great enough to use this talent */
 		if (((use) || (check)) && (reliability < 0)) return ("N");
+	}
+
+	/* Talents must be of the requested type */
+	if (!(t_ptr->type & talent_choice))
+	{
+		return ("N");
 	}
 
 
@@ -737,7 +754,7 @@ static cptr do_talent(int talent, int mode)
 
 		case TALENT_D_OR_NAB_OBJECT:
 		{
-			pow = get_skill(t_ptr->skill, 0, 300);
+			pow = get_skill(talent_skill, 0, 300);
 
 			if (info) return ("");   /* Deliberate -- no weight data */
 			if (desc) return ("Detect objects and gold (either in the current room or in line of sight), or Nab an object (must be in line of sight and not too heavy).");
@@ -780,8 +797,8 @@ static cptr do_talent(int talent, int mode)
 		}
 		case TALENT_POISON_AMMO:
 		{
-			pow1 = get_skill(t_ptr->skill, 0, 4);
-			pow2 = get_skill(t_ptr->skill, 0, 12);
+			pow1 = get_skill(talent_skill, 0, 4);
+			pow2 = get_skill(talent_skill, 0, 12);
 
 			if (info) return (format("poison %d-%d", pow1, pow2));
 			if (desc) return ("Poison some ammo.  Mushroom of Poison or (especially) of Envenomation are the best poisoners, but some other kinds of mushrooms and Potions of Poison also work.  Missiles must be ordinary -- no slays or brands.");
@@ -1117,12 +1134,195 @@ static cptr do_talent(int talent, int mode)
 			}
 			break;
 		}
+		case TALENT_WHIRLWIND:
+		{
+			int x, y;
+			bool occupied[8];
+			int num_mons = 0;
+			int total_blows;
+			int i, s;
+
+			/* Count the number of monsters to be hit */
+			for (i = 0; i < 8; i++)
+			{
+				x = p_ptr->px + ddx[ddc[i]];
+				y = p_ptr->py + ddy[ddc[i]];
+
+				if (cave_m_idx[y][x])
+				{
+					occupied[i] = TRUE;
+					num_mons++;
+				}
+				else occupied[i] = FALSE;
+			}
+
+			/* Calculate total number of blows */
+			total_blows = (2 * p_ptr->num_blow + p_ptr->num_blow2 + num_mons + 1) / 2;
+
+			if (check)
+			{
+				/* Require the use of a weapon */
+				object_type *o_ptr = &inventory[INVEN_WIELD];
+
+				if (!o_ptr) return ("B");
+				if (!is_melee_weapon(o_ptr)) return "B";
+				if (num_mons < 2) return "B";
+			}
+			if (info) return (format("%d total blows", total_blows));
+			if (desc) return ("Attack all the foes surrounding you.");
+			if (use)
+			{
+				int old_num_blows, old_num_blows2;
+
+				monster_type *m_ptr;
+				object_type *o_ptr;
+
+				bool stop = FALSE;
+
+				/* Hack -- set blows per attempt to one */
+				old_num_blows = p_ptr->num_blow;
+				old_num_blows2 = p_ptr->num_blow2;
+				p_ptr->num_blow = 1;
+				p_ptr->num_blow2 = 1;
+
+				/* Attack monsters in a circle */
+				for (i = 0, s = randint(8); i < total_blows; i++, s++)
+				{
+					/* Find next occupied spot */
+					while (!occupied[s % 8]) s++;
+
+					x = p_ptr->px + ddx[ddc[s % 8]];
+					y = p_ptr->py + ddy[ddc[s % 8]];
+
+					/* Handle attack if monster remains */
+					if (cave_m_idx[y][x]) py_attack(y, x);
+
+				}
+
+				/* Reset number of blows */
+				p_ptr->num_blow  = old_num_blows;
+				p_ptr->num_blow2 = old_num_blows2;
+
+			}
+			break;
+		}
+
+		case TALENT_CIRCLEKICK:
+		{
+			int dam = get_skill(S_KARATE, 0, 150);
+
+			if (info) return "";
+			if (desc) return "Attempt to stun all monsters around you";
+
+			if (use)
+			{
+				for (i = 0; i < 8; i++)
+				{
+					int x = p_ptr->px + ddx[ddc[i]];
+					int y = p_ptr->py + ddy[ddc[i]];
+
+					monster_type *m_ptr = &m_list[cave_m_idx[y][x]];
+
+					/* Attempt to stun monster */
+					if (m_ptr)
+						project_bolt(-1, 1, p_ptr->py, p_ptr->px, y, x, dam, GF_DO_STUN, PROJECT_KILL);
+				}
+			}
+
+			break;
+		}
+		case TALENT_IMPACTBLOW:
+		{
+			long dam_low, dam_high;
+			object_type *o_ptr = &inventory[INVEN_WIELD];
+
+			/* Require a blunt weapon to use */
+			if (check)
+			{
+				if (!o_ptr) return "B";
+				if (o_ptr->tval != TV_HAFTED) return "B";
+			}
+
+			/* Paranoia */
+			if (o_ptr)
+			{
+				/* Basic calculations of minimal and maximal damage -- deals damage as if two blows */
+				dam_low = o_ptr->dd * 2;
+				dam_high = o_ptr->dd * o_ptr->ds * 2;
+
+				apply_deadliness(&dam_low, p_ptr->to_d + o_ptr->to_d);
+				apply_deadliness(&dam_high, p_ptr->to_d + o_ptr->to_d);
+
+				dam_low = (dam_low + 50) / 100;
+				dam_high = (dam_high + 50) / 100;
+			}
+
+			if (info) return (format("force dam %d-%d", dam_low, dam_high));
+			if (desc) return ("");
+			if (use)
+			{
+				char ch;
+				int dir = 0;
+				int x, y;
+				int dam, chance, bonus = 0;
+
+				while (!dir)
+				{
+					if (!get_com("Direction:", &ch)) return ("");
+					dir = target_dir(ch);
+				}
+
+				x = p_ptr->px;
+				y = p_ptr->py;
+
+				pow = rand_range(dam_low, dam_high);
+
+				/* Send an force blast */
+				/* Note -- consider using thrustaway and/or test_hit_combat */
+				project(-1, 0, y, x, y + ddy[dir], x + ddx[dir], pow, GF_FORCE, PROJECT_KILL | PROJECT_GRID, 0, 0);
+			}
+
+			break;
+		}
+		case TALENT_EARTHQUAKES:
+		{
+			int skill = get_skill(S_HAFTED, 0, 100);
+			int size = 2;
+
+			/* Require the use of a blunt weapon */
+			object_type *o_ptr = &inventory[INVEN_WIELD];
+
+			/* Radius is based on skill and weapon weight */
+			if (skill > 70) size++;
+			if (skill > 90) size++;
+
+			if (o_ptr)
+				if (o_ptr->weight > 170)
+					size++;
+
+			if (check)
+			{
+
+				if (!o_ptr)
+				{
+					return ("B");
+				}
+				if (o_ptr->tval != TV_HAFTED)
+				{
+					return ("B");
+				}
+			}
+			if (desc) return "Smash the dungeon around you.";
+			if (info) return (format("size %d", size));
+			if (use) earthquake(p_ptr->py, p_ptr->px, size);
+			break;
+		}
 
 		default:
 		{
 			if (info) return ("???");
 			if (desc) return ("This talent has not yet been defined.");
-			if (check) return ("N");
+			if (check) return ("Y");
 			if (use)
 			{
 				msg_print("This talent has not yet been defined.");
@@ -1151,9 +1351,9 @@ static cptr do_talent(int talent, int mode)
 /*
  * Return whether we can use or browse a talent now.
  */
-int can_use_talent(int talent)
+int can_use_talent(int talent, int talent_choice)
 {
-	cptr okay = do_talent(talent, TALENT_CHECK);
+	cptr okay = do_talent(talent, TALENT_CHECK, talent_choice);
 
 	if (strstr(okay, "B")) return (0);
 	if (strstr(okay, "Y")) return (1);
@@ -1165,12 +1365,12 @@ int can_use_talent(int talent)
 /*
  * Print a list of talents.
  */
-static void print_talents(const s16b *talents, int *end_row)
+static void print_talents(const s16b *talents, int *end_row, int talent_choice)
 {
 	int i, cnt, breakpoint, space;
 	int attr;
 
-	const talent_type *t_ptr;
+	talent_type *t_ptr;
 
 	char out_val[DESC_LEN];
 
@@ -1220,7 +1420,7 @@ static void print_talents(const s16b *talents, int *end_row)
 
 		/* Build the talent index, name, and information */
 		(void)strnfmt(out_val, sizeof(out_val), "%-22s %-12s", t_ptr->name,
-			do_talent(i, TALENT_INFO));
+			do_talent(i, TALENT_INFO, talent_choice));
 
 		/* Talents that cannot be used are printed in gray */
 		if (talents[i] > 0) attr = TERM_WHITE;
@@ -1238,13 +1438,13 @@ static void print_talents(const s16b *talents, int *end_row)
 /*
  * Given an index, get the first legal talent that uses it.
  */
-static int get_talent_from_index(char ch)
+static int get_talent_from_index(char ch, int talent_choice)
 {
 	int i;
 
 	for (i = 0; i < NUM_TALENTS; i++)
 	{
-		if (can_use_talent(i) < 0) continue;
+		if (can_use_talent(i, talent_choice) < 0) continue;
 
 		if (talent_info[i].index == ch) return (i);
 	}
@@ -1266,7 +1466,7 @@ static int get_talent_from_index(char ch)
  *
  * This is ugly code -- replace if as and when list interfaces are unified.
  */
-void do_cmd_talents(void)
+void do_cmd_talents(int talent_choice)
 {
 	int i;
 	int talent = -2;
@@ -1284,6 +1484,7 @@ void do_cmd_talents(void)
 
 	/* List of available talents */
 	s16b talent_avail[NUM_TALENTS];
+	bool unlisted_talents = FALSE;
 
 	talent_type *t_ptr;
 
@@ -1298,6 +1499,12 @@ void do_cmd_talents(void)
 	char choice;
 	int end_row = 18;
 	int col = MAX(0, (Term->cols - 80) / 3);
+	int count = 0;
+
+	char change_string[] = ", / to change";
+
+	bool do_warrior = (talent_choice == TALENT_WARRIOR);
+	bool do_utility = (talent_choice == TALENT_UTILITY);
 
 
 	/* Determine whether talents can be browsed and/or used  */
@@ -1310,7 +1517,9 @@ void do_cmd_talents(void)
 		if (!t_ptr->name) talent_avail[i] = -1;
 
 		/* Check whether we can browse or use this talent */
-		talent_avail[i] = can_use_talent(i);
+		talent_avail[i] = can_use_talent(i, talent_choice);
+
+		if (talent_avail[i] < 0 && can_use_talent(i, TALENT_WARRIOR | TALENT_UTILITY) >= 0) unlisted_talents = TRUE;
 
 		/* Note a talent that can be at least browsed */
 		if (talent_avail[i] >= 0)
@@ -1328,6 +1537,22 @@ void do_cmd_talents(void)
 
 			num_use++;
 		}
+	}
+
+	/* Redirect player if no talents of the correct type */
+	if (unlisted_talents && !num_browse)
+	{
+		if (do_utility)
+		{
+			do_cmd_talents(TALENT_WARRIOR);
+			return;
+		}
+		if (do_warrior)
+		{
+			do_cmd_talents(TALENT_UTILITY);
+			return;
+		}
+
 	}
 
 	/* No talents at all */
@@ -1350,28 +1575,31 @@ void do_cmd_talents(void)
 	/* Get a talent from the user */
 	while (TRUE)
 	{
+		if (unlisted_talents) strcpy(change_string, ", / to change");
+		else strcpy(change_string, "");
+
 		/* In "use" mode */
 		if (mode == 0)
 		{
 			/* Build a prompt */
-			(void)strnfmt(out_val, sizeof(out_val), "Use (Talents %c-%c, ! to mark, * to browse, %s",
-				first_index, last_index, p1);
+			(void)strnfmt(out_val, sizeof(out_val), "Use (Talents %c-%c, ! to mark, * to browse%s, %s",
+				first_index, last_index, change_string, p1);
 		}
 
 		/* In "browse" mode */
 		else if (mode == 1)
 		{
 			/* Build a prompt */
-			(void)strnfmt(out_val, sizeof(out_val), "Browse (Talents %c-%c, ! to mark, * to use, %s",
-				first_index, last_index, p1);
+			(void)strnfmt(out_val, sizeof(out_val), "Browse (Talents %c-%c, ! to mark, * to use%s, %s",
+				first_index, last_index, change_string, p1);
 		}
 
 		/* In "mark" mode */
 		else
 		{
 			/* Build a prompt */
-			(void)strnfmt(out_val, sizeof(out_val), "Mark (Talents %c-%c, * to browse, %s",
-				first_index, last_index, p1);
+			(void)strnfmt(out_val, sizeof(out_val), "Mark (Talents %c-%c, * to browse%s, %s",
+				first_index, last_index, change_string, p1);
 		}
 
 		/* Hack -- force the display of a list */
@@ -1406,7 +1634,7 @@ void do_cmd_talents(void)
 				display_change(DSP_POPUP, 0, 0);
 
 				/* List the talents */
-				print_talents(talent_avail, &end_row);
+				print_talents(talent_avail, &end_row, talent_choice);
 
 				/* Clear the "message" line */
 				clear_space(1, col, col + 80);
@@ -1457,8 +1685,25 @@ void do_cmd_talents(void)
 			show_list = TRUE;
 		}
 
+		/* Switch between utility and warrior talents */
+		else if (choice == '/')
+		{
+			if (!unlisted_talents) continue;
+
+			if (talent_choice == TALENT_WARRIOR)
+			{
+				do_cmd_talents(TALENT_UTILITY);
+				break;
+			}
+			else if (talent_choice == TALENT_UTILITY)
+			{
+				do_cmd_talents(TALENT_WARRIOR);
+				break;
+			}
+		}
+
 		/* (Try to) Get talent using index */
-		else talent = get_talent_from_index(choice);
+		else talent = get_talent_from_index(choice, talent_choice);
 
 		/* Talent is legal */
 		if ((talent >= 0) && (talent_avail[talent] >= 0))
@@ -1475,7 +1720,7 @@ void do_cmd_talents(void)
 
 					put_str(out_val, 1, col + 1);
 
-					print_talents(talent_avail, &end_row);
+					print_talents(talent_avail, &end_row, talent_choice);
 				}
 				else
 				{
@@ -1486,7 +1731,7 @@ void do_cmd_talents(void)
 
 					put_str(out_val, 1, col + 1);
 
-					print_talents(talent_avail, &end_row);
+					print_talents(talent_avail, &end_row, talent_choice);
 				}
 			}
 
@@ -1504,7 +1749,7 @@ void do_cmd_talents(void)
 
 					/* Print talent description */
 					c_roff(TERM_L_BLUE, format("%s",
-						do_talent(talent, TALENT_DESC)), col + 2, col + 78);
+						do_talent(talent, TALENT_DESC, talent_choice)), col + 2, col + 78);
 				}
 
 				/* We are at the basic prompt */
@@ -1541,7 +1786,7 @@ void do_cmd_talents(void)
 	/* Use a talent */
 	if (use_talent)
 	{
-		(void)do_talent(talent, TALENT_USE);
+		(void)do_talent(talent, TALENT_USE, talent_choice);
 	}
 }
 

@@ -326,19 +326,29 @@ static void skill_comment(int attr, const char *msg)
  */
 static int check_for_new_talent(int skill, int level)
 {
-	int i;
+	int i, j;
+	talent_data *t_ptr;
+	bool check = FALSE;
 
 	/* Scan the list of talents */
 	for (i = 0; i < NUM_TALENTS; i++)
 	{
+		t_ptr = &talent_info[i];
+
+		/* Check all skills for talents */
+		for (j = 0; j < talent_info[i].skill_count; j++)
+		{
+			if (talent_info[i].skill[j] == skill) check = TRUE;
+		}
+
 		/* Talent uses this skill */
-		if (talent_info[i].skill == skill)
+		if (check == TRUE)
 		{
 			/* Talent has just become available */
 			if (talent_info[i].min_level == level)
 			{
 				/* Talent can in fact be used (or at least browsed) */
-				if (can_use_talent(i) > -1) return (i);
+				if (can_use_talent(i, TALENT_WARRIOR | TALENT_UTILITY) > -1) return (i);
 			}
 		}
 	}
