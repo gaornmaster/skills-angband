@@ -3841,6 +3841,8 @@ bool target_able(int m_idx, bool use_sight)
 {
 	monster_type *m_ptr;
 
+	int mx, my;
+
 	/* No monster */
 	if (m_idx <= 0) return (FALSE);
 
@@ -3860,7 +3862,12 @@ bool target_able(int m_idx, bool use_sight)
 	if (p_ptr->image) return (FALSE);
 
 	/* Check maximum distance if necessary */
-	if (p_ptr->max_dist > 0 && p_ptr->max_dist < distance(m_ptr->fy, m_ptr->fx, p_ptr->py, p_ptr->px)) return (FALSE);
+	if (p_ptr->max_dist > 0)
+	{
+		mx = m_ptr->fx;
+		my = m_ptr->fy;
+		if (p_ptr->max_dist < project_path(MAX_RANGE, p_ptr->py, p_ptr->px, &my, &mx, 0)) return (FALSE);
+	}
 
 	/* In manual mode */
 	if (use_sight)
@@ -5461,6 +5468,7 @@ bool get_aim_dir(int *dp)
 		/* Verify */
 		if (!(*dp == 5 && !target_okay()))
 		{
+			p_ptr->max_dist = 0;
 			return (TRUE);
 		}
 		else
@@ -5572,7 +5580,11 @@ bool get_aim_dir(int *dp)
 	}
 
 	/* No direction */
-	if (!dir) return (FALSE);
+	if (!dir)
+	{
+		p_ptr->max_dist = 0;
+		return (FALSE);
+	}
 
 	/* Save the direction */
 	p_ptr->command_dir = dir;
@@ -5596,6 +5608,9 @@ bool get_aim_dir(int *dp)
 
 	/* Save command */
 	repeat_push(dir);
+
+	/* Clear max distance */
+	p_ptr->max_dist = 0;
 
 	/* A "valid" direction was entered */
 	return (TRUE);

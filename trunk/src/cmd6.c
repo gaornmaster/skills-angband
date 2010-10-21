@@ -3304,9 +3304,11 @@ cptr do_device(int mode, object_type *o_ptr, bool *ident, bool *used,
 			if (info) return (format("(damage: %dd%d)", dice, sides));
 			if (use)
 			{
+				int rad = 3;
+				p_ptr->max_dist = rad;
 				if ((need_dir) && (!get_aim_dir(&dir))) return ("");
 				sound(MSG_AIM_WAND);
-				(void)fire_arc(GF_ELEC, dir, damroll(dice, sides), 3, 0);
+				(void)fire_arc(GF_ELEC, dir, damroll(dice, sides), rad, 0);
 				*ident = TRUE;
 			}
 			break;

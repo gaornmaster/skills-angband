@@ -3838,6 +3838,7 @@ cptr do_spell(int mode, int spell)
 				if (desc) return ("Short-range beam of lightning.  Not affected by weather.");
 				if (cast)
 				{
+					p_ptr->max_dist = rad;
 					if (!get_aim_dir(&dir)) return (NULL);
 					(void)fire_arc(GF_ELEC, dir, damroll(dice, sides), rad, 0);
 				}
