@@ -2520,7 +2520,7 @@ const bool option_norm[OPT_MAX] =
 	FALSE,		/* xxx */
 	FALSE,		/* OPT_always_pickup */
 	TRUE, 		/* OPT_query_floor */
-	FALSE,		/* OPT_never_haggle */
+	TRUE,		/* OPT_never_haggle */
 	FALSE,		/* OPT_use_old_target */
 	TRUE, 		/* OPT_run_ignore_stairs */
 	TRUE, 		/* OPT_run_ignore_doors */
