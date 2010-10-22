@@ -328,11 +328,15 @@ static int check_for_new_talent(int skill, int level)
 {
 	int i, j;
 	talent_data *t_ptr;
-	bool check = FALSE;
+	bool check;
+
+	/* Necessary for dealing with skills that are non-linear (burglary for non-guilders, magic devices for warriors, etc.) */
+	level = get_skill(skill, 0, 100);
 
 	/* Scan the list of talents */
 	for (i = 0; i < NUM_TALENTS; i++)
 	{
+		check = FALSE;
 		t_ptr = &talent_info[i];
 
 		/* Check all skills for talents */
@@ -342,7 +346,7 @@ static int check_for_new_talent(int skill, int level)
 		}
 
 		/* Talent uses this skill */
-		if (check == TRUE)
+		if (check)
 		{
 			/* Talent has just become available */
 			if (talent_info[i].min_level == level)
@@ -2296,6 +2300,13 @@ static bool special_skill_command(int skill, bool *must_accept)
 
 					/* Refuse to cancel */
 					*must_accept = TRUE;
+
+					/* Message about new talents */
+					skill_comment(TERM_SLATE, "You may be able to use several new talents depending on your skill.");
+
+					/* Wait for it */
+					skill_msg(TERM_WHITE, "Press any key to continue.");
+					(void)inkey(ALLOW_CLICK);
 				}
 				else
 				{
