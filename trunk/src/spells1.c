@@ -1942,6 +1942,19 @@ static bool can_hinder(int type, monster_type *m_ptr, int power,
 		return (FALSE);
 	}
 
+	/* Hindrance practices a skill */
+	if (skill_being_used != S_NOSKILL)
+	{
+		/* Calculate base monster experience */
+		long new_exp = (long)r_ptr->mexp * r_ptr->level / power;
+
+		/* Hindrance counts for 5% of monster experience */
+		new_exp /= 20;
+
+		/* Practice */
+		practice_skill(new_exp, skill_being_used);
+
+	}
 
 	/* Monster failed to resist */
 	return (TRUE);
