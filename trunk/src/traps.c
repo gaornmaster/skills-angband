@@ -1455,7 +1455,7 @@ int load_trap(int y, int x)
  * "attack.c".
  */
 static void trap_combat(int mode, int y, int x, object_type *o_ptr,
-	object_type *i_ptr, int power, char *m_name)
+	object_type *i_ptr, int power, char *m_name, bool *learn)
 {
 	int i, tmp;
 	int dice;
@@ -1494,7 +1494,6 @@ static void trap_combat(int mode, int y, int x, object_type *o_ptr,
 	{
 		return;
 	}
-
 
 	/* Using melee */
 	if (mode == 1)
@@ -1648,13 +1647,14 @@ static void trap_combat(int mode, int y, int x, object_type *o_ptr,
 		}
 	}
 
+	/* Pass back indicator to learn about used items */
+	if (damage > 0 && player_has_los_bold(y, x) && one_in_(10)) *learn = (TRUE);
 
 	/* Monster gets hurt (note that we give experience for trap kills) */
 	if (damage > 0)
 	{
 		if (mon_take_hit(m_idx, -1, (s16b)damage, &fear, NULL)) return;
 	}
-
 
 	/* Take note of fear */
 	if (fear && m_ptr->ml)
@@ -1726,6 +1726,7 @@ static void hit_monster_trap(int who, int y, int x, int t_idx)
 
 	int skill = get_skill(S_BURGLARY, 0, 100);
 	int power;
+	bool learn;
 
 	/* Is this grid lit? */
 	bool light = (cave_info[y][x] & (CAVE_GLOW | CAVE_SEEN));
@@ -1861,7 +1862,10 @@ static void hit_monster_trap(int who, int y, int x, int t_idx)
 		if (!do_throw)
 		{
 			/* Engage in combat (type 1 = melee) */
-			trap_combat(1, y, x, o_ptr, o_ptr, power, m_name);
+			trap_combat(1, y, x, o_ptr, o_ptr, power, m_name, &learn);
+
+			/* Learn about weapon*/
+			if (learn) learn_about_wearable(o_ptr, -1, FALSE);
 		}
 	}
 
@@ -1890,7 +1894,18 @@ static void hit_monster_trap(int who, int y, int x, int t_idx)
 					object_copy(j_ptr, i_ptr);
 
 					/* Engage in combat (type 2 = archery) */
-					trap_combat(2, y, x, j_ptr, o_ptr, power, m_name);
+					trap_combat(2, y, x, j_ptr, o_ptr, power, m_name, &learn);
+
+					/* Learn about weapon*/
+					if (learn)
+					{
+						learn_about_wearable(o_ptr, -1, FALSE);
+						learn_about_wearable(i_ptr, -1, FALSE);
+
+						/* Copy acquired knowledge to the used missile */
+						object_copy(j_ptr, i_ptr);
+						j_ptr->number = 1;
+					}
 
 					/* Get local object (forget fired missile) */
 					j_ptr = &object_type_body;
@@ -2042,7 +2057,17 @@ static void hit_monster_trap(int who, int y, int x, int t_idx)
 		i_ptr->number = 1;
 
 		/* Engage in combat (type 3 = throwing) */
-		trap_combat(3, y, x, o_ptr, o_ptr, power, m_name);
+		trap_combat(3, y, x, o_ptr, o_ptr, power, m_name, &learn);
+
+		/* Learn about weapon */
+		if (learn)
+		{
+			learn_about_wearable(o_ptr, -1, FALSE);
+
+			/* Copy acquired knowledge to thrown object */
+			object_copy(i_ptr, o_ptr);
+			i_ptr->number = 1;
+		}
 
 		/* Determine chance to break */
 		break_chance = breakage_chance(i_ptr);
