@@ -57,17 +57,17 @@ can learn the most powerful warrior arts.  Inductees can spread their blows out
 among weaker monsters, can handle heavy weapons with ease, have better combat
 stats, get the most bonuses to missile might and shooting speed, the most
 hitpoints, and have access to several very powerful talents.  However, they can
-learn no realm of magic, and cannot raise their magical device skill past 50.
-     You gain access to the Oath of Iron by raising a combat skill to level 45
-or above (the exception being Slings, in which you need 55).
+learn no realm of magic, and their magic devices suffer a 33% penalty..
+     You gain access to the Oath of Iron by raising a combat skill to level 25
+or above.
 
 The Magic-users' Oaths:
      Each realm of magic also has an Oath.  Wizards may take the Oath of
 Sorcery, Priests subscribe to the Covenant of Faith, Druids join Yavanna's
 Fellowship, and Necromancers bind themselves to the Black Mystery.  You gain
 access to the magic-user Oaths by choosing that realm of magic, and then
-navigating to the specialist skill for that realm (wizardry, holy alliance,
-etc.).
+raising the specialist skill for that realm (wizardry, holy alliance,
+etc.) to 20.
      Spellcasters that have taken the Oath associated with their realm cast
 spells at full power, have another +2 bonus to their spell stat, and eventually
 get plenty of mana.  However, they also are worse for their skill in all kinds
@@ -242,7 +242,7 @@ cannot learn both Holy Alliance and Blood Dominion.
      If you are not a necromancer, learning blood dominion also gives you two
 special talents:  sense undead (25) and restore experience (85).
 
-Magical Device   (cost - 15):
+Magical Device   (cost - 16):
      Determines success rate with magical devices and all activatable items
 except dragon scale mail, and increases their power when used.  Makes recharging
 less likely to blow up items.  Allows you to learn the true effects of magical

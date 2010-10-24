@@ -46,8 +46,8 @@ ALINK="#ff0000"><PRE><center><DIV CLASS="bgblack" BGCOLOR="#000000">
 <span id="y">***<span id="o">*</span>   **<span id="o">*</span>   **<span id="o">*</span> ***   *<span id="o">*</span>   *<span id="o">*</span>  **<span id="o">*</span>  **<span id="o">*</span>  **<span id="o">*</span>  **<span id="o">*</span>  *** ***   *<span id="o">*</span>   *<span id="o">*</span>  **<span id="o">*</span>  **<span id="o">*</span>  </span>
 <span id="y">*  ******     ***  ** **** ****  ******<span id="o">*</span> *** ****    ***  ** ** * ****  ****  ** </span>
 <span id="y">                                      *<span id="o">*</span>                                         </span>
-<span id="U">   Version 1.0.0</span>                <span id="y">*     *<span id="o">*</span>                                         </span>
-<span id="U">   April, 2007</span>                  <span id="y"> ******                                          </span>
+<span id="U">   Version 1.0.2</span>                <span id="y">*     *<span id="o">*</span>                                         </span>
+<span id="U">   October, 2010</span>                <span id="y"> ******                                          </span>
 
 <span id="B">The Sangband Manual</span>                               
 <span id="w">(revision  #22)</span>                                 
@@ -792,6 +792,11 @@ weak (slower recovery), feel faint (pass out every so often), and finally starve
               use magical devices.                                               
   Recall    : You are about to teleport to the surface, or to the deepest level  
               of the dungeon that you have ever visited.                         
+  Darkness  : You are standing in darkness and have no light source.  You can only
+              read some scrolls (mostly dealing with escape and light/darkness)
+			  and only priests and necromancers can cast spells.  Without
+			  infravision, you will have trouble with many things.
+
 
      There are many other temporary conditions, most of which are explained by   
 the objects or spells that cause them.                                           
@@ -849,10 +854,8 @@ values
 - Maximum hitpoints                                                              
 - Current hitpoints                                                              
 - Blows/Round : the number of blows you get per turn in hand-to-hand combat      
-- + to Skill : bonus to melee Skill                                              
-- Deadliness (%) : the melee damage you do is adjusted by this percentage.       
-     If you are using martial arts, you instead see a guess at the average       
-damage you've done recently.                                                     
+- Hit Rate: the recent percentage of blows that hit monsters.
+- Average Damage: the average damage you've done recently.
 
 - Power : affects hitpoints and some other things                                
 - Score : how well you are doing in the game.  Always starts at zero.            
@@ -1046,17 +1049,17 @@ can learn the most powerful warrior arts.  Inductees can spread their blows out
 among weaker monsters, can handle heavy weapons with ease, have better combat    
 stats, get the most bonuses to missile might and shooting speed, the most        
 hitpoints, and have access to several very powerful talents.  However, they can  
-learn no realm of magic, and cannot raise their magical device skill past 50.    
+learn no realm of magic, and their magic devices suffer a 33% penalty.    
      You gain access to the Oath of Iron by raising a combat skill to level 45   
-or above (the exception being Slings, in which you need 55).                     
+or above.                     
 
 <b>The Magic-users' Oaths:</b>                                                          
      Each realm of magic also has an Oath.  Wizards may take the Oath of         
 Sorcery, Priests subscribe to the Covenant of Faith, Druids join Yavanna's       
 Fellowship, and Necromancers bind themselves to the Black Mystery.  You gain     
-access to the magic-user Oaths by choosing that realm of magic, and then         
-navigating to the specialist skill for that realm (wizardry, holy alliance,      
-etc.).                                                                           
+access to the magic-user Oaths by choosing that realm of magic, and then
+raising the specialist skill for that realm (wizardry, holy alliance,
+etc.) to 20.
      Spellcasters that have taken the Oath associated with their realm cast      
 spells at full power, have another +2 bonus to their spell stat, and eventually  
 get plenty of mana.  However, they also are worse for their skill in all kinds   
@@ -3433,9 +3436,7 @@ information on the approximate current power of your spells.
 much experimentation.                                                            
 
 <b>Gaining new spells:</b>                                                              
-     You learn new spells by pressing 'G', choosing a spellbook with unlearnt    
-spells that are not too high level for you, and (unless you use holy magics)     
-choosing a spell.                                                                
+     You do not need to learn new spells.  You may cast any spell available to you.                                                                
 
 <b>Casting spells:</b>                                                                  
      You may cast any learnt spell that has a spell level less than or equal to  
@@ -3463,6 +3464,9 @@ also has an important effect on the reliability of many spells.
 provide free action, increase dexterity, or enhance magic mastery skill.         
 Priests suffer likewise if they wield an unblessed edged weapon.  Stunning       
 (especially if heavy), fear, and lack of mana all make magic harder to use.      
+     Priests and Necromancers can cast spells in the dark, though both suffer
+an increase in spell failure.  Priestly spells will decrease in potency, and
+necromatic spells will increase in potency.
 
 <b>Weather:</b>                                                                         
      The knowledge of weather is an art, not a science.  However, it is believed 
