@@ -3063,7 +3063,10 @@ void do_cmd_skills(void)
 		/* Advance the skill */
 		if (ch == '+' || ch == '=')
 		{
-			int advance = adv_skill(selected, TRUE);
+			/* Allow user to change their mind about skill reduction */
+			bool pay = (p_ptr->pskills[selected].max >= old_pskills[selected].max)? TRUE : FALSE;
+
+			int advance = adv_skill(selected, pay);
 
 			/* Cannot raise the skill */
 			if (advance < 0)
