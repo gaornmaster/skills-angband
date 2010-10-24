@@ -10,8 +10,8 @@
 ****   ***   *** ***   **   **  ***  ***  ***  ***  *** ***   **   **  ***  ***
 *  ******     ***  ** **** ****  ******* *** ****    ***  ** ** * ****  ****  **
                                       **
-   Version 1.0.0                *     **
-   April, 2007                   ******
+   Version 1.0.2                *     **
+   October, 2010                 ******
 
                                The Sangband Manual
                                  (revision #22)
@@ -522,6 +522,10 @@ Temporary conditions:
               use magical devices.
   Recall    : You are about to teleport to the surface, or to the deepest level 
               of the dungeon that you have ever visited.
+  Darkness  : You are standing in darkness and have no light source.  You can only
+              read some scrolls (mostly dealing with escape and light/darkness)
+			  and only priests and necromancers can cast spells.  Without
+			  infravision, you will have trouble with many things.
 
      There are many other temporary conditions, most of which are explained by the objects or spells that cause them.
 
@@ -568,9 +572,8 @@ Second row:
 - Maximum hitpoints
 - Current hitpoints
 - Blows/Round : the number of blows you get per turn in hand-to-hand combat
-- + to Skill : bonus to melee Skill
-- Deadliness (%) : the melee damage you do is adjusted by this percentage.
-     If you are using martial arts, you instead see a guess at the average damage you've done recently.
+- Hit Rate: the recent percentage of blows that hit monsters.
+- Average Damage: the average damage you've done recently.
 
 - Power : affects hitpoints and some other things
 - Score : how well you are doing in the game.  Always starts at zero.
@@ -725,11 +728,13 @@ Reduction in cost for similar skills:
      The most powerful warrior arts and the most awesome magics require intense commitment.  This commitment is represented by Oaths.  Taking an Oath is binding; you can never retract it.  You can never take more than one Oath.
 
 The Oath of Iron:
-     The Oath of Iron is the greatest of commitments; none who refuse to take it can learn the most powerful warrior arts.  Inductees can spread their blows out among weaker monsters, can handle heavy weapons with ease, have better combat stats, get the most bonuses to missile might and shooting speed, the most hitpoints, and have access to several very powerful talents.  However, they can learn no realm of magic, and cannot raise their magical device skill past 50.
-     You gain access to the Oath of Iron by raising a combat skill to level 45 or above (the exception being Slings, in which you need 55).
+     The Oath of Iron is the greatest of commitments; none who refuse to take it can learn the most powerful warrior arts.  Inductees can spread their blows out among weaker monsters, can handle heavy weapons with ease, have better combat stats, get the most bonuses to missile might and shooting speed, the most hitpoints, and have access to several very powerful talents.  However, they can learn no realm of magic, and their magic devices suffer a 33% penalty.
+     You gain access to the Oath of Iron by raising a combat skill to level 45.
 
 The Magic-users' Oaths:
-     Each realm of magic also has an Oath.  Wizards may take the Oath of Sorcery, Priests subscribe to the Covenant of Faith, Druids join Yavanna's Fellowship, and Necromancers bind themselves to the Black Mystery.  You gain access to the magic-user Oaths by choosing that realm of magic, and then navigating to the specialist skill for that realm (wizardry, holy alliance, etc.).
+     Each realm of magic also has an Oath.  Wizards may take the Oath of Sorcery, Priests subscribe to the Covenant of Faith, Druids join Yavanna's Fellowship, and Necromancers bind themselves to the Black Mystery.  You gain access to the magic-user Oaths by choosing that realm of magic, and then
+raising the specialist skill for that realm (wizardry, holy alliance,
+etc.) to 20.
      Spellcasters that have taken the Oath associated with their realm cast spells at full power, have another +2 bonus to their spell stat, and eventually get plenty of mana.  However, they also are worse for their skill in all kinds of non-magical combat, have a hard time with heavy armor, and get fewer hitpoints.  Spellcasters that haven't taken any special Oath have only a few of these limitations, but get 40% less mana, and cast spells at 75% maximum strength.
 
 Joining the Burglars' Guild:
@@ -2157,7 +2162,7 @@ Getting spell information:
      Be aware that the true usefulness of some spells only becomes apparent with much experimentation.
 
 Gaining new spells:
-     You learn new spells by pressing 'G', choosing a spellbook with unlearnt spells that are not too high level for you, and (unless you use holy magics) choosing a spell.
+     You do not need to learn new spells.  You may cast any spell available to you.
 
 Casting spells:
      You may cast any learnt spell that has a spell level less than or equal to your Spellcasting skill.
@@ -2169,6 +2174,9 @@ Mana:
 Spell failure chance:
      Your spell failure chance depends on the spell itself (some spells are inherently hard to cast), the minimum skill required to cast the spell, your spell stat, and your special magic-user skill.  Your special magic-user skill also has an important effect on the reliability of many spells.  
      Those using wizardry or necromancy suffer if they wear gloves that do not provide free action, increase dexterity, or enhance magic mastery skill.  Priests suffer likewise if they wield an unblessed edged weapon.  Stunning (especially if heavy), fear, and lack of mana all make magic harder to use.
+     Priests and Necromancers can cast spells in the dark, though both suffer
+an increase in spell failure.  Priestly spells will decrease in potency, and
+necromatic spells will increase in potency.
 
 Weather:
      The knowledge of weather is an art, not a science.  However, it is believed that values for wind, temperature, and humidity are generally near average with only occasional extremes.  It is also rumoured that each of these three components of weather affect two kinds of druidic magic; one benefits from low values, another benefits from high ones.  In contrast, attempting to use techniques in unfavorable weather works poorly, if at all.
