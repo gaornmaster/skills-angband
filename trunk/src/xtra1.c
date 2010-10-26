@@ -4738,10 +4738,11 @@ int player_flags_pval(u32b flag_pval, bool shape)
 
 
 
-	/* Giants are great at tunneling */
+	/* Giants and Ents are great at tunneling */
 	if (flag_pval == TR_PVAL_TUNNEL)
 	{
-		if (p_ptr->prace == RACE_GIANT) pval += 1 + p_ptr->power / 20;
+		if (p_ptr->prace == RACE_GIANT ||
+			p_ptr->prace == RACE_ENT) pval += 1 + p_ptr->power / 20;
 	}
 
 
@@ -4812,12 +4813,15 @@ int player_flags_pval(u32b flag_pval, bool shape)
 		if (skill >= LEV_REQ_MARTIAL_STAT3) pval++;
 	}
 
-	/* Karate gives some speed */
 	if (flag_pval == TR_PVAL_SPEED)
 	{
+		/* Karate gives some speed */
 		int skill = get_skill(S_KARATE, 0, 100);
 		if(skill >= LEV_REQ_KARATE_SPEED1) pval++;
 		if(skill >= LEV_REQ_KARATE_SPEED2) pval++;
+
+		/* Ents are slow */
+		if (p_ptr->prace == RACE_ENT) pval -= 3;
 	}
 
 	/* Handle wrestling bonus to digging */
@@ -6123,6 +6127,13 @@ static void calc_bonuses(void)
 	{
 		p_ptr->ac     += p_ptr->power / 3;
 		p_ptr->dis_ac += p_ptr->power / 3;
+	}
+
+	/* Special case -- Ents have *very* tough skin */
+	if (p_ptr->prace == RACE_ENT)
+	{
+		p_ptr->ac     += 10 + 2 * p_ptr->power / 5;
+		p_ptr->dis_ac += 10 + 2 * p_ptr->power / 5;
 	}
 
 	/* Handle lack of sanctity -- frowned upon by the Divine */

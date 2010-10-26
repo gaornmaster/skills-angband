@@ -3040,7 +3040,8 @@ static cptr race_init_desc[MAX_RACES] =
 	"RACE_DUNADAN",
 	"RACE_HIGH_ELF",
 	"RACE_DARK_ELF",
-	"RACE_GIANT"
+	"RACE_GIANT",
+	"RACE_ENT"
 };
 
 

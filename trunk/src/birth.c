@@ -88,6 +88,7 @@ struct hist_type
  *   Half-Orc      --> 19 --> 20 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
  *   Half-Troll    --> 22 --> 23 --> 62 --> 63 --> 64 --> 65 --> 66
  *   Giant         --> 24 --> 67 --> 68 --> 69 --> 70 --> 71
+ *   Ent           --> 80 --> 81 --> 82 -->83
  *
  * XXX XXX XXX This table *must* be correct or drastic errors may occur!
  */
@@ -284,7 +285,25 @@ static hist_type bg[] =
 
 	{"and a pale complexion.", 30, 71, 0, 50},
 	{"and a fair complexion.", 85, 71, 0, 50},
-	{"and a dark complexion.", 100, 71, 0, 50}
+	{"and a dark complexion.", 100, 71, 0, 50},
+
+	{"Your father resembled an elm, ",   15, 80, 81, 50},
+	{"Your father resembled a birch, ",  30, 80, 81, 50},
+	{"Your father resembled an oak, ",   60, 80, 81, 50},
+	{"Your father resembled a rowan, ",  70, 80, 81, 50},
+	{"Your father resembled a yew, ",    85, 80, 81, 50},
+	{"Your father resembled a cedar, ", 100, 80, 81, 50},
+
+	{"and your mother's hair is the hue of corn.  ",  20, 81, 82, 50},
+	{"and your mother tends gardens.  ",              60, 81, 82, 50},
+	{"and you do not remember your mother.  ",       100, 81, 82, 50},
+
+	{"Your bark is tough, ",        30, 82, 83, 50},
+	{"Your branches are supple, ",  60, 82, 83, 50},
+	{"Your leaves are green, ",    100, 82, 83, 50},
+
+	{"and your decision to leave was considered hasty.",  60, 83, 0, 45},
+	{"and you left after great deliberation.",           100, 83, 0, 55}
 };
 
 
@@ -599,6 +618,12 @@ static void get_history(void)
 		case RACE_GIANT:
 		{
 			chart = 24;
+			break;
+		}
+
+		case RACE_ENT:
+		{
+			chart = 80;
 			break;
 		}
 
@@ -1083,7 +1108,7 @@ static int player_birth_aux_1(void)
 	/* Print out help text */
 	if (can_quick_start)
 		c_put_str(a, "  *) Quick-start based on previous character     ", 20, 1);
-	c_put_str(a, "  =) Birth options    L) Load another character   ", 21, 1);
+	c_put_str(a, "  =) Birth options    P) Play another character   ", 21, 1);
 	c_put_str(a, "  S) Start over       Q) Quit the game           ", 22, 1);
 	c_put_str(a, "ESC) Go back          ?) On-line help            ", 23, 1);
 
@@ -1199,7 +1224,7 @@ static int player_birth_aux_1(void)
 			}
 
 			/* Load another character, start over */
-			else if ((ch == 'L') || (ch == 'l'))
+			else if ((ch == 'P') || (ch == 'p'))
 			{
 				/* Hack -- Cancel everything */
 				return (-1);
@@ -1993,9 +2018,10 @@ static void init_stomach(void)
 {
 	bool large = FALSE;
 
-	/* Character is a Half-Troll or a Giant */
+	/* Character is a Half-Troll or a Giant or Ent */
 	if ((p_ptr->prace == RACE_HALF_TROLL) ||
-	    (p_ptr->prace == RACE_GIANT))
+	    (p_ptr->prace == RACE_GIANT) ||
+		(p_ptr->prace == RACE_ENT))
 	{
 		/* Trolls can go a long time between (huge!) meals */
 		large = TRUE;
