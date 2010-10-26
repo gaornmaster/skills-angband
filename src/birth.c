@@ -80,7 +80,8 @@ struct hist_type
  * Background information (see below)
  *
  * Chart progression by race:
- *   Human/Dunadan -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+ *   Human/Dunadan/ -->  1 -->  2 -->  3 --> 50 --> 51 --> 52 --> 53
+ *     Drúedain
  *   Elves         -->  7 -->  8 -->  9 --> 54 --> 55 --> 56
  *   Hobbit        --> 10 --> 11 -->  3 --> 50 --> 51 --> 52 --> 53
  *   Gnome         --> 13 --> 14 -->  3 --> 50 --> 51 --> 52 --> 53
@@ -572,6 +573,7 @@ static void get_history(void)
 	{
 		case RACE_HUMAN:
 		case RACE_DUNADAN:
+		case RACE_WOSES:
 		{
 			chart = 1;
 			break;
