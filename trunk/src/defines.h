@@ -581,8 +581,9 @@
 #define RACE_DARK_ELF     9
 #define RACE_GIANT       10
 #define RACE_ENT         11
+#define RACE_WOSES       12
 
-#define MAX_RACES        12
+#define MAX_RACES        13
 
 
 

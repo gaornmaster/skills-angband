@@ -302,6 +302,12 @@ Giant:
 Ent:
      Ents are tree-like creatures, large and slow, but strong and wise.  They are vulnerable to fire, and dislike axes with a passion.  Their bark protects them from many attacks. They can handle other weapons well, but are poor with bows and crossbows.  They are in tune with nature and priestly magics.
 	 
+Drúedain (Woses):
+     The Drúedain are wild men, with squat bodies and limbs.  They are a
+versatile race not unsimilar to humans, though a little less educated and
+friendly.  They make decent fighters, as they are apt with many weapons; they
+also are make excellent druids.  
+
 
 Racial Adjustments:
 
@@ -309,7 +315,7 @@ Racial Adjustments:
  Human          0     0     0     0     0     0     10        0
  Elf           -1    +1    +2    +1    -2    +1      8        0
  Hobbit        -2    +1    +1    +3    +2    +1      7        3
- Gnome         -1    +2     0    +2    +0    -2      8        3
+ Gnome         -1    +2     0    +2     0    -2      8        3
  Dwarf         +2    +2    -2    -2    +2    -2     11        4
  Half-Orc      +2    -1    -1     0    +2    -3     11        3
  Half-Troll    +4    -4    -1    -3    +3    -4     12        3
@@ -318,7 +324,8 @@ Racial Adjustments:
  Dark-Elf      -1    +3     0    +2    -2    -1      8        2
  Giant         +3     0    -2    -2    +2    -1     13        0
  Ent           +3    -2    +3    -4    +3    -1     15        0
-
+ Drúedain       0    -2    +1     0    +1    -2     10        0
+ 
      All racial stat adjustments act as modifiers to your maximum internal
 stats.  A Half-Troll, for example, can raise his internal strength to 18/140,
 but his dexterity only to 18/70.
@@ -339,6 +346,7 @@ Racial Abilities:
  Dark-Elf      9       8       5       7       7       4       5       5
  Giant         2       4       5       3       1       8       4       4
  Ent           1       3       5       3       5       8       5       5 
+ Drúedain      5       4       5       5       6       5       5       5
 
      Abilities are ranked on a comparative scale ranging from 1 to 10.
 * Half-trolls are bad with thrown weapons, though.
@@ -346,40 +354,40 @@ Racial Abilities:
 
 Racial Aptitudes:
 
-               Hum  Elf  Hob  Gno  Dwa  HlO  HlT  Dun  HiE  DkE  Gia  Ent
- sword          10   11   12   12   10    8    9   10   10    9   11   10
- hafted         10   13   13   12    9    9    7   10   12   13   10   10
- polearm        10   12   14   12    8    9    9   10   11   11   10   15
- crossbow       10   11   11   10   10   10   10   10   10   11   13   11
- bow            10    8    9   10   14   10   13   10    8    9   13   12
- sling          10   10    7   10   13   10   15   10   10   10   13   12
- throwing       10   10    8   10   12   10    8   10    9   11   10   10
- wrestling      10   14   15   14    9   10    9   10   12   13    7    8
- karate         10    8   10   10   12   13   15   10    8   11   13    8
+               Hum  Elf  Hob  Gno  Dwa  HlO  HlT  Dun  HiE  DkE  Gia  Ent  Dru
+ sword          10   11   12   12   10    8    9   10   10    9   11   10   11
+ hafted         10   13   13   12    9    9    7   10   12   13   10   10    9
+ polearm        10   12   14   12    8    9    9   10   11   11   10   15    9
+ crossbow       10   11   11   10   10   10   10   10   10   11   13   11   11
+ bow            10    8    9   10   14   10   13   10    8    9   13   12    9
+ sling          10   10    7   10   13   10   15   10   10   10   13   12   10
+ throwing       10   10    8   10   12   10    8   10    9   11   10   10   10
+ wrestling      10   14   15   14    9   10    9   10   12   13    7    8   10
+ karate         10    8   10   10   12   13   15   10    8   11   13    8   10
 
- spell level    10    9   11    9   11   11   12   10   10    8   10   10
- mana           10    9   10    9   10   11   11   10    9    8   10    8
+ spell level    10    9   11    9   11   11   12   10   10    8   10   10   11
+ mana           10    9   10    9   10   11   11   10    9    8   10    8   10
 
- wizard         10    9   11    8   12   12   13   10    9    9   11   12
- piety          10   11   11   10    8   11   11   10   11   10   12    9
- nature         10    8   10   10   12   15   10   10    8   14    9    8
- dominion       10   11   11    9   10    9    9   10   10    9   10   12
+ wizard         10    9   11    8   12   12   13   10    9    9   11   12   12
+ piety          10   11   11   10    8   11   11   10   11   10   12    9   11
+ nature         10    8   10   10   12   15   10   10    8   14    9    8    9
+ dominion       10   11   11    9   10    9    9   10   10    9   10   12    9
 
- device         10    9   11    8   10   12   16   10    9    8   11   11
- burglary       10   10    7   10   12   10   12   10   10    9   14   15
+ device         10    9   11    8   10   12   16   10    9    8   11   11   11
+ burglary       10   10    7   10   12   10   12   10   10    9   14   15   10
 
- perception     10    9    8    9   11   11   12   10    9    8   15   10
- stealth        10    8    7   10   15   10   13   10    8    9   15   15
- disarming      10   10    7   10   10   10   12   10   10   11   13   10
- dodging        10    9    8   10   10   10   20   10    9   10   15   20
- saving throw   10   10    8   10    8   11   12   10    9    9   11   11
+ perception     10    9    8    9   11   11   12   10    9    8   15   10    8
+ stealth        10    8    7   10   15   10   13   10    8    9   15   15    8
+ disarming      10   10    7   10   10   10   12   10   10   11   13   10   12
+ dodging        10    9    8   10   10   10   20   10    9   10   15   20    9
+ saving throw   10   10    8   10    8   11   12   10    9    9   11   11   11
 
- forge weapon   10   12   11   11    7   10   11   10   12    8    9   12
- forge bow      10   10   11   11   11   11   11   10   10    8   12   10
- forge armor    10   12   11   11    7   10   11   10   12   11    9   12
- alchemy        10   11   12    8   14   13   11   10   11   10   13   11
- infusion       10   10   13    9   11   13   13   10   10    7   13   10
-               Hum  Elf  Hob  Gno  Dwa  HlO  HlT  Dun  HiE  DkE  Gia  Ent
+ forge weapon   10   12   11   11    7   10   11   10   12    8    9   12   11
+ forge bow      10   10   11   11   11   11   11   10   10    8   12   10   10
+ forge armor    10   12   11   11    7   10   11   10   12   11    9   12   12
+ alchemy        10   11   12    8   14   13   11   10   11   10   13   11   12
+ infusion       10   10   13    9   11   13   13   10   10    7   13   10   12
+               Hum  Elf  Hob  Gno  Dwa  HlO  HlT  Dun  HiE  DkE  Gia  Ent  Dru
 
 
      Higher values mean that the skill is more expensive to raise.
