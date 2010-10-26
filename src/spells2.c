@@ -2005,6 +2005,7 @@ void fire_dam(int dam0, int msg_type, cptr hit_str, cptr kb_str)
 {
 	int inv = 0;
 	int dam = dam0;
+	int extra_dam = 0;
 
 	/* No damage. */
 	if (dam <= 0) return;
@@ -2019,6 +2020,11 @@ void fire_dam(int dam0, int msg_type, cptr hit_str, cptr kb_str)
 	if (p_ptr->immune_fire) inv = div_round(inv, 5);
 	else if ((p_ptr->resist_fire) || (p_ptr->oppose_fire)) inv /= 2;
 
+	/* Ents always take more fire damage */
+	if (p_ptr->prace == RACE_ENT)
+	{
+		extra_dam = dam / 5;
+	}
 
 	/* Total (bodily) Immunity */
 	if (p_ptr->immune_fire) dam = 0;
@@ -2026,6 +2032,8 @@ void fire_dam(int dam0, int msg_type, cptr hit_str, cptr kb_str)
 	/* Resist the damage */
 	if (p_ptr->resist_fire) dam = div_round(dam, 3);
 	if (p_ptr->oppose_fire) dam = div_round(dam, 3);
+
+	dam += extra_dam;
 
 	/* Take damage */
 	(void)take_hit(dam, msg_type, hit_str, kb_str);
