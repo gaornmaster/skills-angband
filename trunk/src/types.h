@@ -243,8 +243,8 @@ struct object_kind
 
 	byte level;             /* Level */
 
-	byte locale[3];         /* Allocation level(s) */
-	byte chance[3];         /* Allocation chance(s) */
+	byte locale[4];         /* Allocation level(s) */
+	byte chance[4];         /* Allocation chance(s) */
 
 	byte gen_mult_prob;     /* Probability of generating more than one */
 	byte gen_dice;          /* Average number to generate - dice rolled */

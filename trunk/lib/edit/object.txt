@@ -372,7 +372,7 @@ N:44:& Dagger~
 G:|:W
 I:23:4:0
 W:0:0:10:18
-A:0/80:10/125:40/40
+A:0/80:10/125:40/40:80/15
 C:0:1d4:0:0:0
 F:SHOW_MODS
 D:A two-edged knife with a sharp point.
@@ -381,7 +381,7 @@ N:45:& Main Gauche~
 G:|:W
 I:23:5:0
 W:3:0:18:25
-A:3/50:20/30:55/10
+A:3/50:20/30:55/10:80/5
 C:0:1d5:0:0:0
 F:SHOW_MODS
 D:A short thrusting blade with a large guard, primarily used in duels.
@@ -392,7 +392,7 @@ N:47:& Rapier~
 G:|:W
 I:23:7:0
 W:7:0:25:70
-A:7/50:40/15
+A:7/50:40/15:60/10
 C:0:1d6:0:0:0
 F:SHOW_MODS
 X:MAYBE_VORPAL
@@ -403,7 +403,7 @@ N:48:& Small Sword~
 G:|:W
 I:23:8:0
 W:5:0:40:55
-A:5/50:40/15
+A:5/50:40/15:80/5
 C:0:1d6:0:0:0
 F:SHOW_MODS
 D:A smaller version of the longsword, perfectly sized for Hobbits.
@@ -414,7 +414,7 @@ N:50:& Short Sword~
 G:|:W
 I:23:10:0
 W:7:0:45:90
-A:7/50:40/15
+A:7/50:40/15:60/5
 C:0:1d7:0:0:0
 F:SHOW_MODS
 D:A short thrusting sword.
@@ -423,7 +423,7 @@ N:51:& Sabre~
 G:|:W
 I:23:11:0
 W:10:0:35:90
-A:10/50:45/15
+A:10/50:45/15:80/5
 C:0:1d7:0:0:0
 F:SHOW_MODS
 D:A light, somewhat curved blade that can be used to thrust or slash; familiar 
@@ -432,8 +432,8 @@ D:to horseman and duelists alike.
 N:52:& Cutlass~
 G:|:W
 I:23:12:0
-W:15:0:45:85
-A:15/50:45/15
+W:15:0:60:120
+A:15/50:45/15:80/10
 C:0:1d8:0:0:0
 F:SHOW_MODS
 D:A large, curved chopper with a basket hilt, well known to seamen.
@@ -456,7 +456,7 @@ N:56:& Broad Sword~
 G:|:W
 I:23:16:0
 W:12:0:80:250
-A:12/40:17/80:50/40
+A:12/40:17/80:50/40:80/10
 C:0:2d5:0:0:0
 F:SHOW_MODS
 D:A heavy, single-edged sword with a strong grip.
@@ -465,7 +465,7 @@ N:57:& Long Sword~
 G:|:W
 I:23:17:0
 W:15:0:75:275
-A:15/40:20/80:50/40
+A:15/40:20/80:50/40:80/10
 C:0:2d5:0:0:0
 F:SHOW_MODS
 D:A long, straight, two-edged blade, with two hand guards projecting out from 
@@ -475,7 +475,7 @@ N:58:& Scimitar~
 G:|:W
 I:23:18:0
 W:30:0:75:275
-A:30/25:40/50:50/25
+A:30/25:40/50:50/25:80/10
 C:0:1d10:0:0:0
 F:SHOW_MODS
 D:A single-edged slashing sword with a blade like a crescent.
@@ -486,9 +486,10 @@ N:60:& Katana~
 G:|:W
 I:23:20:0
 W:35:0:85:400
-A:35/50
-C:0:3d4:0:0:0
+A:35/50:70/15
+C:0:1d12:0:0:0
 F:SHOW_MODS
+X:MAYBE_VORPAL
 D:A slightly curved long-handled slashing sword with a single-edged 
 D:blade and a chisel tip.
 
@@ -496,7 +497,7 @@ N:61:& Bastard Sword~
 G:|:W
 I:23:21:0
 W:40:0:100:350
-A:40/60:100/35
+A:40/60:100/20
 C:0:2d7:0:0:0
 F:SHOW_MODS
 D:Also known as the hand-and-a-half blade.  A larger-than-normal straight-
@@ -512,7 +513,7 @@ N:65:& Two-Handed Sword~
 G:|:W
 I:23:25:0
 W:50:0:140:775
-A:50/75:100/45
+A:50/75:100/25
 C:0:2d10:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:A great, double-edged broadsword which few can wield in one hand.
@@ -533,7 +534,7 @@ N:68:& Executioner's Sword~
 G:|:W
 I:23:28:0
 W:50:0:190:1250
-A:60/60:100/35
+A:60/60:100/30
 C:0:2d12:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:A giant, curved blade designed to cleave the head cleanly from the 
@@ -600,7 +601,7 @@ N:75:& Mace~
 G:\:D
 I:21:5:0
 W:5:0:80:140
-A:5/100:35/50:100/40
+A:5/100:35/50:100/20
 C:0:2d4:0:0:0
 F:SHOW_MODS
 X:CAN_BE_HEAVY
@@ -610,7 +611,7 @@ N:76:& Ball-and-Chain~
 G:\:D
 I:21:6:0
 W:15:0:120:160
-A:15/50:40/25:60/20
+A:15/50:40/25:60/10
 C:0:2d5:0:0:0
 F:SHOW_MODS
 X:CAN_BE_HEAVY
@@ -622,7 +623,7 @@ N:78:& War Hammer~
 G:\:D
 I:21:8:0
 W:20:0:100:225
-A:20/80:100/50
+A:20/80:100/20
 C:0:3d3:0:0:0
 F:SHOW_MODS
 X:CAN_BE_HEAVY
@@ -647,7 +648,7 @@ N:82:& Morning Star~
 G:\:W
 I:21:12:0
 W:15:0:110:325
-A:15/80:100/50
+A:15/80:100/20
 C:0:2d6:0:0:0
 F:SHOW_MODS 
 X:CAN_BE_HEAVY
@@ -658,7 +659,7 @@ N:83:& Flail~
 G:\:u
 I:21:13:0
 W:12:0:130:250
-A:12/80:100/50
+A:12/80:100/20
 C:0:2d6:0:0:0
 F:SHOW_MODS 
 X:CAN_BE_HEAVY
@@ -670,7 +671,7 @@ N:85:& Lead-Filled Mace~
 G:\:D
 I:21:15:0
 W:30:0:180:500
-A:30/50:100/30
+A:30/50:100/20
 C:0:3d5:0:0:0
 F:SHOW_MODS
 X:CAN_BE_HEAVY
@@ -685,7 +686,7 @@ N:88:& Two-Handed Flail~
 G:\:y
 I:21:18:0
 W:55:0:220:600
-A:55/50:100/35
+A:55/50:100/40
 C:0:3d7:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 X:CAN_BE_HEAVY
@@ -736,7 +737,7 @@ N:97:& Spear~
 G:/:U
 I:22:2:0
 W:2:0:50:50
-A:2/150:15/150:70/25
+A:2/150:15/150:70/25:80/10
 C:0:1d6:0:0:0
 F:SHOW_MODS
 X:CAN_BE_HEAVY
@@ -757,7 +758,7 @@ N:99:& Trident~
 G:/:y
 I:22:4:0
 W:5:0:70:120
-A:5/50:35/25
+A:5/50:35/25:80:10
 C:4:1d7:0:0:0
 F:SHOW_MODS 
 X:CAN_BE_HEAVY
@@ -767,7 +768,7 @@ N:100:& Pike~
 G:/:u
 I:22:5:0
 W:20:0:160:300
-A:20/50:50/25
+A:20/50:50/25:80:20
 C:5:1d11:0:0:0
 F:SHOW_MODS | TWO_HANDED_DES
 D:A long, heavy spear with an iron head and reinforced shaft.
@@ -791,7 +792,7 @@ N:104:& Beaked Axe~
 G:/:D
 I:22:9:0
 W:25:0:115:300
-A:25/60:100/20
+A:25/60:100/15
 C:0:2d6:0:0:0
 F:SHOW_MODS
 D:A narrow axe head opposed by a crow's beak, mounted on an oaken shaft.
@@ -800,7 +801,7 @@ N:105:& Broad Axe~
 G:/:D
 I:22:10:0
 W:20:0:120:300
-A:20/75:100/40
+A:20/75:100/20
 C:0:2d6:0:0:0
 F:SHOW_MODS
 D:A simple, single-bladed war axe capable of chopping though limbs or armor.
@@ -809,7 +810,7 @@ N:106:& Battle Axe~
 G:/:D
 I:22:11:0
 W:30:0:140:550
-A:30/75:100/50
+A:30/75:100/30
 C:0:2d8:0:0:0
 F:SHOW_MODS
 D:A double-bladed axe.  Very popular among Dwarves.
@@ -832,7 +833,7 @@ N:110:& Glaive~
 G:/:W
 I:22:15:0
 W:35:0:190:550
-A:35/25:30/75:100/40
+A:35/25:30/75:100/20
 C:8:1d13:0:0:0
 F:TWO_HANDED_REQ | SHOW_MODS
 D:A reinforced wooden pole eight feet long, topped by a massive knife blade 
@@ -842,7 +843,7 @@ N:111:& Halberd~
 G:/:W
 I:22:16:0
 W:40:0:190:750
-A:40/75:100/50
+A:40/75:100/20
 C:8:1d14:0:0:0
 F:TWO_HANDED_REQ | SHOW_MODS
 D:The most successful of the polearms, the halberd has a long haft mounted 
@@ -854,7 +855,7 @@ N:113:& Scythe~
 G:/:W
 I:22:18:0
 W:45:0:180:1000
-A:45/50:100/30
+A:45/50:100/20
 C:3:1d16:0:0:0
 F:TWO_HANDED_DES | SHOW_MODS
 D:The long crescent blade stands out from the handle of this polearm, and 

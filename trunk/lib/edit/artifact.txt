@@ -1213,7 +1213,7 @@ D:both the living and undead.
 N:115:'Aglarang'
 I:23:20
 W:45:20:50:40000
-C:0:5d4:0:0:0:0
+C:0:2d12:0:0:0:0
 P:3
 1:DEX
 F:SUST_DEX | VORPAL | HIDE_TYPE | SHOW_MODS
