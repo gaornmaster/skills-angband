@@ -4584,7 +4584,7 @@ bool mon_take_hit(int m_idx, int who, int dam, bool *fear, cptr note)
 		char m_name[DESC_LEN];
 
 		/* Extract monster name */
-		monster_desc(m_name, m_ptr, 0x40);
+		monster_desc(m_name, m_ptr, 0x80);
 
 		/* Add history item when killing uniques */
 		if (r_ptr->flags1 & (RF1_UNIQUE))
