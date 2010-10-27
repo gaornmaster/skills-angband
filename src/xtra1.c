@@ -4825,9 +4825,6 @@ int player_flags_pval(u32b flag_pval, bool shape)
 		int skill = get_skill(S_KARATE, 0, 100);
 		if(skill >= LEV_REQ_KARATE_SPEED1) pval++;
 		if(skill >= LEV_REQ_KARATE_SPEED2) pval++;
-
-		/* Ents are slow */
-		if (p_ptr->prace == RACE_ENT) pval -= 3;
 	}
 
 	/* Handle wrestling bonus to digging */
