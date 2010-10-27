@@ -2803,6 +2803,15 @@ static void add_magic_to_weapon(object_type *o_ptr, int level, int power)
 				/* One in 10 chance to improve a dagger to 1d6 */
 				int odds = 8 + (o_ptr->dd * sides) / 2;
 
+				/* Make well OOD weapons more useful */
+				if (extra_depth > 20 + 8 * i) odds--;
+				if (extra_depth > 40 + 8 * i) odds--;
+				if (extra_depth > 60 + 8 * i) odds--;
+				if (extra_depth > 80 + 8 * i) odds--;
+
+				/* Throwing weapons are very likely to be upgraded */
+				if (o_ptr->flags1 & TR1_THROWING) odds /= 2;
+
 				/* Require that weapon be well in depth */
 				if (extra_depth >= rand_range(5, 10) + (i * 8)) break;
 
@@ -2862,8 +2871,14 @@ static void add_magic_to_weapon(object_type *o_ptr, int level, int power)
 		case TV_ARROW:
 		case TV_BOLT:
 		{
+			int odds = 6;
+
+			/* Drop better ammo if it's out of depth */
+			if (object_level - k_ptr->level > 30) odds--;
+			if (object_level - k_ptr->level > 60) odds--;
+
 			/* Boost the dice */
-			if ((object_level >= 30) && (one_in_(6)))
+			if ((object_level >= 30) && (one_in_(odds)))
 			{
 				/* Up to +5 on rare occasions */
 				o_ptr->ds += rand_int(m_bonus(5, object_level, MAX_DEPTH));
@@ -3748,13 +3763,20 @@ void apply_random_qualities(object_type *o_ptr)
 	/* Chance of being extra heavy and powerful (not in stores) */
 	if ((xtra & (XTRA_CAN_BE_HEAVY)) && (!(obj_gen_flags & (OBJ_GEN_STORE))))
 	{
-		int dice, in_depth;
+		int dice, in_depth, odds;
 
 		/* Allow up to +2 dice on occasion */
 		for (dice = o_ptr->dd; dice < o_ptr->dd + 2;)
 		{
+			/* High damage reduce odds, extra depth increases odds */
+			odds = 4 + (o_ptr->dd * o_ptr->ds) / 2;
+			if (object_level - k_ptr->level > 20) odds--;
+			if (object_level - k_ptr->level > 40) odds--;
+			if (object_level - k_ptr->level > 60) odds--;
+			if (object_level - k_ptr->level > 80) odds--;
+
 			/* Stop most of the time */
-			if (!one_in_(4 + (o_ptr->dd * o_ptr->ds / 2))) break;
+			if (!one_in_(odds)) break;
 
 			/* Objects have to be well in-depth to become powerful */
 			in_depth = 10 * (dice - o_ptr->dd) + rand_range(10, 15);
