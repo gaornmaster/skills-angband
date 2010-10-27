@@ -3049,6 +3049,7 @@ I:75:28:0
 W:20:0:4:180
 A:5/20:25/80:55/0
 C:0:1d1:0:0:0
+M:50:1d3
 E:DARK 2
 D:that temporarily makes you partially invisible and lets you see invisible.  
 D:The effectiveness of this potion depends on your Stealth skill.
@@ -3060,6 +3061,7 @@ I:75:29:0
 W:1:0:4:175
 A:1/50:70/100
 C:0:1d1:0:0:0
+M:10:1d4
 E:TIME 2
 D:that makes you supernaturally fast.
 
@@ -3096,6 +3098,7 @@ I:75:33:0
 W:35:0:4:400
 A:35/50:60/75
 C:0:1d1:0:0:0
+M:10:1d4
 E:ACID 1 | ELEC 1 | FIRE 1 | COLD 1
 D:that offers additional protection from fire, cold, acid, and electricity.
 
@@ -3105,6 +3108,7 @@ I:75:34:50
 W:0:0:4:12
 A:0/100:15/0
 C:0:1d1:0:0:0
+M:40:1d6
 E:LIFE 1
 D:that heals small wounds, and a little blinding, confusion, and poisoning.
 
@@ -3114,6 +3118,7 @@ I:75:35:100
 W:5:0:4:40
 A:5/100:15/100:30/0
 C:0:1d1:0:0:0
+M:30:1d6
 E:LIFE 1
 D:that heals moderate wounds, and some blinding, confusion, poisoning, 
 D:and disease.
@@ -3124,6 +3129,7 @@ I:75:36:100
 W:15:0:4:120
 A:15/100:40/100:70/0
 C:0:1d1:0:0:0
+M:30:1d4
 E:LIFE 1
 D:that heals you considerably and cures a fair amount of blinding, 
 D:confusion, poisoning, and disease.
@@ -3132,8 +3138,9 @@ N:417:Healing
 G:!:d
 I:75:37:200
 W:30:0:4:300
-A:30/40:60/100
+A:30/40:60/150
 C:0:1d1:0:0:0
+M:20:1d4
 E:LIFE 2
 D:that heals you greatly and cures a lot of blinding, 
 D:confusion, poisoning, and disease.
