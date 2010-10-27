@@ -3678,7 +3678,7 @@ void play_game(bool new_game)
 			character_silent = 0;
 
 			/* Display the character */
-			display_player(0);
+			display_player(0, TRUE);
 
 			/* Center the prompt */
 			center_string(buf, sizeof(buf),

@@ -3150,7 +3150,7 @@ static void fix_player_0(void)
 		(void)Term_activate(angband_term[j]);
 
 		/* Display player */
-		display_player(0);
+		display_player(0, FALSE);
 
 		/* Fresh */
 		(void)Term_fresh();
@@ -3184,7 +3184,7 @@ static void fix_player_1(void)
 		(void)Term_activate(angband_term[j]);
 
 		/* Display flags */
-		display_player(2);
+		display_player(2, FALSE);
 
 		/* Fresh */
 		(void)Term_fresh();

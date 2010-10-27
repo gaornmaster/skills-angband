@@ -117,7 +117,7 @@ void do_cmd_change_name(void)
 	while (TRUE)
 	{
 		/* Display the player */
-		display_player(mode);
+		display_player(mode, TRUE);
 
 		/* Prompt */
 		prt(buf, 23, 0);
@@ -156,14 +156,14 @@ void do_cmd_change_name(void)
 					if (file_character(ftmp, FALSE))
 					{
 						/* Clean up the player display */
-						display_player(mode);
+						display_player(mode, TRUE);
 
 						msg_print("Character dump failed!");
 					}
 					else
 					{
 						/* Clean up the player display */
-						display_player(mode);
+						display_player(mode, TRUE);
 
 						/* Prompt */
 						msg_format("Character dump saved in the \"%s\" directory.",
