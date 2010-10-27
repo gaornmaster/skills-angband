@@ -740,20 +740,6 @@ void adv_cost_reduce_similar(int skill, s32b *base_cost, byte mode)
 		reduction += 1L * adv_cost_reduce_aux(S_CROSSBOW, level, mode) / 6L;
 	}
 
-
-	/* 2/5ths of Weaponsmithing is included in Bowmaking, and vice versa */
-	if ((skill == S_FORGE_WEAPON) &&
-	    (((mode == 1) && (p_ptr->pskills[S_FORGE_BOW].max >  skill_max)) ||
-	     ((mode != 1) && (p_ptr->pskills[S_FORGE_BOW].max >= skill_max))))
-	{
-		reduction += 2L * adv_cost_reduce_aux(S_FORGE_BOW, level, mode) / 5L;
-	}
-	if ((skill == S_FORGE_BOW) &&
-	    (p_ptr->pskills[S_FORGE_WEAPON].max > skill_max))
-	{
-		reduction += 2L * adv_cost_reduce_aux(S_FORGE_WEAPON, level, mode) / 5L;
-	}
-
 	/* Sanity check:  Cost reduction cannot be more than 90% */
 	if (reduction > 9L * *base_cost / 10L)
 		reduction = 9L * *base_cost / 10L;

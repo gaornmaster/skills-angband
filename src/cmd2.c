@@ -285,7 +285,6 @@ static byte get_choice(int lev)
 		if ((tval == TV_STAFF) && (get_skill(S_DEVICE, 0, 100) < p_ptr->power / 2)) continue;
 		if ((tval == TV_ROD) && (get_skill(S_DEVICE, 0, 100) < p_ptr->power / 2)) continue;
 		if ((tval == TV_COMPONENT) && (get_skill(S_FORGE_WEAPON, 0, 100) < p_ptr->power / 2) &&
-		    (get_skill(S_FORGE_BOW, 0, 100) < p_ptr->power / 2) &&
 		    (get_skill(S_FORGE_ARMOR, 0, 100) < p_ptr->power / 2)) continue;
 
 		if ((tval == TV_MAGIC_BOOK)  && (p_ptr->realm != MAGE)) continue;

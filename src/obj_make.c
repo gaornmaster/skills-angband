@@ -3098,7 +3098,7 @@ bool make_launcher_or_ammo(void)
 	int tval = 0;
 	cptr desc;
 
-	int skill = get_skill(S_FORGE_BOW, 0, 100);
+	int skill = get_skill(S_FORGE_WEAPON, 0, 100);
 
 	/* Interact until satisfied */
 	while (TRUE)

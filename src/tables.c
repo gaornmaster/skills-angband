@@ -1264,8 +1264,7 @@ const byte race_adj_cost_skill[NUM_SKILLS][MAX_RACES] =
   /* dodging */  { 10,   9,   8,  10,  10,  10,  20,  10,   9,  10,  15,  20,   9 },
   /* save    */  { 10,  10,   8,  10,   8,  11,  12,  10,   9,   9,  11,  11,  11 },
 
-  /* f_weap  */  { 10,  12,  11,  11,   7,  10,  11,  10,  12,   8,   9,  12,  11 },
-  /* f_bow   */  { 10,  10,  11,  11,  11,  11,  11,  10,  10,   8,  12,  10,  10 },
+  /* f_weap  */  { 10,  11,  11,  11,   8,  10,  11,  10,  11,   8,   9,  12,  11 },
   /* f_armor */  { 10,  12,  11,  11,   7,  10,  11,  10,  12,  11,   9,  12,  12 },
   /* alchemy */  { 10,  11,  12,   8,  14,  13,  11,  10,  11,  10,  13,  11,  12 },
   /* infuse  */  { 10,  10,  13,   9,  11,  13,  13,  10,  10,   7,  13,  10,  12 },
@@ -3375,12 +3374,12 @@ const skill_type skill_info[NUM_SKILLS] =
 	{"Dodging", "ability to evade attacks and use armor effectively",    6},
 	{"Spell Resistance", "extra resistance to magical attacks",          4},
 
-	{"Weaponsmithing", "ability to forge weapons",                      10},
-	{"Bowmaking", "ability to make bows and arrows",                    10},
+	{"Weaponsmithing", "ability to forge weapons, bows, and missiles",  11},
 	{"Armor Forging", "ability to forge armor",                         15},
 	{"Alchemy", "ability to create scrolls, potions, rings, & amulets",  8},
 	{"Magical Infusion", "ability to magically enhance objects",        13},
 
+	{NULL, NULL, 0},
 	{NULL, NULL, 0},
 	{NULL, NULL, 0},
 	{NULL, NULL, 0},
@@ -3472,7 +3471,7 @@ talent_type talent_info[NUM_TALENTS] =
 	{"Recharging",                  'v', 1, {S_INFUSION},                    30,   0, 0,            TALENT_UTILITY},
 	{"Weapon forging",              'w', 1, {S_FORGE_WEAPON},                15,   0, 0,            TALENT_UTILITY},
 	{"Armor forging",               'x', 1, {S_FORGE_ARMOR},                 15,   0, 0,            TALENT_UTILITY},
-	{"Bowmaking/Fletchery",         'y', 1, {S_FORGE_BOW},                   15,   0, 0,            TALENT_UTILITY},
+	{"Bowmaking/Fletchery",         'y', 1, {S_FORGE_WEAPON},                15,   0, 0,            TALENT_UTILITY},
 	{"Alchemy",                     'z', 1, {S_ALCHEMY},                     LEV_REQ_ALCHEMY,   0, 0,            TALENT_UTILITY},
 	{"Save/stop saving",            '$', 1, {S_ALCHEMY},                     LEV_REQ_ALCHEMY,   0, 0,            TALENT_UTILITY},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
