@@ -3784,7 +3784,7 @@ static int armor_weight(void)
 void calc_mana(void)
 {
 	int msp, cur_wgt, max_wgt;
-	int skill;
+	int skill, power;
 	int spell_stat_index = p_ptr->stat_ind[mp_ptr->spell_stat];
 
 	bool old_cumber_armor = p_ptr->cumber_armor;
@@ -3796,18 +3796,26 @@ void calc_mana(void)
 		return;
 	}
 
-	/* Get mana level (60% for non-Oath spellcasters) */
+	skill = get_skill(S_MPOWER, 0, 100);
+
+	/* Get mana level (~60% for non-Oath spellcasters) (10x inflation) */
 	if (oath_caster)
 	{
-		skill = get_skill(S_MPOWER, 1, 101);
+		power = get_skill(S_MPOWER, 0, 1000);
+	}
+
+	/* Give medium mana at low levels */
+	else if (skill < 20)
+	{
+		power = get_skill(S_MPOWER, 0, 800);
 	}
 	else
 	{
-		skill = get_skill(S_MPOWER, 1, 61);
+		power = 50 + get_skill(S_MPOWER, 0, 550);
 	}
 
 	/* Calculate total mana, using spell stat and character power */
-	msp = 2 + ((adj_mag_mana[spell_stat_index] * skill) + 10) / 20;
+	msp = 2 + ((adj_mag_mana[spell_stat_index] * power) + 100) / 200;
 
 	/* Take mana bonus into account */
 	msp += p_ptr->mana_bonus;
