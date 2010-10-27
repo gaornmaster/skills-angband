@@ -3798,7 +3798,6 @@ static void store_process_command(bool inn_cmd)
 						price = price_item(o_ptr, ot_ptr->min_inflate, FALSE, markup);
 
 						cost +=  price * o_ptr->number;
-						invest += (price - object_value_real(o_ptr)) * o_ptr->number;
 					}
 
 					/* Prompt player with total cost */
@@ -3813,6 +3812,9 @@ static void store_process_command(bool inn_cmd)
 					sprintf(prompt, "Clearing out the inventory will cost %d gold.  Are you sure?", cost);
 					if (!get_check(prompt))  break;
 
+					/* Reduce gold */
+					p_ptr->au -= cost;
+
 					/* Destroy all inventory */
 					for (i = st_ptr->stock_num; i >= 0; i--)
 					{
@@ -3826,8 +3828,8 @@ static void store_process_command(bool inn_cmd)
 					/* Bring in new stock */
 					store_maint(store_num, TRUE);
 
-					/* Credit store with investment */
-					st_ptr->total_buy += invest;
+					/* Credit store with some investment */
+					st_ptr->total_buy += cost / 2;
 
 					/* Refresh store */
 					display_store();
