@@ -3172,7 +3172,7 @@ static bool best_kill_description(char *kill_desc, size_t len, bool split_desc)
  * Mode 2 = special display with flags
  * Mode 3 = combat information
  */
-void display_player(int mode)
+void display_player(int mode, bool change_display)
 {
 	int i;
 
@@ -3180,7 +3180,7 @@ void display_player(int mode)
 
 
 	/* Center the display and use the standard view */
-	display_change(DSP_REMEMBER | DSP_CLEAR | DSP_NORM | DSP_CX, 80, 0);
+	if (change_display) display_change(DSP_REMEMBER | DSP_CLEAR | DSP_NORM | DSP_CX, 80, 0);
 
 
 	/* Verify mode XXX XXX */
@@ -3363,7 +3363,7 @@ void display_player(int mode)
 	}
 
 	/* Restore previous display */
-	display_change(DSP_RESTORE, 0, 0);
+	if (change_display) display_change(DSP_RESTORE, 0, 0);
 }
 
 
@@ -3640,7 +3640,7 @@ errr file_character(cptr name, bool full)
 	}
 
 	/* Display player */
-	display_player(0);
+	display_player(0, TRUE);
 
 	/* Dump part of the screen */
 	for (y = 2; y < 22; y++)
@@ -3717,7 +3717,7 @@ errr file_character(cptr name, bool full)
 	fprintf(fff, "\n  [Character Attributes]\n\n");
 
 	/* Display player */
-	display_player(2);
+	display_player(2, TRUE);
 
 	/* Dump part of the screen -- group #1 */
 	for (y = 1; y < 9; y++)
@@ -3860,7 +3860,7 @@ errr file_character(cptr name, bool full)
 		i = message_num();
 
 		/* Clean up the player display  XXX */
-		display_player(0);
+		display_player(0, TRUE);
 
 		/* Move cursor */
 		move_cursor(0, 0);
@@ -5761,7 +5761,7 @@ static void show_info(void)
 
 
 	/* Display player */
-	display_player(0);
+	display_player(0, TRUE);
 
 	/* Center the prompt */
 	center_string(buf, sizeof(buf),

@@ -487,7 +487,7 @@ extern void process_effects(void);
 extern s16b tokenize(char *buf, s16b num, char **tokens);
 extern errr process_pref_file_command(char *buf);
 extern errr process_pref_file(cptr name);
-extern void display_player(int mode);
+extern void display_player(int mode, bool change_display);
 extern errr file_character(cptr name, bool full);
 extern errr get_rnd_line(const char *file_name, char *output);
 extern bool show_file(cptr name, cptr what, int line, int mode);

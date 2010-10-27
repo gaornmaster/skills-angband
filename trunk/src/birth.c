@@ -1853,7 +1853,7 @@ static bool player_birth_aux_2(bool quick_start)
 		while (TRUE)
 		{
 			/* Display the player */
-			display_player(0);
+			display_player(0, TRUE);
 
 			/* Prepare a prompt */
 			prt("['r' to reroll, 'S' to restart, or Return to accept]", 23, 0);
@@ -1946,7 +1946,7 @@ static int player_birth_aux(void)
 	get_name();
 
 	/* Display the player (again) */
-	display_player(0);
+	display_player(0, TRUE);
 
 
 	/* Center the prompt */
