@@ -599,7 +599,6 @@ cptr get_title(int len, bool wizard, bool quotes)
 	int s_device = get_skill(S_DEVICE, 0, 100);
 	int s_burglary = get_skill(S_BURGLARY, 0, 100);
 	int s_forge_weapon = get_skill(S_FORGE_WEAPON, 0, 100);
-	int s_forge_bow = get_skill(S_FORGE_BOW, 0, 100);
 	int s_forge_armor = get_skill(S_FORGE_ARMOR, 0, 100);
 	int s_alchemy = get_skill(S_ALCHEMY, 0, 100);
 	int s_infusion = get_skill(S_INFUSION, 0, 100);
@@ -628,8 +627,7 @@ cptr get_title(int len, bool wizard, bool quotes)
 	magic_combat_skill = MAX(s_nature, magic_combat_skill);
 	magic_combat_skill = MAX(s_dominion, magic_combat_skill);
 
-	forging_skill = MAX(s_forge_weapon, s_forge_bow);
-	forging_skill = MAX(s_forge_armor, forging_skill);
+	forging_skill = MAX(s_forge_armor, s_forge_weapon);
 
 	creation_skill = MAX(s_alchemy, forging_skill);
 	creation_skill = MAX(s_infusion, creation_skill);

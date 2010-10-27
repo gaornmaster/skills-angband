@@ -628,11 +628,11 @@
 #define S_DODGING       20       /* dodging and armor use skill */
 #define S_SAVE          21       /* saving throw */
 
-#define S_FORGE_WEAPON  22       /* weaponsmithing */
-#define S_FORGE_BOW     23       /* bow and missile making */
-#define S_FORGE_ARMOR   24       /* armor forging */
-#define S_ALCHEMY       25       /* scroll, potion, ring, & amulet creation */
-#define S_INFUSION      26       /* magical enhancement (using essences) */
+#define S_FORGE_WEAPON  22       /* weaponsmithing and bow and missile making*/
+#define S_FORGE_ARMOR   23       /* armor forging */
+#define S_ALCHEMY       24       /* scroll, potion, ring, & amulet creation */
+#define S_INFUSION      25       /* magical enhancement (using essences) */
+
 
 #define S_XXX1          28       /*  */
 #define S_XXX1          28       /*  */
@@ -644,7 +644,7 @@
 #define S_XXX7          33       /*  */
 #define S_XXX8          34       /*  */
 
-#define NUM_SK_USED     27
+#define NUM_SK_USED     26
 #define NUM_SKILLS      36
 
 
