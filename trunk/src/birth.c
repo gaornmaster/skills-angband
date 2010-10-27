@@ -2137,7 +2137,7 @@ bool player_birth(void)
 	history_clear();
 	if (one_in_(4)) 		history_add("Started the adventure of a lifetime.", HISTORY_PLAYER_BIRTH, 0);
 	else if (one_in_(3)) 	history_add("Swore a blood oath to defeat Morgoth.", HISTORY_PLAYER_BIRTH, 0);
-	else if (one_in_(2))	history_add("Tries to figure out what all the fuss is about down the stairs.", HISTORY_PLAYER_BIRTH, 0);
+	else if (one_in_(2))	history_add("Pops outside to see what all the fuss is about.", HISTORY_PLAYER_BIRTH, 0);
 	else					history_add("Takes his last practice swing.", HISTORY_PLAYER_BIRTH, 0);
 
 
