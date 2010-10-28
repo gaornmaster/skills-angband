@@ -47,6 +47,8 @@ static bool cannot_learn_prayers;
  */
 int selected = -1;
 
+/* Array of old skill values */
+skill_data old_pskills[NUM_SKILLS];
 
 /*
  * This function is used to get effective values for all skills.
@@ -2031,6 +2033,10 @@ static bool can_reduce_skill(int skill, bool verbose)
 	return (TRUE);
 }
 
+
+/*
+ * Reduce a skill, refunding experience if necessary
+ */
 static bool reduce_skill(int skill, bool refund_exp)
 {
 	int exp, level;
@@ -2048,7 +2054,7 @@ static bool reduce_skill(int skill, bool refund_exp)
 	if (refund_exp)
 	{
 		level = p_ptr->pskills[skill].max;
-		exp = adv_cost(skill, FALSE);
+		exp = adv_cost(skill, TRUE);
 		p_ptr->exp += exp;
 	}
 
@@ -2582,6 +2588,13 @@ static void prt_skill_rank(int skill)
 		else                   a = TERM_SLATE;
 	}
 
+	/* Player has lowered skill and will lose experience */
+	else if (p_ptr->pskills[skill].max < old_pskills[skill].max)
+	{
+		if (skill == selected) a = TERM_L_PURPLE;
+		else                   a = TERM_PURPLE;
+	}
+
 	/* Skill is zero */
 	else if (p_ptr->pskills[skill].max == 0 && !(skill == selected))
 	{
@@ -2919,7 +2932,6 @@ void do_cmd_skills(void)
 	bool must_accept = FALSE;
 
 	/* Old player's skills and unused experience */
-	skill_data old_pskills[NUM_SKILLS];
 	int old_exp;
 	byte old_oath, old_realm, old_power, old_ten_power, ten_power;
 
@@ -2954,6 +2966,7 @@ void do_cmd_skills(void)
 		old_pskills[i].cur = p_ptr->pskills[i].cur;
 		old_pskills[i].max = p_ptr->pskills[i].max;
 	}
+
 	old_exp = p_ptr->exp;
 	old_oath = p_ptr->oath;
 	old_realm = p_ptr->realm;
@@ -3050,7 +3063,7 @@ void do_cmd_skills(void)
 		if (ch == '+' || ch == '=')
 		{
 			/* Allow user to change their mind about skill reduction */
-			bool pay = (p_ptr->pskills[selected].max >= old_pskills[selected].max)? TRUE : FALSE;
+			bool pay = (p_ptr->pskills[selected].max < old_pskills[selected].max)? FALSE : TRUE;
 
 			int advance = adv_skill(selected, pay);
 
