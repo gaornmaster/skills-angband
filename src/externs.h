@@ -309,7 +309,7 @@ extern byte player_graphics[MAX_RACES][MAX_SPECIALTIES][2];
 
 /* attack.c */
 extern bool test_hit_combat(int chance, int ac, int visible);
-extern bool monster_evade_or_resist(object_type *o_ptr,
+extern int monster_evade_or_resist(object_type *o_ptr,
 	monster_type *m_ptr, byte blow_type);
 extern void adjust_dam(int *damage, object_type *o_ptr, monster_type *m_ptr,
 	bool is_trap);
