@@ -52,9 +52,9 @@ bool test_hit_combat(int chance, int ac, int visible)
 /*
  * Determine if monster evades or resists a blow.  -LM-
  *
- * Return TRUE if blow was avoided.
+ * Return percentage of damage resisted.
  */
-bool monster_evade_or_resist(object_type *o_ptr,
+int monster_evade_or_resist(object_type *o_ptr,
 	monster_type *m_ptr, byte blow_type)
 {
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
@@ -104,7 +104,7 @@ bool monster_evade_or_resist(object_type *o_ptr,
 		}
 
 		/* Can't hurt me! */
-		return (TRUE);
+		return (100);
 	}
 
 
@@ -124,8 +124,8 @@ bool monster_evade_or_resist(object_type *o_ptr,
 			if (r_ptr->flags3 & (RF3_IM_EDGED))
 			{
 				/* Resist */
-				if (f1 & (TR1_VORPAL)) resist = 70;
-				else resist = 85;
+				if (f1 & (TR1_VORPAL)) resist = 50;
+				else resist = 70;
 
 				/* Learn */
 				if ((!(l_ptr->flags3 & (RF3_IM_EDGED))) &&
@@ -140,8 +140,8 @@ bool monster_evade_or_resist(object_type *o_ptr,
 			}
 			else if (r_ptr->flags3 & (RF3_RES_EDGED))
 			{
-				if (f1 & (TR1_VORPAL)) resist = 33;
-				else resist = 60;
+				if (f1 & (TR1_VORPAL)) resist = 25;
+				else resist = 50;
 
 				if ((!(l_ptr->flags3 & (RF3_RES_EDGED))) &&
 					(mon_fully_visible(m_ptr)))
@@ -161,8 +161,8 @@ bool monster_evade_or_resist(object_type *o_ptr,
 		{
 			if (r_ptr->flags3 & (RF3_IM_BLUNT))
 			{
-				if (f1 & (TR1_VORPAL)) resist = 70;
-				else resist = 85;
+				if (f1 & (TR1_VORPAL)) resist = 50;
+				else resist = 70;
 
 				if ((!(l_ptr->flags3 & (RF3_IM_BLUNT))) &&
 					(mon_fully_visible(m_ptr)))
@@ -172,14 +172,14 @@ bool monster_evade_or_resist(object_type *o_ptr,
 				}
 
 				if (strchr("G*A", r_ptr->d_char))
-					note = "passes harmlessly through";
+					note = "passes through";
 				else
 					note = "bounces off of";
 			}
 			else if (r_ptr->flags3 & (RF3_RES_BLUNT))
 			{
-				if (f1 & (TR1_VORPAL)) resist = 33;
-				else resist = 60;
+				if (f1 & (TR1_VORPAL)) resist = 25;
+				else resist = 50;
 
 				if ((!(l_ptr->flags3 & (RF3_RES_BLUNT))) &&
 					(mon_fully_visible(m_ptr)))
@@ -189,7 +189,7 @@ bool monster_evade_or_resist(object_type *o_ptr,
 				}
 
 				if (strchr("G*A", r_ptr->d_char))
-					note = "passes harmlessly through";
+					note = "passes through";
 				else
 					note = "bounces off of";
 			}
@@ -203,8 +203,7 @@ bool monster_evade_or_resist(object_type *o_ptr,
 		}
 	}
 
-	/* Try for a miss */
-	if (resist > rand_int(100))
+	if (resist)
 	{
 		/* Monster is fully visible */
 		if (mon_fully_visible(m_ptr))
@@ -232,13 +231,9 @@ bool monster_evade_or_resist(object_type *o_ptr,
 				msg_format("Your %s %s %s.", p, note, m_name);
 			}
 		}
-
-		/* Can't hurt me! */
-		return (TRUE);
 	}
 
-	/* Can hurt me */
-	return (FALSE);
+	return (resist);
 }
 
 /*
@@ -1815,6 +1810,8 @@ bool py_attack(int y, int x)
 
 	bool fear = FALSE;
 
+	int resist;
+
 
 	/* Get the monster */
 	m_ptr = &m_list[cave_m_idx[y][x]];
@@ -2095,10 +2092,10 @@ bool py_attack(int y, int x)
 			else learn_about_hits(1, offhand);
 
 			/* Monster evaded or resisted */
-			if (monster_evade_or_resist(o_ptr, m_ptr, BLOW_MELEE))
-			{
-				continue;
-			}
+			resist = monster_evade_or_resist(o_ptr, m_ptr, BLOW_MELEE);
+
+			/* Monster can evade */
+			if (resist == 100) continue;
 
 			/* Character is wielding a weapon */
 			if (is_melee_weapon(o_ptr))
@@ -2127,6 +2124,9 @@ bool py_attack(int y, int x)
 				/* No attack */
 				continue;
 			}
+
+			/* Resisted */
+			if (resist) damage -= (damage * resist + 50) / 100;
 
 			/* Count hits */
 			hits++;
@@ -2720,6 +2720,7 @@ void do_cmd_fire(void)
 	char msg_hit[DESC_LEN];
 
 	bool no_pile = FALSE;
+	int resist;
 
 	cptr q, s;
 
@@ -3087,10 +3088,10 @@ void do_cmd_fire(void)
 			}
 
 			/* Monster evaded or resisted */
-			if (monster_evade_or_resist(o_ptr, m_ptr, BLOW_MISSILE))
-			{
-				continue;
-			}
+			resist = monster_evade_or_resist(i_ptr, m_ptr, BLOW_MISSILE);
+
+			/* Evaded */
+			if (resist == 100)	continue;
 
 			/* Note the collision */
 			hit_body++;
@@ -3140,6 +3141,8 @@ void do_cmd_fire(void)
 				m_name, total_deadliness, chance + sleeping_bonus,
 				msg_hit, combat_mods);
 
+			/* Damage was resisted */
+			if (resist)		damage -= (damage * resist + 50) / 100;
 
 			/* Hack! -- display hit messages before monster dies  XXX */
 			if ((damage > m_ptr->hp) && (strlen(msg_hit)))
@@ -3305,6 +3308,7 @@ void do_cmd_throw(void)
 	char msg_hit[DESC_LEN];
 
 	bool no_pile = FALSE;
+	int resist;
 
 	int msec = op_ptr->delay_factor * op_ptr->delay_factor;
 	int returning = 0;
@@ -3580,10 +3584,10 @@ void do_cmd_throw(void)
 			}
 
 			/* Monster evaded or resisted */
-			if (monster_evade_or_resist(i_ptr, m_ptr, BLOW_THROWN))
-			{
-				continue;
-			}
+			resist = monster_evade_or_resist(i_ptr, m_ptr, BLOW_THROWN);
+
+			/* Evaded */
+			if (resist == 100) continue;
 
 			/* Note the collision */
 			hit_body = TRUE;
@@ -3657,6 +3661,9 @@ void do_cmd_throw(void)
 			damage = calc_combat_dam(COMBAT_THROW, i_ptr, m_ptr,
 				m_name, total_deadliness, chance + sleeping_bonus,
 				msg_hit, combat_mods);
+
+			/* Damage was resisted */
+			if (resist)  damage -= (damage * resist + 50) / 100;
 
 
 			/* Hack! -- display hit messages before monster dies  XXX */

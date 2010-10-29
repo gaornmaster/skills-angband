@@ -1462,7 +1462,7 @@ static void trap_combat(int mode, int y, int x, object_type *o_ptr,
 	long die_average, temp, sides;
 	int total_deadliness, chance;
 	long mult = 100L;
-	int damage;
+	int damage, resist;
 
 	/* Assume one attack */
 	int attacks = 1;
@@ -1490,10 +1490,10 @@ static void trap_combat(int mode, int y, int x, object_type *o_ptr,
 
 
 	/* Monster evaded or resisted */
-	if (monster_evade_or_resist(o_ptr, m_ptr, BLOW_TRAP))
-	{
-		return;
-	}
+	resist = monster_evade_or_resist(o_ptr, m_ptr, BLOW_TRAP);
+
+	/* Evaded */
+	if (resist == 100) return;
 
 	/* Using melee */
 	if (mode == 1)
@@ -1630,6 +1630,9 @@ static void trap_combat(int mode, int y, int x, object_type *o_ptr,
 		/* Add to total */
 		damage += tmp;
 	}
+
+	/* Apply resistances */
+	if (resist) damage -= (damage * resist + 50) / 100;
 
 	/* Player is in line of sight */
 	if (player_has_los_bold(y, x))
