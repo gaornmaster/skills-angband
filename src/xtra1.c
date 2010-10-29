@@ -3815,7 +3815,7 @@ void calc_mana(void)
 	}
 
 	/* Calculate total mana, using spell stat and character power */
-	msp = 2 + ((adj_mag_mana[spell_stat_index] * power) + 100) / 200;
+	msp = 3 + ((adj_mag_mana[spell_stat_index] * power) + 100) / 200;
 
 	/* Take mana bonus into account */
 	msp += p_ptr->mana_bonus;

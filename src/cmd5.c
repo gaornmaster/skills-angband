@@ -2056,8 +2056,10 @@ cptr do_spell(int mode, int spell)
 			limit_power = TRUE;
 
 		/* Get spell power (up to 100, or 75 for non-specialists) */
+		/* Low level casters non-oath casters gain power faster, as they cannot take the oath */
 		if (!limit_power) spower = get_skill(S_MAGIC, 0, 100);
-		else              spower = get_skill(S_MAGIC, 0,  75);
+		else if (get_skill(S_MAGIC, 0, 100) < 20)  spower = get_skill(S_MAGIC, 0,  95);
+		else spower = 5 + get_skill(S_MAGIC, 0,  70);
 
 		/* Necromancers cast stronger spells in the darkness */
 		if (p_ptr->realm == NECRO) spower += darkness_ratio(3) / 20;
