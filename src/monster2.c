@@ -4512,7 +4512,7 @@ void monster_death(int m_idx)
 	if (!fixedquest)
 	{
 		/* Give a message */
-		msg_print("You have completed your quest - collect your reward at the Inn!");
+		message(MSG_GREEN, 500, "You have completed your quest - collect your reward at the Inn!");
 
 		return;
 	}
