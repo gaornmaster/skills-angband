@@ -841,6 +841,12 @@ void object_details(object_type *o_ptr, bool mental, bool known)
 			{
 				roff("It can be thrown effectively. \n", 0, 80);
 			}
+
+			if (f1 & TR1_RETURNING)
+			{
+				roff("It returns to you when wielded and thrown.\n", 0, 80);
+			}
+
 		}
 
 		/* Two-handed weapons. */
