@@ -792,7 +792,7 @@ void adjust_dam(int *damage, object_type *o_ptr, monster_type *m_ptr,
 	if (!is_trap)
 	{
 		u32b fc1, fc2, fc3;
-		object_type *o_ptr = &inventory[INVEN_HANDS];
+		object_type *i_ptr = &inventory[INVEN_HANDS];
 
 		/* Get character flags */
 		player_flags(&fc1, &fc2, &fc3, TRUE, FALSE);
@@ -802,7 +802,9 @@ void adjust_dam(int *damage, object_type *o_ptr, monster_type *m_ptr,
 
 		/* Apply brands and slays from gauntlets for martial artists */
 		if (!o_ptr->tval)
-		{	f1 |= o_ptr->flags1; f2 |= o_ptr->flags2; f3 |= o_ptr->flags3;}
+		{
+			f1 |= i_ptr->flags1; f2 |= i_ptr->flags2; f3 |= i_ptr->flags3;
+		}
 
 		/* Get "cancelled" flags */
 		player_flags_cancel(&fc1, &fc2, &fc3, TRUE);
