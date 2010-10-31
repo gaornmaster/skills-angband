@@ -310,7 +310,7 @@ static bool good_work_cond(bool msg, bool must_be_in_town)
 		if (msg) msg_print("You are in a berserk rage.");
 		return (FALSE);
 	}
-	if (p_ptr->berserk > 0)
+	if (p_ptr->necro_rage > 0)
 	{
 		if (msg) msg_print("You are in a black rage.");
 		return (FALSE);
