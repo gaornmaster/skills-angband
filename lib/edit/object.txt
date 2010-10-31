@@ -1699,7 +1699,7 @@ I:35:3:2
 W:35:0:5:1500
 A:35/20
 C:2:0d0:0:0:0
-F:STEALTH
+F:STEALTH | HIDE_TYPE
 D:A mantle made of curious silken material by the Galadrim that wondrously 
 D:takes on the hues and shapes of its surroundings.
 
@@ -1709,7 +1709,7 @@ I:35:4:1
 W:50:0:5:1500
 A:50/33
 C:2:0d0:0:0:4
-F:INVIS
+F:INVIS | HIDE_TYPE
 D:A midnight-hued cloak that wreathes the wearer in folds of shadow.
 
 ## XXX 234 XXX ##
