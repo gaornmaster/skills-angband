@@ -3602,8 +3602,8 @@ int main(int argc, char *argv[])
 	init_stuff();
 
 
-	/* Set up a 2-second timer for screen animation */
-	timer_basic = SDL_AddTimer(2000L, animate_timer_sdl, 0);
+	/* Set up a 1-second timer for screen animation */
+	timer_basic = SDL_AddTimer(1000L, animate_timer_sdl, 0);
 
 
 	/* Initialize the ignored keypresses */

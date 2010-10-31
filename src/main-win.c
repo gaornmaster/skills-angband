@@ -3057,8 +3057,8 @@ static LRESULT CALLBACK my_WindowProc(HWND hWnd, UINT uMsg,
 		/* Create the application window */
 		case WM_CREATE:
 		{
-			/* Set a 2-second timer */
-			SetTimer(hWnd, TIMER_BASIC, 2000, NULL);
+			/* Set a 1-second timer */
+			SetTimer(hWnd, TIMER_BASIC, 1000, NULL);
 
 			/* Turn off numlock */
 			SetNumLock(TRUE);
