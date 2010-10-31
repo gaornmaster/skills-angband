@@ -1003,7 +1003,7 @@ static void process_world(void)
 		if (!p_ptr->paralyzed && (one_in_(10)))
 		{
 			/* Message */
-			msg_print("You faint from the lack of food.");
+			message(MSG_RED, 500, "You faint from the lack of food.");
 			disturb(1, 0);
 
 			/* Hack -- faint (bypass free action) */

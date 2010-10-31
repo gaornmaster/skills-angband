@@ -2042,19 +2042,19 @@ bool set_food(s32b v)
 			/* Fainting / Starving */
 			case 0:
 			sound(MSG_NOTICE);
-			msg_print("You are getting faint from hunger!");
+			message(MSG_RED,  500, "You are getting faint from hunger!");
 			break;
 
 			/* Weak */
 			case 1:
 			sound(MSG_NOTICE);
-			msg_print("You are getting weak from hunger!");
+			message(MSG_ORANGE, 500, "You are getting weak from hunger!");
 			break;
 
 			/* Hungry */
 			case 2:
 			sound(MSG_NOTICE);
-			msg_print("You are getting hungry.");
+			message(MSG_YELLOW, 0, "You are getting hungry.");
 			break;
 
 			/* Normal */
