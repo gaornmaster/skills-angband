@@ -2465,7 +2465,7 @@ cptr do_device(int mode, object_type *o_ptr, bool *ident, bool *used,
 
 		case SV_STAFF_CURE_MEDIUM:
 		{
-			pow = 10;
+			pow = 15;
 
 			if (info) return (format("(heal about %d%%, reduce cuts)", pow));
 			if (use)
