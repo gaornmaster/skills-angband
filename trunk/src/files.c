@@ -1991,6 +1991,8 @@ static int get_flag_here(int group, int member)
 		if (member == 16) return (BRAND_POIS);
 		if (member == 17) return (VORPAL);
 		if (member == 18) return (IMPACT);
+		if (member == 19) return (THROWING);
+		if (member == 20) return (RETURNING);
 	}
 
 	/* This position is empty */
@@ -2070,7 +2072,7 @@ static cptr short_flag_names[128] =
 	"Pois Brand :",
 	"",
 	"",
-	"",
+	"Returning  :",
 	"Vorpal     :",
 	"Throwing   :",
 	"X",
@@ -2833,7 +2835,7 @@ static void display_player_combat(void)
 		}
 		else
 		{
-			c_put_str(TERM_WHITE, "abcdefghijkl 0123456789@", row++, col + 12);
+			c_put_str(TERM_WHITE, "abcdefghijkl 1234567890@", row++, col + 12);
 		}
 
 		/* Print the rows */
@@ -2987,8 +2989,8 @@ static void display_player_combat(void)
 					}
 				}
 
-				/* Special case -- Check throwing (melee column) */
-				if ((x == 0) && (flag == THROWING))
+				/* Special case -- Check throwing */
+				if ((flag == THROWING))
 				{
 					if (f[1] & (TR1_PERFECT_BALANCE))
 					{
