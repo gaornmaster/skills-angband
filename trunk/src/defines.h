@@ -685,8 +685,8 @@
 
 /* Bonuses accrued by martial artists */
 
-#define LEV_REQ_MARTIAL_FA           75
-#define LEV_REQ_MARTIAL_RESIST       90
+#define LEV_REQ_MARTIAL_FA           50
+#define LEV_REQ_MARTIAL_RESIST       70
 #define LEV_REQ_MARTIAL_STAT1        35
 #define LEV_REQ_MARTIAL_STAT2        60
 #define LEV_REQ_MARTIAL_STAT3        85
