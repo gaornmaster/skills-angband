@@ -2286,7 +2286,7 @@ W:19:3:200:50
 B:BITE:ELEC:2d4
 F:WEIRD_MIND | RAND_50 | BASH_DOOR | FRIENDS | 
 F:ANIMAL | IM_ELEC | IS_LIT
-S:1_IN_4 | POW_3 | 
+S:1_IN_6 | POW_3 | 
 S:BEAM_ELEC | TELE_SELF_TO
 D:Snakes of pure electricity; the union of force and magic.  They attack 
 D:everything in sight; the very walls are blackened by their fury.
@@ -3126,7 +3126,7 @@ W:27:3:90:75
 B:HIT:FIRE:2d8
 F:FORCE_SLEEP | FRIENDS | RAND_50 | OPEN_DOOR | 
 F:DROP_60 | DEMON | EVIL | IM_FIRE | NO_FEAR
-S:1_IN_4 | POW_4 | 
+S:1_IN_5 | POW_4 | 
 S:LASH | BLINK | TELE_SELF_TO | WOUND | SLOW
 D:Little sparks of flame that dance around you, lashing whips and cursing 
 D:horribly.
@@ -3281,7 +3281,7 @@ D:You don't believe in it.  But it believes in you...
 
 N:327:Stormcrow
 G:B:s
-I:120:80:25:20:15:3
+I:110:80:25:20:15:3
 W:28:5:200:110
 B:PECK:WOUND:1d4
 F:WEIRD_MIND | FRIENDS | BASH_DOOR | FLYING | 
@@ -4017,7 +4017,7 @@ B:BITE:WOUND:3d13
 B:STING:POISON:2d13
 F:MALE | FORCE_SLEEP | BASH_DOOR | 
 F:ONLY_GOLD | DROP_90 | DROP_GREAT
-S:1_IN_3 | POW_25 | 
+S:1_IN_4 | POW_25 | 
 S:PMISSL | SLOW
 D:A great man-faced red lion with a lashing spiked tail.  The weak-minded he 
 D:lulls with song; the strong he slays with poisoned barbs.
