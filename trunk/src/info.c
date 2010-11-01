@@ -3145,6 +3145,11 @@ void dump_obj_attrib(FILE *fff, object_type *o_ptr, int know_all)
 			{
 				strcat(buf, "Throwing Weapon.|");
 			}
+
+			if (f1 & TR1_RETURNING)
+			{
+				strcat(buf, "Returning Weapon.|");
+			}
 		}
 
 		/* Two-handed weapons. */
