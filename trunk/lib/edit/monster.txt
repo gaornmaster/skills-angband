@@ -3281,13 +3281,13 @@ D:You don't believe in it.  But it believes in you...
 
 N:327:Stormcrow
 G:B:s
-I:110:80:25:20:15:3
+I:115:80:25:20:15:3
 W:28:5:200:110
-B:PECK:WOUND:1d4
+B:PECK:WOUND:1d10
 F:WEIRD_MIND | FRIENDS | BASH_DOOR | FLYING | 
 F:ANIMAL | RES_WATER | RES_NEXUS | RES_TPORT | 
 F:NO_CONF
-S:1_IN_1 | POW_3 | 
+S:1_IN_2 | POW_3 | 
 S:BALL_WIND | ARC_FORCE
 D:From the vast Plains of Air come these shimmering avian beings; as they 
 D:beat their wings, terrible winds rise up and buffet you.
