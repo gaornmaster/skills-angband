@@ -774,7 +774,9 @@
 #define TALENT_XX29                54
 #define TALENT_XX30                55
 
-#define NUM_TALENTS 56
+#define TALENT_LUNGE               56
+
+#define NUM_TALENTS 65
 
 
 /*
@@ -4662,6 +4664,12 @@
  */
 #define is_wargear(T) \
 	(is_any_armor(T) || is_any_weapon(T) || is_missile(T))
+
+/*
+ * Object is a true polearm
+ */
+#define is_polearm(T) \
+   ((T)->tval == TV_POLEARM && (T)->ac > 0)
 
 /*
  * Object is wearable

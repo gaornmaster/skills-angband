@@ -229,12 +229,11 @@ bool project_star(int who, int rad, int y0, int x0, int y1, int x1, int dam,
 	return (project(who, rad, y0, x0, y1, x1, dam, typ, flg, 0, 0));
 }
 
-
 /*
  * Handle target grids for projections under the control of
  * the character.  - Chris Wilde, Morgul
  */
-static void adjust_target(int dir, int y0, int x0, int *y1, int *x1)
+void find_target(int dir, int range, int y0, int x0, int *y1, int *x1)
 {
 	/* If no direction is given, and a target is, use the target. */
 	if ((dir == 5) && target_okay())
@@ -246,10 +245,20 @@ static void adjust_target(int dir, int y0, int x0, int *y1, int *x1)
 	/* Otherwise, use the given direction */
 	else
 	{
-		*y1 = y0 + MAX_RANGE * ddy[dir];
-		*x1 = x0 + MAX_RANGE * ddx[dir];
+		*y1 = y0 + range * ddy[dir];
+		*x1 = x0 + range * ddx[dir];
 	}
 }
+
+/*
+ * Handle target grids for projections under the control of
+ * the character.  - Chris Wilde, Morgul
+ */
+static void adjust_target(int dir, int y0, int x0, int *y1, int *x1)
+{
+	find_target(dir, MAX_RANGE, y0, x0, y1, x1);
+}
+
 
 /*
  * Character casts a bolt spell.

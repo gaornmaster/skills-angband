@@ -3487,6 +3487,17 @@ talent_type talent_info[NUM_TALENTS] =
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+
+	/* Extra combat skills */
+	{"Lunge",                       'l', 1, {NUM_SKILLS},                     0,   3, OATH_OF_IRON, TALENT_WARRIOR},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY}
 };
 
