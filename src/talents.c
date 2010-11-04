@@ -424,6 +424,12 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 		return ("N");
 	}
 
+	/* Talents must obey oath requirements */
+	if (check && t_ptr->oath)
+	{
+		if (!(t_ptr->oath & p_ptr->oath)) return "N";
+	}
+
 
 	/* Handle talents */
 	switch (talent)
@@ -1199,7 +1205,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 
 				}
 
-				/* Reset number of blows */
+				/* Hack -- Reset number of blows */
 				p_ptr->num_blow  = old_num_blows;
 				p_ptr->num_blow2 = old_num_blows2;
 
@@ -1318,11 +1324,78 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			break;
 		}
 
+		case TALENT_LUNGE:
+		{
+			object_type *o_ptr = &inventory[INVEN_WIELD];
+
+			if (check)
+			{
+				/* Must be wielding a weapon */
+				if (!o_ptr) return "B";
+				if (!o_ptr->k_idx) return "B";
+			}
+
+			if (info)
+			{
+				int blows  = p_ptr->num_blow;
+				int blows2 = p_ptr->num_blow2;
+				if (!is_polearm(o_ptr))
+				{
+					blows  -= blows  / 3;
+					blows2 -= blows2 / 3;
+				}
+
+				if (blows2) return format("%d/%d blows", blows, blows2);
+				else return format("%d blows", blows);
+			}
+			if (desc) return "Attack monsters at a short distance";
+			if (use)
+			{
+				int x, y;
+				bool skip;
+
+				p_ptr->max_dist = 2;
+				if (!get_aim_dir(&dir)) return "";
+
+				/* Note -- can lunge through monsters */
+				find_target(dir, 2, p_ptr->py, p_ptr->px, &y, &x);
+
+				/* Attack target if valid monster */
+				if (cave_m_idx[y][x])
+				{
+					/* Hack -- Adjust blows and skill */
+					s16b old_skill = p_ptr->skill_thn;
+					s16b old_blows = p_ptr->num_blow;
+					s16b old_blows2 = p_ptr->num_blow2;
+
+					/* True polearms do better */
+					if (!is_polearm(o_ptr))
+					{
+						p_ptr->skill_thn -= p_ptr->skill_thn / 5;
+						p_ptr->num_blow  -= p_ptr->num_blow  / 3;
+						p_ptr->num_blow2 -= p_ptr->num_blow2 / 3;
+					}
+
+					/* Attack monster */
+					if (!py_attack(y, x)) skip = TRUE;
+
+					/* Hack -- restore blows and skill */
+					p_ptr->num_blow = old_blows;
+					p_ptr->num_blow2 = old_blows2;
+					p_ptr->skill_thn = old_skill;
+				}
+				else msg_print("There is nothing there to attack");
+				if (skip) return "";
+			}
+
+			break;
+		}
+
 		default:
 		{
 			if (info) return ("???");
 			if (desc) return ("This talent has not yet been defined.");
-			if (check) return ("Y");
+			if (check) return ("N");
 			if (use)
 			{
 				msg_print("This talent has not yet been defined.");

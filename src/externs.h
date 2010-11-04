@@ -780,6 +780,7 @@ extern bool project(int who, int rad, int y0, int x0, int y1, int x1,
 
 
 /* spells2.c */
+extern void find_target(int dir, int range, int y0, int x0, int *y1, int *x1);
 extern bool project_bolt(int who, int rad, int y0, int x0, int y1, int x1,
 	int dam, int typ, u32b flg);
 extern bool project_beam(int who, int rad, int y0, int x0, int y1, int x1,
