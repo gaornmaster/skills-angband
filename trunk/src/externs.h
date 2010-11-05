@@ -988,6 +988,7 @@ extern void do_cmd_store(void);
 extern void store_shuffle(int which);
 extern void store_maint(int num, bool full);
 extern void store_init(int which);
+extern void process_world_aux_home(void);
 
 /* talents.c */
 extern void pseudo_probe(void);

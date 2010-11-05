@@ -4523,3 +4523,33 @@ void store_init(int which)
 		object_wipe(&st_ptr->stock[k]);
 	}
 }
+
+
+/*
+ * Handle what happens in the home over time
+ *
+ * We should probably worry about the player knowing what is going on in the house while away, but we don't.
+ */
+void process_world_aux_home(void)
+{
+	object_type *o_ptr;
+	int i;
+
+	st_ptr = &store[STORE_HOME];
+
+	for (i = 0; i < st_ptr->stock_num; i++)
+	{
+		o_ptr = &st_ptr->stock[i];
+
+		/* Handle athelas spoilage */
+		if (o_ptr->tval == TV_FOOD && o_ptr->sval == SV_FOOD_ATHELAS)
+		{
+			/* Should wilt in around 1 day */
+			if (one_in_(10000 / o_ptr->number))
+			{
+				store_item_increase(i, -1);
+				store_item_optimize(i);
+			}
+		}
+	}
+}
