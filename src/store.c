@@ -632,6 +632,9 @@ static void say_comment_7(int num)
  */
 static void purchase_analyze(s32b price, s32b value, s32b guess)
 {
+	/* No need to comment about purchases */
+	if (birth_stores_only_sell) return;
+
 	/* Item was worthless, and we paid a lot for it */
 	if ((value <= 0L) && (price >= 25L * (p_ptr->max_depth + 10)))
 	{

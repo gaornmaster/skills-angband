@@ -1532,10 +1532,11 @@ s32b object_value(const object_type *o_ptr)
 		if (o_ptr->inscrip == INSCRIP_TERRIBLE) return (0L);
 		if (o_ptr->inscrip == INSCRIP_WORTHLESS) return (0L);
 		if (o_ptr->inscrip == INSCRIP_BROKEN) return (0L);
+		if (o_ptr->inscrip == INSCRIP_UNCURSED) return (0L);
 
 		/* Hack -- Felt cursed items */
 		if ((o_ptr->ident & (IDENT_SENSE)) && cursed_p(o_ptr) &&
-		    (o_ptr->inscrip != INSCRIP_UNCERTAIN)) return (0L);
+		    (o_ptr->inscrip != INSCRIP_UNCERTAIN && o_ptr->inscrip != INSCRIP_NULL)) return (0L);
 
 		/* Base value (see above) */
 		value = object_value_base(o_ptr);
