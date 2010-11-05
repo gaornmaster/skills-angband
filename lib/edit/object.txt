@@ -3936,6 +3936,7 @@ W:48:0:50:2000
 A:48/80
 C:10:1d2:0:0:0
 E:TIME 1
+F:EASY_ACTIVATE
 D:that hastens you for a time.
 
 N:523:Probing
@@ -4169,6 +4170,7 @@ W:70:0:15:40000
 A:70/7
 C:10:1d1:0:0:0
 E:TIME 1
+F:EASY_ACTIVATE
 D:that wonderfully hastens you.
 
 ## XXX 580 XXX (only available non-aimed rod svals are 6 and 12) ##
