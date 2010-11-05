@@ -2493,7 +2493,7 @@ static bool get_move(monster_type *m_ptr, int *ty, int *tx, bool *fear,
 					char m_poss[DESC_LEN];
 
 					/* Get the monster name/poss */
-					monster_desc(m_name, m_ptr, 0);
+					monster_desc(m_name, m_ptr, 0x40);
 					monster_desc(m_poss, m_ptr, 0x22);
 
 					/* Dump a message */
