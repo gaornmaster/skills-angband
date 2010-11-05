@@ -4546,6 +4546,9 @@ void use_device(int tval)
 			/* Become aware of the object's effects */
 			object_aware(o_ptr);
 
+			/* User has a chance of learning charges */
+			sense_object(o_ptr, 0, FALSE, FALSE);
+
 			/* Describe only one, unflavoured, object */
 			object_desc_plural = -1;
 			object_desc_flavour = -1;
