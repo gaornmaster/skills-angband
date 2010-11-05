@@ -1345,8 +1345,10 @@ void object_desc(char *buf, size_t max, const object_type *o_ptr, int pref, int 
 			}
 
 			/* Build the feeling */
-			(void)strnfmt(buf, max, "some kind of %s%s", modstr, basenm);
-
+			if (o_ptr->number)
+				(void)strnfmt(buf, max, "some kind of %s%s", modstr, basenm);
+			else
+				(void)strnfmt(buf, max, "no more %s%s", modstr, basenm);
 			/* Express the feeling */
 			return;
 		}
