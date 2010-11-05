@@ -646,6 +646,18 @@ static void process_world_aux_inven(void)
 			/* Blankets of Cursing */
 			if (o_ptr->flags3 & (TR3_BLESSED)) do_curse = TRUE;
 		}
+
+		/* Handle athelas spoilage */
+		if (o_ptr->tval == TV_FOOD && o_ptr->sval == SV_FOOD_ATHELAS)
+		{
+			/* Should wilt in around 1 day */
+			if (one_in_(10000 / o_ptr->number))
+			{
+				msg_print("Your athelas wilts!");
+				inven_item_increase(i, -1);
+				inven_item_optimize(i);
+			}
+		}
 	}
 
 	/* Apply effects of cursed blankets */
@@ -1429,6 +1441,9 @@ static void process_world(void)
 	/*** Process Inventory ***/
 	process_world_aux_inven();
 
+	/*** Process Home ***/
+	process_world_aux_home();
+
 
 	/* Process objects in the dungeon */
 	for (i = 1; i < o_max; i++)
@@ -1488,6 +1503,18 @@ static void process_world(void)
 
 				/* Light eventually goes out */
 				if (o_ptr->pval <= 0) o_ptr->flags3 &= ~(TR3_IS_LIT);
+			}
+		}
+
+		/* Handle athelas spoilage */
+		if (o_ptr->tval == TV_FOOD && o_ptr->sval == SV_FOOD_ATHELAS)
+		{
+			/* Should wilt in around 1 day */
+			if (one_in_(10000 / o_ptr->number))
+			{
+				if (player_has_los_bold(o_ptr->iy, o_ptr->ix)) msg_print("The athelas wilts.");
+				floor_item_increase(i, -1);
+				floor_item_optimize(i);
 			}
 		}
 	}
