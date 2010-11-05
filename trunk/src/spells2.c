@@ -895,7 +895,7 @@ void teleport_away(int m_idx, int dis, bool require_los)
  * Monsters and players can be pushed past monsters or players weaker than
  * they are.
  */
-void thrust_away(int who, int t_y, int t_x, int grids_away)
+static void thrust_creature(int who, bool push, int t_y, int t_x, int grids_away)
 {
 	int y, x, yy, xx;
 	int i, d, first_d;
@@ -955,9 +955,17 @@ void thrust_away(int who, int t_y, int t_x, int grids_away)
 			/* Ignore if angular difference is too great (45 degrees+) */
 			if (ABS(centerline - angle) > 30) continue;
 
-			/* Extract adjacent location */
-			yy = y + dy;
-			xx = x + dx;
+			/* Extract adjacent location, adjusting for direction */
+			if (push)
+			{
+				yy = y + dy;
+				xx = x + dx;
+			}
+			else
+			{
+				yy = y - dy;
+				xx = x - dx;
+			}
 
 			/* Cannot switch places with stronger monsters. */
 			if (cave_m_idx[yy][xx] != 0)
@@ -1110,6 +1118,22 @@ void thrust_away(int who, int t_y, int t_x, int grids_away)
 
 	/* Clear the cave_temp flag (the "project()" code may have set it). */
 	cave_info[y][x] &= ~(CAVE_TEMP);
+}
+
+/*
+ * Thrust a monster away from the source of the projection
+ */
+void thrust_away(int who, int t_y, int t_x, int grids_away)
+{
+	thrust_creature(who, TRUE, t_y, t_x, grids_away);
+}
+
+/*
+ * Thrust a monster away toward the source of the projection
+ */
+void thrust_toward(int who, int t_y, int t_x, int grids_away)
+{
+	thrust_creature(who, FALSE, t_y, t_x, grids_away);
 }
 
 

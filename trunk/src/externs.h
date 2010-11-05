@@ -809,6 +809,7 @@ extern bool beam_burst(int y, int x, int typ, int num, int dam);
 extern bool project_los(int y0, int x0, int dam, int typ);
 extern void teleport_away(int m_idx, int dis, bool require_los);
 extern void thrust_away(int who, int t_y, int t_x, int grids_away);
+extern void thrust_toward(int who, int t_y, int t_x, int grids_away);
 extern void teleport_player(int dis, bool safe, bool require_los);
 extern void teleport_towards(int oy, int ox, int ny, int nx);
 extern void teleport_player_to(int ny, int nx, int dis,

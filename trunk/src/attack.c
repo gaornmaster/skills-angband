@@ -3710,7 +3710,10 @@ void do_cmd_throw(void)
 							else if (strchr("OTdgv", r_ptr->d_char)) k /= 2;
 
 							/* Thrust away */
-							thrust_away(-1, m_ptr->fy, m_ptr->fx, MIN(3, 1 + k / 15));
+							if (returning != 2)
+								thrust_away(-1, m_ptr->fy, m_ptr->fx, MIN(3, 1 + k / 15));
+							/* On the return, thrust toward player! */
+							else thrust_toward(-1, m_ptr->fy, m_ptr->fx, MIN(3, 1 + k / 15));
 						}
 					}
 				}
