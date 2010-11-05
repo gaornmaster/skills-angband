@@ -1665,7 +1665,7 @@
 #define EGO_RESIST_COLD             7
 #define EGO_RESISTANCE              8
 #define EGO_ELVENKIND               9
-/* xxx */
+#define EGO_ATTENTION              10
 #define EGO_PERMANENCE             11
 /* xxx */
 #define EGO_PLAGUE                 13
@@ -1749,11 +1749,11 @@
 #define EGO_BRAND_POIS             82
 #define EGO_SLAY_ANIMAL            85
 #define EGO_SLAY_EVIL              86
-#define EGO_SLAY_UNDEAD            87
-#define EGO_SLAY_DEMON             88
-#define EGO_SLAY_ORC               89
-#define EGO_SLAY_TROLL             90
-#define EGO_SLAY_GIANT             91
+#define EGO_SLAY_DEMON_UNDEAD      87
+/* xxx */
+#define EGO_SLAY_ORC_TROLL         89
+/* xxx */
+#define EGO_SLAY_TROLL_GIANT       91
 #define EGO_SLAY_DRAGON            92
 
 #define EGO_KILL_ANIMAL            96
@@ -1763,8 +1763,8 @@
 #define EGO_BALROG                100
 /* xxx */
 /* xxx */
-/* xxx */
-/* xxx */
+#define EGO_BLOOD_SEEPER          103
+#define EGO_AGGRESSION            104
 #define EGO_CORRODED              105
 #define EGO_DIGGING               106
 /* xxx */
