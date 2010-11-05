@@ -4584,7 +4584,7 @@ static bool project_p(int who, int y, int x, int dam, int typ)
 					if (take_hit(dam, 0, msg, killer)) break;
 
 					/* Then a cute message, */
-					if (k == 4) msg_print("Foul magics assault body and mind!");
+					if (k >= 4) msg_print("Foul magics assault body and mind!");
 
 					/* Then the poison, */
 					if (!(p_ptr->resist_pois || p_ptr->oppose_pois))
@@ -4632,7 +4632,7 @@ static bool project_p(int who, int y, int x, int dam, int typ)
 					}
 
 					/* Then the Black Breath. */
-					if (k == 4)
+					if (k >= 4)
 					{
 						if (p_ptr->black_breath == FALSE)
 						{
