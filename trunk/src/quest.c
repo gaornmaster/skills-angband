@@ -301,6 +301,28 @@ void insure_quest_monsters(void)
 	}
 }
 
+static bool item_improvement(object_type *i_ptr, int ratio)
+{
+	object_type *j_ptr;
+	int j;
+
+	/* Wearable items - compare to item already in slot */
+	j = wield_slot(i_ptr);
+
+	j_ptr = &inventory[j];
+
+	/* Compare value of the item with the old item */
+	if (j_ptr->k_idx)
+	{
+		/* Similar items also get weeded out */
+		if (object_value_real(i_ptr) < (object_value_real(j_ptr) * ratio) / 10)
+		{
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
 
 /*
  * Give a reward to the character.
@@ -422,6 +444,13 @@ static void grant_reward(byte reward_level, byte type, int diff)
 				{
 					continue;
 				}
+
+				/* Warriors should only get devices that are easy to activate */
+				if ((p_ptr->oath & OATH_OF_IRON) && !(i_ptr->flags2 & TR2_EASY_ACTIVATE))
+				{
+					continue;
+				}
+
 			}
 
 			/* Check spellbooks */
@@ -493,6 +522,9 @@ static void grant_reward(byte reward_level, byte type, int diff)
 				{
 					if (get_skill(sbow(i_ptr->tval), 0, 100) < p_ptr->power / 2)
 						continue;
+					/* Make sure value is significantly better */
+					else if (!item_improvement(i_ptr, 12))
+						continue;
 					else
 						break;
 				}
@@ -524,6 +556,12 @@ static void grant_reward(byte reward_level, byte type, int diff)
 						/* Limit to legal weapon types */
 						if ((i_ptr->tval != TV_HAFTED) && !(f3 & (TR3_BLESSED)))
 							continue;
+					}
+
+					/* Make sure value is significantly better */
+					else if (!item_improvement(i_ptr, 12))
+					{
+						continue;
 					}
 				}
 			}
@@ -603,20 +641,7 @@ static void grant_reward(byte reward_level, byte type, int diff)
 			/* Check all other wearable items */
 			else if (is_wearable(i_ptr))
 			{
-				/* Wearable items - compare to item already in slot */
-				j = wield_slot(i_ptr);
-
-				j_ptr = &inventory[j];
-
-				/* Compare value of the item with the old item */
-				if (j_ptr->k_idx)
-				{
-					/* Similar items also get weeded out */
-					if (value <= object_value_real(j_ptr))
-					{
-						continue;
-					}
-				}
+				if (!item_improvement(i_ptr, 12)) break;
 			}
 
 			/* Check magical devices */
