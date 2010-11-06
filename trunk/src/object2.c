@@ -3354,6 +3354,28 @@ static void add_magic_to_ring(object_type *o_ptr, int level, int power)
 				{
 					o_ptr->pval = 1 + m_bonus(3, level, MAX_DEPTH);
 
+					o_ptr->ac = 5 + m_bonus(15, level, MAX_DEPTH);
+
+					/* Cursed */
+					if (power < 0)
+					{
+						/* Cursed */
+						o_ptr->ident |= (IDENT_CURSED);
+
+						/* Reverse bonuses */
+						o_ptr->pval = 0 - (o_ptr->pval);
+						o_ptr->ac = 0 - (o_ptr->ac);
+					}
+
+					break;
+				}
+
+				case SV_AMULET_TRICKERY:
+				{
+					o_ptr->pval = 1 + m_bonus(2, level, MAX_DEPTH);
+					o_ptr->pval2 = -1;
+					o_ptr->flags_pval2 = TR_PVAL_LIGHT;
+
 					/* Cursed */
 					if (power < 0)
 					{
