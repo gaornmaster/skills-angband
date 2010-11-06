@@ -450,7 +450,7 @@
 #define PY_REGEN_WEAK       15	/* Regeneration when weak */
 #define PY_REGEN_FAINT       5	/* Regeneration when fainting */
 #define PY_REGEN_HPBASE    400	/* Bonus to regeneration:  1/25 HP per turn */
-#define PY_REGEN_MNBASE    400	/* Bonus to regeneration:  1/25 HP per turn */
+#define PY_REGEN_MNBASE    400	/* Bonus to regeneration:  1/25 MP per turn */
 
 
 
