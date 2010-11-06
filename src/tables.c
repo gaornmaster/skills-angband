@@ -3423,7 +3423,7 @@ talent_type talent_info[NUM_TALENTS] =
 	{"Whirlwind Attack",            'e', 3, {S_SWORD, S_POLEARM, S_HAFTED},  30,   0,            0, TALENT_WARRIOR},
 	{"Circle Kick",                 'f', 1, {S_KARATE},                      30,  20,            0, TALENT_WARRIOR},
 	{"Impact Blow",                 'g', 1, {S_HAFTED},                      30,  10,            0, TALENT_WARRIOR},
-	{"Earthquakes",                 'q', 1, {S_HAFTED},                      60, 140, OATH_OF_IRON, TALENT_WARRIOR},
+	{"Earthquakes",                 'h', 1, {S_HAFTED},                      60, 140, OATH_OF_IRON, TALENT_WARRIOR},
 
 	/* Specialized realm talents */
 	{"Detect magic",                'e', 1, {S_WIZARDRY},                    40,  40, 0,            TALENT_UTILITY},
@@ -3451,16 +3451,16 @@ talent_type talent_info[NUM_TALENTS] =
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
 	/* Burglary */
-	{"Darkness",                    '-', 1, {S_BURGLARY},                    20,  10, 0,            TALENT_UTILITY},
-	{"Detect & nab objects",        'o', 1, {S_BURGLARY},                    40,   0, 0,            TALENT_UTILITY},
+	{"Darkness",                    '-', 1, {S_BURGLARY},                    20,  10, 0,            TALENT_UTILITY | TALENT_WARRIOR},
+	{"Detect & nab objects",        'o', 1, {S_BURGLARY},                    40,   0, 0,            TALENT_UTILITY | TALENT_WARRIOR},
 	{"Poison ammo",                 'p', 1, {S_BURGLARY},                    55,   0, 0,            TALENT_UTILITY},
-	{"Hit and run",                 'q', 1, {S_BURGLARY},                    70,  10, 0,            TALENT_UTILITY},
+	{"Hit and run",                 'q', 1, {S_BURGLARY},                    70,  10, 0,            TALENT_UTILITY | TALENT_WARRIOR},
 
 	/* Utility skills */
 	{"Predict weather",             'r', 1, {S_PERCEPTION},                   0, WEATHER_LENGTH, 0,            TALENT_UTILITY},
-	{"Sneaking",                    's', 1, {S_STEALTH},                     10,   0, 0,            TALENT_UTILITY},
-	{"Sense area",                  't', 1, {S_PERCEPTION},                  55,  70, 0,            TALENT_UTILITY},
-	{"Superstealth",                'u', 1, {S_STEALTH},                     75, 200, 0,            TALENT_UTILITY},
+	{"Sneaking",                    's', 1, {S_STEALTH},                     10,   0, 0,            TALENT_UTILITY | TALENT_WARRIOR},
+	{"Sense area",                  't', 1, {S_PERCEPTION},                  55,  70, 0,            TALENT_UTILITY | TALENT_WARRIOR},
+	{"Superstealth",                'u', 1, {S_STEALTH},                     75, 200, 0,            TALENT_UTILITY | TALENT_WARRIOR},
 
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
