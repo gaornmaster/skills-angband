@@ -399,7 +399,8 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 	/* Get skill (note that there may not always be one) */
 	for (i = 0; i < t_ptr->skill_count; i++)
 	{
-		skill = get_skill(t_ptr->skill[i], 0, 100);
+		/* Purposefully not using get_skill, as it causes problems with burglary and devices */
+		skill = p_ptr->pskills[t_ptr->skill[i]].cur;
 
 		if (skill > skill_maximum)
 		{

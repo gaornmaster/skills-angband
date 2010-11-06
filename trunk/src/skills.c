@@ -332,9 +332,6 @@ static int check_for_new_talent(int skill, int level)
 	talent_data *t_ptr;
 	bool check;
 
-	/* Necessary for dealing with skills that are non-linear (burglary for non-guilders, magic devices for warriors, etc.) */
-	level = get_skill(skill, 0, 100);
-
 	/* Scan the list of talents */
 	for (i = 0; i < NUM_TALENTS; i++)
 	{
