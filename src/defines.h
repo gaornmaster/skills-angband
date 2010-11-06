@@ -2092,6 +2092,7 @@
 #define SV_AMULET_INTELLIGENCE          11
 #define SV_AMULET_WISDOM                12
 #define SV_AMULET_CHARISMA              13
+#define SV_AMULET_TRICKERY              14
 #define SV_AMULET_SAVING_THROW          17
 /* xxx */
 /* xxx */
