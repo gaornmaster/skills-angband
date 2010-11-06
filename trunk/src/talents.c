@@ -1349,7 +1349,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				if (blows2) return format("%d/%d blows", blows, blows2);
 				else return format("%d blows", blows);
 			}
-			if (desc) return "Attack monsters at a short distance";
+			if (desc) return "Attack monsters at a short distance with a weapon";
 			if (use)
 			{
 				int x, y;
