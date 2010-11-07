@@ -4183,7 +4183,6 @@ bool get_item(int *cp, cptr pmt, cptr str, int mode)
 	int floor_num = 0;
 	int equip_num = 0;
 	int inven_num = 0;
-	int first_option;
 
 	/* Get the item index */
 	if (repeat_pull(cp))

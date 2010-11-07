@@ -3422,7 +3422,7 @@ static bool file_character_options(FILE *fff)
 
 	if (no_skill_cap && (calc_max_power() == 100))
 	{
-		fprintf(fff, "You have transcended the limits of normal players.\n\n", VERSION_NAME);
+		fprintf(fff, "You have transcended the limits of normal players.\n\n");
 
 		flag = TRUE;
 	}

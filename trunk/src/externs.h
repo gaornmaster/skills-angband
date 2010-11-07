@@ -765,6 +765,7 @@ extern int sweapon(int tval);
 extern int sbow(int tval);
 extern void calc_power(void);
 extern int calc_exp_power(void);
+extern int calc_max_power(void);
 extern void adv_cost_reduce_similar(int skill, s32b *base_cost, byte mode);
 extern s32b adv_cost(int skill, bool add_practice_cost);
 extern bool alter_skill(int skill, int change, bool perm);
