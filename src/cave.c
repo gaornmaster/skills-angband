@@ -3251,7 +3251,7 @@ void forget_view(void)
 						}
 
 						/* Mark unseen grids with infravision if seen */
-						if (!(info & (CAVE_SEEN)) & p->d < infra)
+						if (!(info & (CAVE_SEEN)) && p->d < infra)
 						{
 							/* Mark as noticed */
 							info |= (CAVE_INFR);

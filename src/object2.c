@@ -835,7 +835,7 @@ s16b get_obj_num(int level)
 {
 	int i, j, z;
 	int lev1, lev2, chance1, chance2;
-    int new_index, fix_freq;
+    int fix_freq;
 
 	object_kind *k_ptr;
 
