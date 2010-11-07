@@ -2422,7 +2422,7 @@ static bool do_cmd_disarm_trap(int y, int x)
 			           get_skill(S_DISARM, 0, 100);
 
 			/* However, a high trap level is difficult to overcome */
-			loot -= (80 * diff + 1500);
+			loot -= (80 * diff);
 
 			/* And chance cannot rise too high */
 			if (loot > 500) loot = 500;
