@@ -51,6 +51,80 @@ int selected = -1;
 skill_data old_pskills[NUM_SKILLS];
 
 /*
+ * Handle boosts from similar skill abilities
+ */
+static int get_skill_similar(int skill)
+{
+	int best = 0;
+
+	switch(skill)
+	{
+		case S_SWORD:
+		case S_POLEARM:
+		case S_HAFTED:
+		{
+			/* Weapons and martial arts cross-raise weapons */
+			best += p_ptr->pskills[S_SWORD].cur / 3;
+			best += p_ptr->pskills[S_POLEARM].cur / 3;
+			best += p_ptr->pskills[S_HAFTED].cur / 3;
+			best -= p_ptr->pskills[skill].cur / 3;
+
+			best += p_ptr->pskills[S_WRESTLING].cur / 4;
+			best += p_ptr->pskills[S_KARATE].cur / 4;
+			break;
+		}
+
+		case S_WRESTLING:
+		case S_KARATE:
+		{
+			/* Weapons and martial arts cross-raise weapons */
+			best += p_ptr->pskills[S_SWORD].cur / 4;
+			best += p_ptr->pskills[S_POLEARM].cur / 4;
+			best += p_ptr->pskills[S_HAFTED].cur / 4;
+
+			best += p_ptr->pskills[S_WRESTLING].cur / 3;
+			best += p_ptr->pskills[S_KARATE].cur / 3;
+			best -= p_ptr->pskills[skill].cur / 3;
+			break;
+		}
+
+		case S_BOW:
+		case S_CROSSBOW:
+		case S_SLING:
+		{
+			/* Ranged attacks cross-raise */
+			best += p_ptr->pskills[S_BOW].cur / 3;
+			best += p_ptr->pskills[S_CROSSBOW].cur / 3;
+			best += p_ptr->pskills[S_SLING].cur / 3;
+			best -= p_ptr->pskills[skill].cur / 3;
+
+			best += p_ptr->pskills[S_THROWING].cur / 4;
+			break;
+		}
+
+		case S_THROWING:
+		{
+			/* Ranged attacks cross-raise */
+			best += p_ptr->pskills[S_BOW].cur / 4;
+			best += p_ptr->pskills[S_CROSSBOW].cur / 4;
+			best += p_ptr->pskills[S_SLING].cur / 4;
+
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+
+	/* Sanity check */
+	if (best > 100) best = 100;
+
+	return best;
+}
+
+
+/*
  * This function is used to get effective values for all skills.
  *
  * We use min and max to set bounds.  A non-zero min will shift the possible
@@ -66,7 +140,7 @@ skill_data old_pskills[NUM_SKILLS];
  */
 s16b get_skill(int skill, int min, int max)
 {
-	int tmp, std_max;
+	int tmp, alt, std_max;
 
 
 	/* Illegal or empty skill */
@@ -78,6 +152,10 @@ s16b get_skill(int skill, int min, int max)
 
 	/* Get the current skill percentage */
 	tmp = p_ptr->pskills[skill].cur;
+
+	/* Give some partial credit for similar skills */
+	alt = get_skill_similar(skill);
+	if (alt > tmp) tmp = (tmp + alt) / 2;
 
 
 	/*** Handle special cases ***/
