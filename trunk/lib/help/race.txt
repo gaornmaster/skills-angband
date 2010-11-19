@@ -38,13 +38,13 @@ and have innate infravision.
 
 Dwarf:
      Dwarves are the headstrong miners and fighters of legend.  They are strong,
-wise, tough, and resistant to magic; although not very good at casting spells,
-they make excellent mages and smiths.  They are better than average at melee
-combat, but don't know the first thing about bows.  Dwarves have good innate
-infravision and -- a major advantage -- can never be blinded.  They do have one
-big drawback, though:  Dwarves are loudmouthed and proud, singing in loud
-voices, arguing with themselves for no good reason, screaming out challenges at
-imagined foes.  In other words, dwarves have a miserable stealth.
+intelligent, tough, and resistant to magic; although not very good at casting
+spells, they make excellent mages and smiths.  They are better than average at
+melee combat, but don't know the first thing about bows.  Dwarves have good
+innate infravision and -- a major advantage -- can never be blinded.  They do 
+have one big drawback, though:  Dwarves are loudmouthed and proud, singing in 
+loud voices, arguing with themselves for no good reason, screaming out challenges
+at imagined foes.  In other words, dwarves have a miserable stealth.
 
 Half-Orc:
      The bastard offspring of humans and orcs, half-orcs are ugly, strong, and
