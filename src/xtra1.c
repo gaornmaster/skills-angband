@@ -5323,6 +5323,8 @@ static void calc_bonuses(void)
 	object_type *o_ptr;
 	u32b f1, f2, f3;
 
+	int tmp, tmp2;
+
 
 	/*** Memorize ***/
 
@@ -5529,8 +5531,16 @@ static void calc_bonuses(void)
 	p_ptr->skill_thn  = 10 + rp_ptr->r_thn;
 	p_ptr->skill_thn += add_special_melee_skill();
 
+
 	if (get_skill(weapon_skill, 0, 100))
-		p_ptr->skill_thn += get_skill_race(weapon_skill, 5, 115);
+		tmp = get_skill_race(weapon_skill, 5, 115);
+
+	/* Hack -- priests can wield blessed sharp weapons as if they were clubs */
+	tmp2 = 0;
+	if (p_ptr->realm == PRIEST && (inventory[INVEN_WIELD].flags3 & TR3_BLESSED))
+		tmp2 = get_skill_race(S_HAFTED, 5, 115);
+
+	p_ptr->skill_thn += MAX(tmp,tmp2);
 
 	/* Hack -- special bonus for high-level martial arts experts */
 	if ((weapon_skill == S_KARATE) || (weapon_skill == S_WRESTLING))
