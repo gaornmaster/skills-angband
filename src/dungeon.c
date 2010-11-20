@@ -2344,7 +2344,7 @@ static void process_command(void)
 		/* Save and quit, or retire */
 		case 'Q':
 		{
-			if (!p_ptr->total_winner)
+			if (!p_ptr->total_winner && !ironman_play)
 			{
 				/* Stop playing */
 				p_ptr->playing = FALSE;
