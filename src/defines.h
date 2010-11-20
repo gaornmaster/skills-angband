@@ -582,8 +582,9 @@
 #define RACE_GIANT       10
 #define RACE_ENT         11
 #define RACE_WOSES       12
+#define RACE_BEORNING    13
 
-#define MAX_RACES        13
+#define MAX_RACES        14
 
 
 
@@ -766,7 +767,7 @@
 #define TALENT_XX23                47
 
 #define TALENT_DRAGON_BREATHING    48
-#define TALENT_XX24                49
+#define TALENT_BEARFORM           49
 #define TALENT_XX25                50
 #define TALENT_XX26                51
 #define TALENT_XX27                52

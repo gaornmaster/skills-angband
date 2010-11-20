@@ -1141,6 +1141,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			}
 			break;
 		}
+
 		case TALENT_WHIRLWIND:
 		{
 			int x, y;
@@ -1391,6 +1392,21 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 
 			break;
 		}
+
+		case TALENT_BEARFORM:
+		{
+			if (info) return "";
+			if (desc) return "Assume the form of a bear";
+			if (check)
+			{
+				if (p_ptr->prace == RACE_BEORNING) return ("Y");
+				else  return ("N");
+			}
+			if (use) shapechange(SHAPE_BEAR);
+
+			break;
+		}
+
 
 		default:
 		{
