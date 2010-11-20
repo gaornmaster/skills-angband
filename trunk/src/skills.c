@@ -2058,7 +2058,6 @@ static bool can_reduce_skill(int skill, bool verbose)
 					if (verbose) prt_oath_message();
 					return (FALSE);
 				}
-				p_ptr->realm = 0;
 			}
 			return (TRUE);
 			break;
