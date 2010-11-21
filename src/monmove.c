@@ -918,12 +918,13 @@ static int choose_ranged_attack(int m_idx, bool archery_only)
 	bool do_random = FALSE;
 
 	bool require_los = TRUE;
+	bool splash_ball = FALSE;
 
 	bool is_harass = FALSE;
 	bool is_best_harass = FALSE;
 	bool is_breath = FALSE;
 
-	int i, py = p_ptr->py, px = p_ptr->px;
+	int i, s, py = p_ptr->py, px = p_ptr->px;
 	int breath_hp, breath_maxhp, path, spaces;
 
 	int want_hps=0, want_escape=0, want_mana=0, want_summon=0;
@@ -939,7 +940,7 @@ static int choose_ranged_attack(int m_idx, bool archery_only)
 	f7 = r_ptr->flags7;
 
 	/* Check what kinds of spells can hit player */
-	path=projectable(m_ptr->fy, m_ptr->fx, p_ptr->py, p_ptr->px, PROJECT_CHCK);
+	path = projectable(m_ptr->fy, m_ptr->fx, py, px, PROJECT_CHCK);
 
 	/* do we have the player in sight at all? */
 	if (path==PROJECT_NO)
@@ -947,6 +948,22 @@ static int choose_ranged_attack(int m_idx, bool archery_only)
 		/* Flat out 75% chance of not casting if the player is not in sight */
 		/* In addition, most spells don't work without a player around */
 		if (!one_in_(4)) return (0);
+
+		/* Try to abuse LOS against player */
+		/* Note, this interfaces poorly with monsters not knowing where the player is */
+		for (i = 0, s = rand_int(8); i < 8; i++, s++)
+		{
+			path = projectable(m_ptr->fy, m_ptr->fx, py + ddx[ddc[s % 8]], px + ddx[ddc[s % 8]], PROJECT_CHCK);
+			if (path != PROJECT_NO)
+			{
+				splash_ball = TRUE;
+
+				/* Adjust target */
+				py = py + ddx[ddc[s % 8]];
+				px = px + ddx[ddc[s % 8]];
+				break;
+			}
+		}
 
 		require_los=FALSE;
 	}
@@ -975,14 +992,25 @@ static int choose_ranged_attack(int m_idx, bool archery_only)
 	}
 
 	/* Remove spells the 'no-brainers'*/
-	/* Spells that require LOS */
-	if (!require_los)
+	/* Can cast spells that would deal splash damage to player or that don't require LOS */
+	if (splash_ball)
+	{
+		f4 &= (RF4_NO_PLAYER_MASK | RF4_BALL_MASK);
+		f5 &= (RF5_NO_PLAYER_MASK | RF5_BALL_MASK);
+		f6 &= (RF6_NO_PLAYER_MASK | RF6_BALL_MASK);
+		f7 &= (RF7_NO_PLAYER_MASK | RF7_BALL_MASK);
+	}
+
+	/* Can only cast spells that don't require LOS */
+	else if (!require_los)
 	{
 		f4 &= (RF4_NO_PLAYER_MASK);
 		f5 &= (RF5_NO_PLAYER_MASK);
 		f6 &= (RF6_NO_PLAYER_MASK);
 		f7 &= (RF7_NO_PLAYER_MASK);
 	}
+
+	/* Remove bolt spells */
 	else if (path==PROJECT_NOT_CLEAR)
 	{
 		f4 &= ~(RF4_BOLT_MASK);

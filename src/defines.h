@@ -4115,6 +4115,22 @@
 
 
 /*
+ * Ball spells
+ */
+#define RF4_BALL_MASK \
+        (0L)
+
+#define RF5_BALL_MASK \
+	(RF5_BALL_ACID | RF5_BALL_ELEC | RF5_BALL_FIRE | RF5_BALL_COLD | RF5_BALL_POIS | RF5_BALL_LITE | RF5_BALL_DARK | RF5_BALL_CONFU | RF5_BALL_SOUND | RF5_BALL_SHARD | RF5_BALL_STORM | RF5_BALL_NETHR | RF5_BALL_CHAOS | RF5_BALL_MANA)
+
+#define RF6_BALL_MASK \
+	(0L)
+
+#define RF7_BALL_MASK \
+	(0L)
+
+
+/*
  * Breath attacks.
  * Need special treatment in movement AI.
  */
