@@ -4521,6 +4521,24 @@ void monster_death(int m_idx)
 }
 
 /*
+ * Calculate monster experience
+ */
+long monster_exp(monster_race *r_ptr)
+{
+	return r_ptr->mexp * r_ptr->level / calc_exp_power();
+}
+
+/*
+ * Calculate fractional monster experience
+ */
+long monster_exp_frac(monster_race *r_ptr)
+{
+	int power = calc_exp_power();
+	return ((long)r_ptr->mexp * r_ptr->level) % power * 1000L / power;
+}
+
+
+/*
  * Decrease a monster's hit points, handle monster death.
  * Note:  No other code should be used to hurt monsters.
  *
@@ -4562,7 +4580,7 @@ bool mon_take_hit(int m_idx, int who, int dam, bool *fear, cptr note)
 	    (skill_being_used < NUM_SKILLS) && (m_ptr->hp > 0))
 	{
 		/* Calculate base monster experience */
-		new_exp = (long)r_ptr->mexp * r_ptr->level / power;
+		new_exp = (long)monster_exp(r_ptr);
 
 		/* Adjust for damage percentage (never over 100%) */
 		new_exp *= MIN(dam, m_ptr->hp);
@@ -4656,14 +4674,15 @@ bool mon_take_hit(int m_idx, int who, int dam, bool *fear, cptr note)
 		if ((who < 0) && (!slay_holy))
 		{
 			/* Give some experience for the kill */
-			new_exp = ((long)r_ptr->mexp * r_ptr->level) / power;
+			new_exp = monster_exp(r_ptr);
 
 			/* Get fractional exp */
 			new_exp_frac = (long)p_ptr->exp_frac;
 
 			/* Add new fractional exp */
-			new_exp_frac += ((long)r_ptr->mexp * r_ptr->level) %
-				power * 1000L / power;
+			new_exp_frac += monster_exp_frac(r_ptr);
+
+			debug("%d %d", monster_exp(r_ptr), monster_exp_frac(r_ptr));
 
 			/* Keep track of experience */
 			if (new_exp_frac >= 1000L)

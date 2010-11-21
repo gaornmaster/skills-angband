@@ -1587,17 +1587,11 @@ static void describe_monster_exp(int r_idx, const monster_lore *l_ptr)
 		{
 			long i, j;
 
-			/* Actual exp depends on base exp and monster level */
-			long exp_value = (long)r_ptr->mexp * r_ptr->level;
-
-			/* Exp value falls as character becomes more experienced */
-			int power_div = calc_exp_power();
-
 			/* Calculate integer experience */
-			i = exp_value / power_div;
+			i = monster_exp(r_ptr);
 
 			/* Calculate fractional experience */
-			j = (((exp_value % power_div) * 1000L / power_div + 5) / 10);
+			j = (monster_exp_frac(r_ptr) + 5) / 10;
 
 			/* Describe the experience */
 			text_out(format(" is worth %ld.%02ld point%s",
