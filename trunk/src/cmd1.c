@@ -123,15 +123,14 @@ void search(void)
 /*
  * Search for hidden essences
  *
- * - Finding essences requires infusion (and also perception) skill.
+ * - Finding essences requires infusion or alchemy (and also perception) skill.
  * - The deeper you go, the harder essences are to find.
  * - We do not need light to find essences.
  */
 void search_essence(bool strong)
 {
 	/* Skill ranges from 0 to 200 */
-	int skill = get_skill(S_INFUSION, 0, 150) +
-	            get_skill(S_PERCEPTION, 0, 50);
+	int skill;
 	int range;
 	int y, x;
 
@@ -141,20 +140,28 @@ void search_essence(bool strong)
 	char o_name[DESC_LEN];
 	object_type *o_ptr;
 
+	int skill_choice;
+
+	/* Allow users to use either infusion or alchemy */
+	if (get_skill(S_INFUSION, 0, 100) > get_skill(S_ALCHEMY, 0, 100))
+		skill_choice = S_INFUSION;
+	else	skill_choice = S_ALCHEMY;
+
+	/* Require an infusion or alchemy skill of 10 */
+	if (get_skill(skill_choice, 0, 100) < LEV_REQ_INFUSE) return;
+
+	skill = get_skill(skill_choice, 0, 150) +
+			get_skill(S_PERCEPTION, 0, 50);
 
 	/* Penalize various conditions */
 	if (p_ptr->confused || p_ptr->image) return;
 	if (p_ptr->berserk || p_ptr->necro_rage) return;
 
-
-	/* Require an infusion skill of 10 */
-	if (get_skill(S_INFUSION, 0, 100) < LEV_REQ_INFUSE) return;
-
 	/* Modify effective skill by randomized depth */
 	skill -= randint(20 + 5 * p_ptr->depth / 3);
 
 	/* Deliberate search is better */
-	if (strong) skill += get_skill(S_INFUSION, 10, 60);
+	if (strong) skill += get_skill(skill_choice, 10, 60);
 
 	/* Search only sometimes */
 	if (skill <= 0) return;
@@ -286,11 +293,8 @@ void do_cmd_search(void)
 	/* Search */
 	search();
 
-	/* Search -- essences */
-	if (get_skill(S_INFUSION, 0, 100) >= LEV_REQ_INFUSE)
-	{
-		search_essence(TRUE);
-	}
+	/* Search for essences; note, infusion or alchemy required */
+	search_essence(TRUE);
 
 	/* Notice unseen objects */
 	notice_unseen_objects();
@@ -1606,14 +1610,12 @@ void move_player(int dir, int do_pickup)
 			search();
 		}
 
-		/* Spontaneous searching -- essences */
-		if (get_skill(S_INFUSION, 0, 100) >= LEV_REQ_INFUSE)
+		/* Spontaneous searching for essences */
+		/* Skill competes with depth */
+		if (rand_int(25 + p_ptr->depth) < get_skill(S_INFUSION, 0, 100) ||
+			rand_int(25 + p_ptr->depth) < get_skill(S_ALCHEMY, 0, 100))
 		{
-			/* Skill competes with depth */
-			if (rand_int(25 + p_ptr->depth) < get_skill(S_INFUSION, 0, 100))
-			{
-				search_essence(FALSE);
-			}
+			search_essence(FALSE);
 		}
 
 		/* Handle store doors */
