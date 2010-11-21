@@ -852,10 +852,8 @@ Spell resistance   (cost - 4):
      Increases your saving throw against magical and mental attacks (blinding, confusion, paralyzation, etc.).  Attention paid to this skill can save your life...
 
 Weaponsmithing   (cost - 11):
-     Once you raise it to 15, allows you to forge melee and throwing weapons
-as well as bows and missiles from components found in the dungeon. Note:  you
-also need to be moderately skilled in using the weapon type you are making to
-get good results.
+     Once you raise it to 15, allows you to forge melee and throwing weapons as well as bows and missiles from components found in the dungeon.
+	 Note:  you also need to be moderately skilled in using the weapon type you are making to get good results.
 
 Armor forging   (cost - 14):
      With a skill of 15, allows you to forge armor from components found in the dungeon.  Armor forging is very powerful, because there are almost no object qualities that cannot be had with enough skill, good enough components, and a dash of luck.
