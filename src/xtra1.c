@@ -4962,6 +4962,69 @@ int player_flags_pval(u32b flag_pval, bool shape)
 	return (pval);
 }
 
+/*
+ * Consolidate weapon blow calculations
+ */
+int weapon_blows(object_type *o_ptr, bool primary)
+{
+	int str_index, dex_index, blows, str, dex;
+	object_type *i_ptr;
+	int weight, effective_weight, hold;
+
+	str = p_ptr->stat_ind[A_STR];
+	dex = p_ptr->stat_ind[A_DEX];
+
+	hold = adj_str_hold[p_ptr->stat_ind[A_STR]];
+
+	i_ptr = &inventory[INVEN_WIELD];
+
+	if (primary) weight = o_ptr->weight / 10;
+	else weight = (o_ptr->weight + i_ptr->weight) / 5;  /* Half the single-weapon weight */
+
+	/* Handle heavy weapons */
+	if (weight > hold) return (primary) ? 1 : 0;
+
+	/* Choose which item to replace in calculation */
+	if (primary) 	i_ptr = &inventory[INVEN_WIELD];
+	else 			i_ptr = &inventory[INVEN_ARM];
+
+	/* Remove benefits from replaced weapon or shield */
+	if (i_ptr)
+	{
+
+		str -= get_object_pval(i_ptr, TR_PVAL_STR);
+		dex -= get_object_pval(i_ptr, TR_PVAL_DEX);
+	}
+
+	/* Add benefits of new weapon */
+	str += get_object_pval(o_ptr, TR_PVAL_STR);
+	dex += get_object_pval(o_ptr, TR_PVAL_DEX);
+
+	/* Keep within limits */
+	str = MIN(MAX(0, str), 37);
+	dex = MIN(MAX(0, dex), 37);
+
+	/* Enforce a minimum weight of three pounds */
+	effective_weight = (o_ptr->weight < 30 ? 30 : o_ptr->weight);
+
+	/* Compare strength and weapon weight */
+	str_index = MIN(11, 6 * adj_str_blow[str] / effective_weight);
+
+	/* Index by dexterity */
+	dex_index = MIN(11, (adj_dex_blow[dex]));
+
+	/* Use the blows table */
+	blows = blows_table[str_index][dex_index];
+
+	/* Add extra blows */
+	blows += get_object_pval(o_ptr, TR_PVAL_BLOWS);
+
+	/* Apply character modifiers to blows */
+	blows += player_flags_pval(TR_PVAL_BLOWS, TRUE);
+
+	return blows;
+}
+
 
 /*
  * Analyze wielded melee and missile weapons, check various combat-
@@ -5093,26 +5156,8 @@ static void analyze_weapons(void)
 			/* First weapon */
 			if (TRUE)
 			{
-				/* Enforce a minimum weight of three pounds */
-				effective_weight = (o_ptr->weight < 30 ? 30 : o_ptr->weight);
-
-				/* Compare strength and weapon weight */
-				str_index = MIN(11, 6 * adj_str_blow[p_ptr->stat_ind[A_STR]] /
-					effective_weight);
-
-				/* Index by dexterity */
-				dex_index = MIN(11, (adj_dex_blow[p_ptr->stat_ind[A_DEX]]));
-
-				/* Use the blows table */
-				p_ptr->num_blow = blows_table[str_index][dex_index];
-
-
-				/* Add extra blows */
-				p_ptr->num_blow += get_object_pval(o_ptr, TR_PVAL_BLOWS);
-
-				/* Apply character modifiers to blows */
-				p_ptr->num_blow += player_flags_pval(TR_PVAL_BLOWS, TRUE);
-
+				/* Calculate number of blows */
+				p_ptr->num_blow = weapon_blows(o_ptr, TRUE);
 
 				/* Calculate digging bonus */
 				skill_dig1 += (get_object_pval(o_ptr, TR_PVAL_TUNNEL) * 20) +
@@ -5123,26 +5168,7 @@ static void analyze_weapons(void)
 			/* Second weapon */
 			if (p_ptr->twoweap)
 			{
-				/* Enforce a minimum weight of three pounds */
-				effective_weight = (i_ptr->weight < 30 ? 30 : i_ptr->weight);
-
-				/* Compare strength and weapon weight */
-				str_index = MIN(11, 6 * adj_str_blow[p_ptr->stat_ind[A_STR]] /
-					effective_weight);
-
-				/* Index by dexterity */
-				dex_index = MIN(11, (adj_dex_blow[p_ptr->stat_ind[A_DEX]]));
-
-				/* Use the blows table */
-				p_ptr->num_blow2 = blows_table[str_index][dex_index];
-
-
-				/* Add extra blows */
-				p_ptr->num_blow2 += get_object_pval(i_ptr, TR_PVAL_BLOWS);
-
-				/* Apply character modifiers to blows */
-				p_ptr->num_blow2 += player_flags_pval(TR_PVAL_BLOWS, TRUE);
-
+				p_ptr->num_blow2 = weapon_blows(i_ptr, FALSE);
 
 				/* Calculate digging bonus */
 				skill_dig2 += (get_object_pval(i_ptr, TR_PVAL_TUNNEL) * 20) +

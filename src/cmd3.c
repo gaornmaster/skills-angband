@@ -519,12 +519,8 @@ void do_cmd_wield(void)
 				/* Weapon in the primary wield slot is light enough */
 				if (o_ptr->weight + i_ptr->weight <= hold)
 				{
-					/* Hack -- to avoid annoyance, shields cancel dual wield */
-					if (inventory[INVEN_ARM].tval != TV_SHIELD)
-					{
-						/* Weapon is of same type -- allow dual wield in slot 2 */
-						if (i_ptr->tval == o_ptr->tval) slot2_ok = TRUE;
-					}
+					/* Weapon is of same type -- allow dual wield in slot 2 */
+					if (i_ptr->tval == o_ptr->tval) slot2_ok = TRUE;
 				}
 
 				/* Get item in secondary wield slot */
