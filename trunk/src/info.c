@@ -1288,6 +1288,8 @@ void object_details(object_type *o_ptr, bool mental, bool known)
 	/* Explain skills and other "gotchas" */
 	if (is_melee_weapon(o_ptr))
 	{
+		int blows;
+
 		roff("\n", 0, 80);
 		if (k_info[o_ptr->k_idx].flags1 & (TR1_THROWING))
 		{
@@ -1313,6 +1315,16 @@ void object_details(object_type *o_ptr, bool mental, bool known)
 			}
 			roff(".\n", 0, 80);
 		}
+
+		roff("\n", 0, 80);
+
+		/* Add blow information */
+		blows = weapon_blows(o_ptr, TRUE);
+		if (blows > 1) roff(format("If attacking in melee as primary weapon, you get %d blows.\n", blows), 0, 80);
+		else c_roff(TERM_RED, "This weapon is too heavy for you to wield properly.\n", 0, 80);
+
+		blows = weapon_blows(o_ptr, FALSE);
+		if (blows) roff(format("If attacking in melee as secondary weapon, you get %d blows.\n", blows), 0, 80);
 	}
 	else if (is_missile_weapon(o_ptr))
 	{

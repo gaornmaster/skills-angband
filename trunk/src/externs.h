@@ -1166,6 +1166,7 @@ extern void player_flags(u32b *f1, u32b *f2, u32b *f3, bool shape, bool modify);
 extern void player_flags_cancel(u32b *f1, u32b *f2, u32b *f3, bool shape);
 extern int missile_bonus(u32b flag_pval, int skill);
 extern int player_flags_pval(u32b flag_pval, bool shape);
+extern int weapon_blows(object_type *o_ptr, bool primary);
 
 
 /* xtra2.c */
