@@ -5665,13 +5665,13 @@ cptr do_spell(int mode, int spell)
 				break;
 			}
 
-			/* Lich Powers  (this could also be a shapechange) */
+			/* Lich Powers */
 			case 242:
 			{
 				dur1 = spower / 2;     dur2 = spower;
 
 				if (info) return (format("dur %d-%d", dur1, dur2));
-				if (desc) return ("Grants you many of the powers of liches, invisible undead who move with speed.");
+				if (desc) return ("Grants you many of the powers of liches, invisible undead who move with speed, but vulnerable to fire.");
 				if (cast)
 				{
 					dur = rand_range(dur1, dur2);

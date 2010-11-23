@@ -4921,6 +4921,10 @@ static bool project_p(int who, int y, int x, int dam, int typ)
 			dam += terrain_adjustment / 2;
 
 			if (fuzzy) msg_print("You are hit by something!");
+
+			/* Vampires take additional damage from light, but retain the benefits of resistance */
+			if (p_ptr->schange == SHAPE_VAMPIRE) dam += dam / 2;
+
 			if ((p_ptr->resist_lite) || (p_ptr->oppose_ethereal))
 			{
 				dam = div_round(dam, 2);
