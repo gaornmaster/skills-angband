@@ -3105,6 +3105,7 @@
 #define SHAPE_TROLL         9
 
 #define SHAPE_BAT          11
+#define SHAPE_LICH         12
 
 
 

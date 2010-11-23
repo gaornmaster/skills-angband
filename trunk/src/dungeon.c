@@ -1306,13 +1306,9 @@ static void process_world(void)
 	{
 		(void)set_wraithform(p_ptr->wraithform - 1);
 	}
-	if (p_ptr->trollform)
+	if (p_ptr->form_dur)
 	{
-		(void)set_trollform(p_ptr->trollform - 1);
-	}
-	if (p_ptr->dragonform)
-	{
-		(void)set_dragonform(p_ptr->dragonform - 1);
+		(void)set_form_temp(p_ptr->form_dur - 1, p_ptr->schange);
 	}
 
 
