@@ -5675,12 +5675,7 @@ cptr do_spell(int mode, int spell)
 				if (cast)
 				{
 					dur = rand_range(dur1, dur2);
-
-					(void)set_invis(dur, 30);
-					(void)set_oppose_cold(dur);
-					(void)set_oppose_pois(dur);
-					(void)set_detect_inv(dur);
-					(void)set_fast(dur);
+					set_form_temp(dur, SHAPE_LICH);
 				}
 				break;
 			}

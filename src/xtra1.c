@@ -4429,7 +4429,7 @@ void player_flags(u32b *f1, u32b *f2, u32b *f3, bool shape, bool modify)
 	}
 
 	/* Temporary see invisible */
-	if (p_ptr->tim_invis)
+	if (p_ptr->tim_invis || p_ptr->schange == SHAPE_LICH)
 	{
 		*f3 |= (TR3_SEE_INVIS);
 	}
@@ -4954,6 +4954,11 @@ int player_flags_pval(u32b flag_pval, bool shape)
 			if (flag_pval == TR_PVAL_INFRA)   pval += 6;
 			if (flag_pval == TR_PVAL_SPEED)   pval += 5;
 			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
+			break;
+		}
+		case SHAPE_LICH:
+		{
+			if (flag_pval == TR_PVAL_INVIS)   pval += 6;
 			break;
 		}
 	}

@@ -318,6 +318,10 @@ bool set_fast(int v)
 {
 	bool notice = FALSE;
 
+	/* Hack -- handle lich's temporary speed */
+	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return;
+
+
 	/* Sounds */
 	if      (!p_ptr->fast && v) sound(MSG_SPEED);
 	else if (p_ptr->fast && !v) sound(MSG_RECOVER);
@@ -1303,6 +1307,9 @@ bool set_oppose_cold(int v)
 {
 	bool notice = FALSE;
 
+	/* Hack -- handle lich's temporary resistance */
+	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return;
+
 	/* Sounds */
 	if      (!p_ptr->oppose_cold && v) sound(MSG_RES_COLD);
 	else if (p_ptr->oppose_cold && !v) sound(MSG_RECOVER);
@@ -1335,6 +1342,9 @@ bool set_oppose_cold(int v)
 bool set_oppose_pois(int v)
 {
 	bool notice = FALSE;
+
+	/* Hack -- handle lich's temporary resistance */
+	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return;
 
 	/* Sounds */
 	if      (!p_ptr->oppose_pois && v) sound(MSG_RES_POIS);
@@ -2421,14 +2431,14 @@ bool set_wraithform(int v)
 
 
 /*
- * Set "p_ptr->trollform", notice observable changes
+ * Set "p_ptr->form_dur and p_ptr->schange", notice observable changes
  */
-bool set_trollform(int v)
+bool set_form_temp(int v, int shape)
 {
 	bool notice = FALSE;
 
-	/* Set trollform, no messages */
-	notice = set_condition(&p_ptr->trollform, v, 0L,
+	/* Set form duration, no messages */
+	notice = set_condition(&p_ptr->form_dur, v, 0L,
 	        "",
 	        "");
 
@@ -2436,10 +2446,10 @@ bool set_trollform(int v)
 	if (!notice) return (FALSE);
 
 	/* Turn into a troll */
-	if (p_ptr->trollform) shapechange(SHAPE_TROLL);
+	if (p_ptr->form_dur) shapechange(shape);
 
 	/* Change back to normal form */
-	if ((!p_ptr->trollform) && (p_ptr->schange))
+	if ((!p_ptr->form_dur) && (p_ptr->schange))
 	{
 		do_cmd_unchange(FALSE);
 	}
@@ -2451,37 +2461,6 @@ bool set_trollform(int v)
 	return (TRUE);
 }
 
-
-/*
- * Set "p_ptr->dragonform", notice observable changes
- */
-bool set_dragonform(int v)
-{
-	bool notice = FALSE;
-
-	/* Set dragonform, no messages */
-	notice = set_condition(&p_ptr->dragonform, v, 0L,
-	        "",
-	        "");
-
-	/* Nothing to notice */
-	if (!notice) return (FALSE);
-
-	/* Turn into a dragon */
-	if (p_ptr->dragonform) shapechange(SHAPE_DRAGON);
-
-	/* Change back to normal form */
-	if ((!p_ptr->dragonform) && (p_ptr->schange))
-	{
-		do_cmd_unchange(FALSE);
-	}
-
-	/* Handle stuff */
-	handle_stuff();
-
-	/* Result */
-	return (TRUE);
-}
 
 /*
  * Set "p_ptr->pois_power", do not notice
@@ -2661,6 +2640,8 @@ bool set_self_knowledge(int v, cptr msg)
 void shapechange(s16b shape)
 {
 	cptr shapedesc = "(none)";
+	int old_shape = p_ptr->schange;
+
 
 
 	/* Wonder Twin powers -- Activate! */
@@ -2679,6 +2660,7 @@ void shapechange(s16b shape)
 		case SHAPE_ENT:     shapedesc = "ent";        break;
 		case SHAPE_TROLL:   shapedesc = "troll";      break;
 		case SHAPE_BAT:     shapedesc = "bat";        break;
+		case SHAPE_LICH:    shapedesc = "lich";       break;
 		default:            shapedesc = "monster";    break;
 	}
 
@@ -2695,6 +2677,20 @@ void shapechange(s16b shape)
 	{
 		/* Message */
 		msg_print("You return to your normal form.");
+	}
+
+	/* Hack -- handle lich's temporary stuff */
+	if (shape == SHAPE_LICH)
+	{
+		if (!p_ptr->oppose_cold) set_oppose_cold(1);
+		if (!p_ptr->oppose_pois) set_oppose_pois(1);
+		if (!p_ptr->fast) set_fast(1);
+	}
+	else if (old_shape == SHAPE_LICH)
+	{
+		if (p_ptr->oppose_cold == 1) set_oppose_cold(0);
+		if (p_ptr->oppose_pois == 1) set_oppose_pois(0);
+		if (p_ptr->fast == 1) set_fast(0);
 	}
 
 	/* Update stuff */
@@ -2740,8 +2736,7 @@ void do_cmd_unchange(bool voluntary)
 	shapechange(SHAPE_NORMAL);
 
 	/* Hack -- cancel temporary shapechanges */
-	p_ptr->trollform = 0;
-	p_ptr->dragonform = 0;
+	p_ptr->form_dur = 0;
 
 	/* Use some energy  XXX */
 	if (voluntary) p_ptr->energy_use = 100;

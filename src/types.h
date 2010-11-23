@@ -1152,9 +1152,7 @@ struct player_type
 	s16b word_recall;			/* Word of recall counter */
 
 	s16b wraithform;           /* Can go through walls */
-	s16b trollform;            /* Temporary Troll form */
-	s16b dragonform;           /* Temporary Dragon form */
-
+	s16b form_dur;             /* Handle temporary forms -- note: no longer any dragonform or trollform variable */
 
 	s16b dancing_feet;         /* Player blinks every turn */
 	bool dancing_feet_safe;    /* Are these blinks safe or unsafe? */

@@ -1559,6 +1559,8 @@ void self_knowledge(bool full)
 				break;
 			case SHAPE_BAT:     roff(format("%sa bat.\n",     p), 0, 0);
 				break;
+			case SHAPE_LICH:    roff(format("%sa lich.\n",     p), 0, 0);
+				break;
 			default:  roff(format("%san unknown creature.\n", p), 0, 0);
 				break;
 		}

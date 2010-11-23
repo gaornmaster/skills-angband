@@ -1497,8 +1497,8 @@ static errr do_character(void)
 	do_s16b(&p_ptr->word_recall);
 
 	do_s16b(&p_ptr->wraithform);
-	do_s16b(&p_ptr->trollform);
-	do_s16b(&p_ptr->dragonform);
+	do_s16b(&p_ptr->form_dur);
+	do_s16b(&blank_u16b);
 
 	do_byte((byte *)&p_ptr->suppress_bottle);
 	do_byte((byte *)&p_ptr->move_dir);
