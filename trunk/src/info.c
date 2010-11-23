@@ -1539,28 +1539,20 @@ void self_knowledge(bool full)
 
 		switch (p_ptr->schange)
 		{
-			case SHAPE_GOAT:    roff(format("%sa goat.\n",    p), 0, 0);
-				break;
-			case SHAPE_BEAR:    roff(format("%sa bear.\n",    p), 0, 0);
-				break;
-			case SHAPE_MOUSE:   roff(format("%sa mouse.\n",   p), 0, 0);
-				break;
-			case SHAPE_HOUND:   roff(format("%sa hound.\n",   p), 0, 0);
-				break;
-			case SHAPE_CHEETAH: roff(format("%sa cheetah.\n", p), 0, 0);
-				break;
-			case SHAPE_LION:    roff(format("%sa lion.\n",    p), 0, 0);
-				break;
-			case SHAPE_DRAGON:  roff(format("%sa dragon.\n",  p), 0, 0);
-				break;
-			case SHAPE_ENT:     roff(format("%san ent.\n",    p), 0, 0);
-				break;
-			case SHAPE_TROLL:   roff(format("%sa troll.\n",   p), 0, 0);
-				break;
-			case SHAPE_BAT:     roff(format("%sa bat.\n",     p), 0, 0);
-				break;
-			case SHAPE_LICH:    roff(format("%sa lich.\n",     p), 0, 0);
-				break;
+			case SHAPE_GOAT:    roff(format("%sa goat.\n",    p), 0, 0); 				break;
+			case SHAPE_BEAR:    roff(format("%sa bear.\n",    p), 0, 0); 				break;
+			case SHAPE_MOUSE:   roff(format("%sa mouse.\n",   p), 0, 0); 				break;
+			case SHAPE_HOUND:   roff(format("%sa hound.\n",   p), 0, 0); 				break;
+			case SHAPE_CHEETAH: roff(format("%sa cheetah.\n", p), 0, 0); 				break;
+			case SHAPE_LION:    roff(format("%sa lion.\n",    p), 0, 0); 				break;
+			case SHAPE_DRAGON:  roff(format("%sa dragon.\n",  p), 0, 0); 				break;
+			case SHAPE_ENT:     roff(format("%san ent.\n",    p), 0, 0); 				break;
+			case SHAPE_TROLL:   roff(format("%sa troll.\n",   p), 0, 0); 				break;
+			case SHAPE_BAT:     roff(format("%sa bat.\n",     p), 0, 0); 				break;
+			case SHAPE_LICH:    roff(format("%sa lich.\n",     p), 0, 0); 				break;
+			case SHAPE_VAMPIRE: roff(format("%sa vampire.\n",     p), 0, 0); 			break;
+			case SHAPE_WEREWOLF:roff(format("%sa werewolf.\n",     p), 0, 0); 			break;
+			case SHAPE_SERPENT: roff(format("%sa serpent.\n",     p), 0, 0); 			break;
 			default:  roff(format("%san unknown creature.\n", p), 0, 0);
 				break;
 		}

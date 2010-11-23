@@ -2054,7 +2054,7 @@ void fire_dam(int dam0, int msg_type, cptr hit_str, cptr kb_str)
 	else if ((p_ptr->resist_fire) || (p_ptr->oppose_fire)) inv /= 2;
 
 	/* Ents always take more fire damage */
-	if (p_ptr->prace == RACE_ENT) extra_dam = dam / 5;
+	if ((p_ptr->prace == RACE_ENT) || (p_ptr->schange == SHAPE_LICH)) dam += dam / 2;
 
 	/* Total (bodily) Immunity */
 	if (p_ptr->immune_fire) dam = 0;

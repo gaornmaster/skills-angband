@@ -3106,6 +3106,9 @@
 
 #define SHAPE_BAT          11
 #define SHAPE_LICH         12
+#define SHAPE_VAMPIRE      13
+#define SHAPE_WEREWOLF     14
+#define SHAPE_SERPENT      15
 
 
 

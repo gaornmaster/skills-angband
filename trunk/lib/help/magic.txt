@@ -124,6 +124,11 @@ be checked by using the Character screen.
             resist fire, lousy dexterity.
   Troll   : Extreme regeneration and toughness.  Dumb.  No feather fall.
   Bat     : Fast but weak.  Infravision, feather fall, and resist blindness.
+  Lich    : Fast, invisible, strong versus cold, poison, but hit hard by fire.
+  Vampire : Strong, smart, fast, with a safe lifeforce.
+            Extra damage from light, less from dark.
+  Werewolf: Strong, hale, and fearless.  Good bare-clawed fighter.
+  Serpent : Strong, stealthy, and great at wrestling.
 
 
 --- Getting Good at Magic ---

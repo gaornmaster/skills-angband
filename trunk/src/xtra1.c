@@ -1424,6 +1424,19 @@ static void prt_shape(void)
 		case SHAPE_BAT:
 			shapedesc = "Bat       ";
 			break;
+		case SHAPE_LICH:
+			shapedesc = "Lich      ";
+			break;
+		case SHAPE_VAMPIRE:
+			shapedesc = "Vampire   ";
+			break;
+		case SHAPE_WEREWOLF:
+			shapedesc = "Werewolf  ";
+			break;
+		case SHAPE_SERPENT:
+			shapedesc = "Serpent   ";
+			break;
+
 
 		default:
 			shapedesc = "          ";
@@ -4429,7 +4442,7 @@ void player_flags(u32b *f1, u32b *f2, u32b *f3, bool shape, bool modify)
 	}
 
 	/* Temporary see invisible */
-	if (p_ptr->tim_invis || p_ptr->schange == SHAPE_LICH)
+	if (p_ptr->tim_invis)
 	{
 		*f3 |= (TR3_SEE_INVIS);
 	}
@@ -4520,6 +4533,31 @@ void player_flags(u32b *f1, u32b *f2, u32b *f3, bool shape, bool modify)
 			to_h -= 15;
 			to_d -= 15;
 			break;
+		}
+		case SHAPE_LICH:
+		{
+			/*
+			 * Lich abilities are temporary haste, resistance to cold, poison  -- they are handled elsewhere
+			 * See shapechange(), oppose_cold, opppose_pois, set_fast
+			 */
+			(*f3) |= TR3_SEE_INVIS;
+			break;
+		}
+		case SHAPE_VAMPIRE:
+		{
+			(*f2) |= (TR2_RES_DARK);
+			(*f2) |= (TR3_HOLD_LIFE);
+			break;
+		}
+		case SHAPE_WEREWOLF:
+		{
+			(*f2) |= (TR2_RES_FEAR);
+			if (check_barehanded()) to_h += 10;
+		}
+		case SHAPE_SERPENT:
+		{
+			(*f2) |= (TR2_RES_POIS);
+			if (check_barehanded() && p_ptr->barehand == S_WRESTLING) to_h += 20;
 		}
 	}
 
@@ -4961,6 +4999,32 @@ int player_flags_pval(u32b flag_pval, bool shape)
 			if (flag_pval == TR_PVAL_INVIS)   pval += 6;
 			break;
 		}
+		case SHAPE_VAMPIRE:
+		{
+			if (flag_pval == TR_PVAL_STR)     pval += 2;
+			if (flag_pval == TR_PVAL_INT)     pval += 2;
+			if (flag_pval == TR_PVAL_CHR)     pval += 2;
+			if (flag_pval == TR_PVAL_SPEED)   pval += 3;
+		}
+		case SHAPE_WEREWOLF:
+		{
+			if (flag_pval == TR_PVAL_STR)     pval += get_skill(S_DOMINION, 1, 4);
+			if (flag_pval == TR_PVAL_CON)     pval += get_skill(S_DOMINION, 1, 4);
+			if (flag_pval == TR_PVAL_CHR)     pval -= 4;
+			if (flag_pval == TR_PVAL_INT)     pval -= 2;
+			if (flag_pval == TR_PVAL_WIS)     pval -= 2;
+			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
+			if (flag_pval == TR_PVAL_INFRA)   pval += 3;
+		}
+		case SHAPE_SERPENT:
+		{
+			if (flag_pval == TR_PVAL_STR)     pval += get_skill(S_NATURE, 1, 4);
+			if (flag_pval == TR_PVAL_DEX)     pval += get_skill(S_NATURE, 1, 4);
+			if (flag_pval == TR_PVAL_INT)     pval -= 2;
+			if (flag_pval == TR_PVAL_WIS)     pval -= 2;
+			if (flag_pval == TR_PVAL_STEALTH) pval += get_skill(S_NATURE, 2, 4);
+		}
+
 	}
 
 	/* Return */

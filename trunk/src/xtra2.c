@@ -2661,6 +2661,9 @@ void shapechange(s16b shape)
 		case SHAPE_TROLL:   shapedesc = "troll";      break;
 		case SHAPE_BAT:     shapedesc = "bat";        break;
 		case SHAPE_LICH:    shapedesc = "lich";       break;
+		case SHAPE_VAMPIRE: shapedesc = "vampire";    break;
+		case SHAPE_WEREWOLF:shapedesc = "werewolf";   break;
+		case SHAPE_SERPENT: shapedesc = "serpent";    break;
 		default:            shapedesc = "monster";    break;
 	}
 
