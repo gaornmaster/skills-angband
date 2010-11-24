@@ -5675,7 +5675,7 @@ cptr do_spell(int mode, int spell)
 				if (cast)
 				{
 					dur = rand_range(dur1, dur2);
-					set_form_temp(dur, SHAPE_LICH);
+					shapechange_temp(dur, SHAPE_LICH);
 				}
 				break;
 			}

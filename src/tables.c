@@ -1269,7 +1269,7 @@ const byte race_adj_cost_skill[NUM_SKILLS][MAX_RACES] =
   /* alchemy */  { 10,  11,  12,   8,  14,  13,  11,  10,  11,  10,  13,  11,  12,  11 },
   /* infuse  */  { 10,  10,  13,   9,  11,  13,  13,  10,  10,   7,  13,  10,  12,  11 },
 
-  /* XXX1    */  { 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10 },
+  /* shape   */  { 10,  10,   9,  10,  11,   9,  12,  10,  12,  10,  12,  12,   9,   8 },
 
   /* XXX1    */  { 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10 },
   /* XXX2    */  { 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10 },
@@ -1279,6 +1279,7 @@ const byte race_adj_cost_skill[NUM_SKILLS][MAX_RACES] =
   /* XXX6    */  { 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10 },
   /* XXX7    */  { 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10 },
   /* XXX8    */  { 10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10,  10 }
+                /* Hum  Elf  Hob  Gno  Dwa  HlO  HlT  Dun  HiE  DkE  Gia  Ent  Dru  Brn*/
 };
 
 
@@ -3391,7 +3392,7 @@ const skill_type skill_info[NUM_SKILLS] =
 	{"Alchemy", "ability to create scrolls, potions, rings, & amulets",  8},
 	{"Magical Infusion", "ability to magically enhance objects",        13},
 
-	{NULL, NULL, 0},
+	{"Shapechange", "ability to assume other forms",                    14},
 	{NULL, NULL, 0},
 	{NULL, NULL, 0},
 	{NULL, NULL, 0},
@@ -3491,26 +3492,32 @@ talent_type talent_info[NUM_TALENTS] =
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 
-	/* Miscellaneous */
-	{"Dragon-breathing",            '[', 1, {NUM_SKILLS},                     0,   2, 0,            TALENT_UTILITY},
-	{"Bearform",                    'b', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
+	/* Miscellaneous abilities */
+	{"Dragon-breathing",            'a', 1, {NUM_SKILLS},                     0,   2, 0,            TALENT_UTILITY | TALENT_SHAPE},
+
+	/* General shapechanges */
+	{"Unchange",                    'u', 1, {S_SHAPECHANGE},                  1,   0, 0,            TALENT_SHAPE},
+	{"Bear-form",                   'b', 1, {NUM_SKILLS},                     0, 1000, 0,            TALENT_UTILITY | TALENT_SHAPE, SHAPE_BEAR},  /* Can be accessed by shapechage skill or beornings */
+	{"Dragon-form",                 'd', 1, {S_SHAPECHANGE},                 90, 1000, 0,            TALENT_SHAPE, SHAPE_DRAGON},
+	{"Troll-form",                  't', 1, {S_SHAPECHANGE},                 40, 1000, 0,            TALENT_SHAPE, SHAPE_TROLL},
+	{"Maia-form",                   'm', 1, {S_SHAPECHANGE},                 20, 1000, 0,            TALENT_SHAPE, SHAPE_MAIA},
+
+	/* Nature lore shapechanges */
+	{"Hound-form",                  'h', 1, {S_SHAPECHANGE},                 60, 1000, 0,            TALENT_SHAPE, SHAPE_HOUND},
+	{"Serpent-form",                's', 1, {S_SHAPECHANGE},                 20, 1000, 0,            TALENT_SHAPE, SHAPE_SERPENT},
+	{"Cheetah-form",                'c', 1, {S_SHAPECHANGE},                 40, 1000, 0,            TALENT_SHAPE, SHAPE_CHEETAH},
+	{"Mouse-form",                  'o', 1, {S_SHAPECHANGE},                 10, 1000, 0,            TALENT_SHAPE, SHAPE_MOUSE},
+
+	/* Blood Dominion shapechanges */
+	{"Bat-form",                    'e', 1, {S_SHAPECHANGE},                 10, 1000, 0,            TALENT_SHAPE, SHAPE_BAT},
+	{"Werewolf-form",               'w', 1, {S_SHAPECHANGE},                 20, 1000, 0,            TALENT_SHAPE, SHAPE_WEREWOLF},
+	{"Vampire-form",                'v', 1, {S_SHAPECHANGE},                 60, 1000, 0,            TALENT_SHAPE, SHAPE_VAMPIRE},
+	{"Lich-form",                   'l', 1, {S_SHAPECHANGE},                 90, 1000, 0,            TALENT_SHAPE, SHAPE_LICH},
 
 	/* Extra combat skills */
 	{"Lunge",                       'l', 1, {NUM_SKILLS},                     0,   3, OATH_OF_IRON, TALENT_WARRIOR},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
 	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY},
-	{NULL,                          '?', 1, {NUM_SKILLS},                     0,   0, 0,            TALENT_UTILITY}
 };
 
 /*

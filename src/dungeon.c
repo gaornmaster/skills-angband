@@ -1308,7 +1308,7 @@ static void process_world(void)
 	}
 	if (p_ptr->form_dur)
 	{
-		(void)set_form_temp(p_ptr->form_dur - 1, p_ptr->schange);
+		(void)shapechange_temp(p_ptr->form_dur - 1, p_ptr->schange);
 	}
 
 
@@ -2255,10 +2255,11 @@ static void process_command(void)
 			break;
 		}
 
-		/* Stop doing a shapechange */
+		/* Handle shapechange (either talent or unchange) */
 		case ']':
 		{
-			do_cmd_unchange(TRUE);
+			if (get_skill(S_SHAPECHANGE, 0, 100)) do_cmd_talents(TALENT_SHAPE);
+			else do_cmd_unchange(TRUE);
 			break;
 		}
 

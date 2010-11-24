@@ -1436,7 +1436,9 @@ static void prt_shape(void)
 		case SHAPE_SERPENT:
 			shapedesc = "Serpent   ";
 			break;
-
+		case SHAPE_MAIA:
+			shapedesc = "Maia      ";
+			break;
 
 		default:
 			shapedesc = "          ";
@@ -4559,6 +4561,10 @@ void player_flags(u32b *f1, u32b *f2, u32b *f3, bool shape, bool modify)
 			(*f2) |= (TR2_RES_POIS);
 			if (check_barehanded() && p_ptr->barehand == S_WRESTLING) to_h += 20;
 		}
+		case SHAPE_MAIA:
+		{
+			(*f3) |= TR3_LITE;
+		}
 	}
 
 	/* Modify */
@@ -4756,6 +4762,165 @@ int player_flags_pval(u32b flag_pval, bool shape)
 	/* Assume no change */
 	int pval = 0;
 
+	/* Optionally ignore the effects of shapechanges */
+	if (shape)
+	{
+		/* Awareness is reduced in all forms */
+		if (flag_pval == TR_PVAL_AWARE && p_ptr->schange) pval -= 2;
+
+		/* Handle shapechanges */
+		switch (p_ptr->schange)
+		{
+			case SHAPE_NORMAL:
+			{
+				break;
+			}
+			case SHAPE_GOAT:
+			{
+				if (flag_pval == TR_PVAL_INFRA)   pval += 1;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
+				break;
+			}
+			case SHAPE_BEAR:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval += 2;
+				if (flag_pval == TR_PVAL_INT)     pval -= 1;
+				if (flag_pval == TR_PVAL_CON)     pval += 2;
+				if (flag_pval == TR_PVAL_CHR)     pval -= 3;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 1;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
+				break;
+			}
+			case SHAPE_MOUSE:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval -= 2;
+				if (flag_pval == TR_PVAL_INT)     pval -= 7;
+				if (flag_pval == TR_PVAL_CON)     pval -= 1;
+				if (flag_pval == TR_PVAL_CHR)     pval -= 5;
+
+				if (flag_pval == TR_PVAL_INFRA)   pval += 2;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
+				if (flag_pval == TR_PVAL_STEALTH) pval += 10;
+				if (flag_pval == TR_PVAL_AWARE)   pval += 3;
+				break;
+			}
+			case SHAPE_HOUND:
+			{
+				if (flag_pval == TR_PVAL_INT)     pval -= 2;
+				if (flag_pval == TR_PVAL_CON)     pval += 2;
+				if (flag_pval == TR_PVAL_CHR)     pval -= 2;
+
+				if (flag_pval == TR_PVAL_AWARE)   pval += 3;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 3;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
+				break;
+			}
+			case SHAPE_CHEETAH:
+			{
+				if (flag_pval == TR_PVAL_DEX)     pval += 2;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 2;
+				if (flag_pval == TR_PVAL_SPEED)   pval += 6;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
+				break;
+			}
+			case SHAPE_LION:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval += 3;
+				if (flag_pval == TR_PVAL_INT)     pval -= 1;
+				if (flag_pval == TR_PVAL_WIS)     pval -= 1;
+				if (flag_pval == TR_PVAL_CHR)     pval -= 4;
+				if (flag_pval == TR_PVAL_SPEED)   pval += 1;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 2;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
+				break;
+			}
+			case SHAPE_DRAGON:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval += 3;
+				if (flag_pval == TR_PVAL_CON)     pval += 2;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 3;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
+				break;
+			}
+			case SHAPE_ENT:
+			{
+				if (flag_pval == TR_PVAL_WIS)     pval += 1;
+				if (flag_pval == TR_PVAL_DEX)     pval -= 5;
+				if (flag_pval == TR_PVAL_STR)     pval += 4;
+				if (flag_pval == TR_PVAL_CON)     pval += 4;
+				if (flag_pval == TR_PVAL_TUNNEL)  pval += 8;
+
+				break;
+			}
+			case SHAPE_TROLL:
+			{
+				if (flag_pval == TR_PVAL_INT)     pval -= 2;
+				if (flag_pval == TR_PVAL_DEX)     pval -= 2;
+				if (flag_pval == TR_PVAL_STR)     pval += 3;
+				if (flag_pval == TR_PVAL_CON)     pval += 1;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 2;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 40;
+				break;
+			}
+			case SHAPE_BAT:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval -= 1;
+				if (flag_pval == TR_PVAL_WIS)     pval -= 2;
+				if (flag_pval == TR_PVAL_INT)     pval -= 2;
+				if (flag_pval == TR_PVAL_CHR)     pval -= 2;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 6;
+				if (flag_pval == TR_PVAL_SPEED)   pval += 5;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
+				break;
+			}
+			case SHAPE_LICH:
+			{
+				if (flag_pval == TR_PVAL_INVIS)   pval += 6;
+				break;
+			}
+			case SHAPE_VAMPIRE:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval += 2;
+				if (flag_pval == TR_PVAL_INT)     pval += 2;
+				if (flag_pval == TR_PVAL_CHR)     pval += 2;
+				if (flag_pval == TR_PVAL_SPEED)   pval += 3;
+			}
+			case SHAPE_WEREWOLF:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval += get_skill(S_SHAPECHANGE, 1, 4);
+				if (flag_pval == TR_PVAL_CON)     pval += get_skill(S_SHAPECHANGE, 1, 4);
+				if (flag_pval == TR_PVAL_CHR)     pval -= 4;
+				if (flag_pval == TR_PVAL_INT)     pval -= 2;
+				if (flag_pval == TR_PVAL_WIS)     pval -= 2;
+				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
+				if (flag_pval == TR_PVAL_INFRA)   pval += 3;
+			}
+			case SHAPE_SERPENT:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval += get_skill(S_SHAPECHANGE, 1, 4);
+				if (flag_pval == TR_PVAL_DEX)     pval += get_skill(S_SHAPECHANGE, 1, 4);
+				if (flag_pval == TR_PVAL_INT)     pval -= 2;
+				if (flag_pval == TR_PVAL_WIS)     pval -= 2;
+				if (flag_pval == TR_PVAL_STEALTH) pval += get_skill(S_SHAPECHANGE, 1, 4);
+			}
+			case SHAPE_MAIA:
+			{
+				if (flag_pval == TR_PVAL_STR)     pval += 1;
+				if (flag_pval == TR_PVAL_INT)     pval += 1;
+				if (flag_pval == TR_PVAL_WIS)     pval += 1;
+				if (flag_pval == TR_PVAL_DEX)     pval += 1;
+				if (flag_pval == TR_PVAL_CON)     pval += 1;
+				if (flag_pval == TR_PVAL_CHR)     pval += 1;
+			}
+		}
+
+		/* Add incentive for high-level shapechangers */
+		if (pval && get_skill(S_SHAPECHANGE, 0, 100) >= SHAPE__STRONGER) pval++;
+		if (pval < 0 && get_skill(S_SHAPECHANGE, 0, 100) >= SHAPE__LESS_BAD) pval++;
+
+	}
+
+
 	/* Handle racial modifiers to stats */
 	if (flag_pval == TR_PVAL_STR) pval += rp_ptr->r_adj[A_STR];
 	if (flag_pval == TR_PVAL_INT) pval += rp_ptr->r_adj[A_INT];
@@ -4886,146 +5051,9 @@ int player_flags_pval(u32b flag_pval, bool shape)
 	}
 
 
-	/* Optionally ignore the effects of shapechanges */
-	if (!shape) return (pval);
 
 
-	/* Handle shapechanges */
-	switch (p_ptr->schange)
-	{
-		case SHAPE_NORMAL:
-		{
-			break;
-		}
-		case SHAPE_GOAT:
-		{
-			if (flag_pval == TR_PVAL_INFRA)   pval += 1;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
-			break;
-		}
-		case SHAPE_BEAR:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval += 2;
-			if (flag_pval == TR_PVAL_INT)     pval -= 1;
-			if (flag_pval == TR_PVAL_CON)     pval += 2;
-			if (flag_pval == TR_PVAL_CHR)     pval -= 3;
-			if (flag_pval == TR_PVAL_INFRA)   pval += 1;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
-			break;
-		}
-		case SHAPE_MOUSE:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval -= 2;
-			if (flag_pval == TR_PVAL_INT)     pval -= 7;
-			if (flag_pval == TR_PVAL_CON)     pval -= 1;
-			if (flag_pval == TR_PVAL_CHR)     pval -= 5;
 
-			if (flag_pval == TR_PVAL_INFRA)   pval += 2;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
-			if (flag_pval == TR_PVAL_STEALTH) pval += 10;
-			if (flag_pval == TR_PVAL_AWARE)   pval += 3;
-			break;
-		}
-		case SHAPE_HOUND:
-		{
-			if (flag_pval == TR_PVAL_INT)     pval -= 2;
-			if (flag_pval == TR_PVAL_CON)     pval += 2;
-			if (flag_pval == TR_PVAL_CHR)     pval -= 2;
-
-			if (flag_pval == TR_PVAL_INFRA)   pval += 3;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
-			break;
-		}
-		case SHAPE_CHEETAH:
-		{
-			if (flag_pval == TR_PVAL_DEX)     pval += 2;
-			if (flag_pval == TR_PVAL_INFRA)   pval += 2;
-			if (flag_pval == TR_PVAL_SPEED)   pval += 6;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
-			break;
-		}
-		case SHAPE_LION:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval += 3;
-			if (flag_pval == TR_PVAL_INT)     pval -= 1;
-			if (flag_pval == TR_PVAL_WIS)     pval -= 1;
-			if (flag_pval == TR_PVAL_CHR)     pval -= 4;
-			if (flag_pval == TR_PVAL_SPEED)   pval += 1;
-			if (flag_pval == TR_PVAL_INFRA)   pval += 2;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
-			break;
-		}
-		case SHAPE_DRAGON:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval += 3;
-			if (flag_pval == TR_PVAL_CON)     pval += 2;
-			if (flag_pval == TR_PVAL_INFRA)   pval += 3;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
-			break;
-		}
-		case SHAPE_ENT:
-		{
-			if (flag_pval == TR_PVAL_WIS)     pval += 1;
-			if (flag_pval == TR_PVAL_DEX)     pval -= 5;
-			if (flag_pval == TR_PVAL_STR)     pval += 4;
-			if (flag_pval == TR_PVAL_CON)     pval += 4;
-			if (flag_pval == TR_PVAL_TUNNEL)  pval += 8;
-
-			break;
-		}
-		case SHAPE_TROLL:
-		{
-			if (flag_pval == TR_PVAL_INT)     pval -= 2;
-			if (flag_pval == TR_PVAL_DEX)     pval -= 2;
-			if (flag_pval == TR_PVAL_STR)     pval += 3;
-			if (flag_pval == TR_PVAL_CON)     pval += 1;
-			if (flag_pval == TR_PVAL_INFRA)   pval += 2;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 40;
-			break;
-		}
-		case SHAPE_BAT:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval -= 1;
-			if (flag_pval == TR_PVAL_WIS)     pval -= 2;
-			if (flag_pval == TR_PVAL_INT)     pval -= 2;
-			if (flag_pval == TR_PVAL_CHR)     pval -= 2;
-			if (flag_pval == TR_PVAL_INFRA)   pval += 6;
-			if (flag_pval == TR_PVAL_SPEED)   pval += 5;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
-			break;
-		}
-		case SHAPE_LICH:
-		{
-			if (flag_pval == TR_PVAL_INVIS)   pval += 6;
-			break;
-		}
-		case SHAPE_VAMPIRE:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval += 2;
-			if (flag_pval == TR_PVAL_INT)     pval += 2;
-			if (flag_pval == TR_PVAL_CHR)     pval += 2;
-			if (flag_pval == TR_PVAL_SPEED)   pval += 3;
-		}
-		case SHAPE_WEREWOLF:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval += get_skill(S_DOMINION, 1, 4);
-			if (flag_pval == TR_PVAL_CON)     pval += get_skill(S_DOMINION, 1, 4);
-			if (flag_pval == TR_PVAL_CHR)     pval -= 4;
-			if (flag_pval == TR_PVAL_INT)     pval -= 2;
-			if (flag_pval == TR_PVAL_WIS)     pval -= 2;
-			if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
-			if (flag_pval == TR_PVAL_INFRA)   pval += 3;
-		}
-		case SHAPE_SERPENT:
-		{
-			if (flag_pval == TR_PVAL_STR)     pval += get_skill(S_NATURE, 1, 4);
-			if (flag_pval == TR_PVAL_DEX)     pval += get_skill(S_NATURE, 1, 4);
-			if (flag_pval == TR_PVAL_INT)     pval -= 2;
-			if (flag_pval == TR_PVAL_WIS)     pval -= 2;
-			if (flag_pval == TR_PVAL_STEALTH) pval += get_skill(S_NATURE, 2, 4);
-		}
-
-	}
 
 	/* Return */
 	return (pval);

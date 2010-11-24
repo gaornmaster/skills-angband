@@ -2433,7 +2433,7 @@ bool set_wraithform(int v)
 /*
  * Set "p_ptr->form_dur and p_ptr->schange", notice observable changes
  */
-bool set_form_temp(int v, int shape)
+bool shapechange_temp(int v, int shape)
 {
 	bool notice = FALSE;
 
@@ -2664,6 +2664,7 @@ void shapechange(s16b shape)
 		case SHAPE_VAMPIRE: shapedesc = "vampire";    break;
 		case SHAPE_WEREWOLF:shapedesc = "werewolf";   break;
 		case SHAPE_SERPENT: shapedesc = "serpent";    break;
+		case SHAPE_MAIA:    shapedesc = "maia";       break;
 		default:            shapedesc = "monster";    break;
 	}
 
