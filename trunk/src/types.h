@@ -954,6 +954,7 @@ struct talent_type
 	s16b timeout;           /* Time between uses of this talent */
 	byte oath;              /* Required oath(s) */
 	int type;               /* Type of talent (warrior or utility) */
+	int form;               /* Associated shapechange form */
 };
 
 /*

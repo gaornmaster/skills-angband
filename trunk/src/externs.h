@@ -1224,7 +1224,7 @@ extern bool set_aura_cold(int v);
 extern bool set_mental_barrier(int v);
 extern bool set_forbid_summoning(int v);
 extern bool set_wraithform(int v);
-extern bool set_form_temp(int v, int shape);
+extern bool shapechange_temp(int v, int shape);
 extern bool set_pois_power(int v, int dur);
 extern bool set_chaos_power(int v, int dur);
 extern bool set_nexus_field(int v, int dam);

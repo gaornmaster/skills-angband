@@ -1477,7 +1477,7 @@ cptr do_object(int mode, object_type *o_ptr)
 			if (p_ptr->schange == SHAPE_TROLL) dur = p_ptr->form_dur + rand_range(dur1, dur2);
 			else dur = rand_range(dur1, dur2);
 
-			(void)set_form_temp(dur, SHAPE_TROLL);
+			(void)shapechange_temp(dur, SHAPE_TROLL);
 			obj_ident = TRUE;
 			break;
 		}
@@ -1492,7 +1492,7 @@ cptr do_object(int mode, object_type *o_ptr)
 			if (p_ptr->schange == SHAPE_DRAGON) dur = p_ptr->form_dur + rand_range(dur1, dur2);
 			else dur = rand_range(dur1, dur2);
 
-			(void)set_form_temp(dur, SHAPE_DRAGON);
+			(void)shapechange_temp(dur, SHAPE_DRAGON);
 
 			obj_ident = TRUE;
 			break;
@@ -7204,7 +7204,7 @@ cptr do_activation_aux(int mode, object_type *o_ptr)
 			if (act)
 			{
 				/* Turn into a dragon, but only temporarily */
-				(void)set_form_temp(dur, SHAPE_DRAGON);
+				(void)shapechange_temp(dur, SHAPE_DRAGON);
 			}
 			break;
 		}

@@ -1395,18 +1395,96 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 
 		case TALENT_BEARFORM:
 		{
-			if (info) return "";
+			int skill, dur;
+			bool perm;
 			if (desc) return "Assume the form of a bear";
+
+			if (p_ptr->prace == RACE_BEORNING)
+			{
+				if (info) return "";
+				if (use)
+				{
+					shapechange(SHAPE_BEAR);
+					p_ptr->energy_use = 100;
+					return;  /* no timeout for beornings */
+				}
+			}
+
+			skill = get_skill(S_SHAPECHANGE, 0, 100);
+			dur = skill * skill;
+			if (dur > t_ptr->timeout) perm = TRUE;
+
 			if (check)
 			{
-				if (p_ptr->prace == RACE_BEORNING) return ("Y");
-				else  return ("N");
+				if (skill < 10) return "N";
 			}
-			if (use) shapechange(SHAPE_BEAR);
+			if (perm)
+			{
+				if (info) return "permanent";
+				if (use) shapechange(SHAPE_BEAR);
+			}
+			else
+			{
+				if (info) return format("%d turns", dur);
+				if (use) shapechange_temp(Rand_normal(dur, dur / 10), SHAPE_BEAR);
+			}
 
 			break;
 		}
+		case TALENT_UNCHANGE:
+		{
+			if (info) return "";
+			if (desc) "Return to your normal self";
+			if (check)
+			{
+				if (!p_ptr->schange) return "N";
+			}
+			if (use) shapechange(SHAPE_NORMAL);
+			break;
+		}
 
+		case TALENT_BATFORM:
+		case TALENT_LICHFORM:
+		case TALENT_VAMPIREFORM:
+		case TALENT_WEREWOLFFORM:
+		case TALENT_SERPENTFORM:
+		case TALENT_HOUNDFORM:
+		case TALENT_CHEETAHFORM:
+		case TALENT_MOUSEFORM:
+		case TALENT_MAIAFORM:
+		case TALENT_TROLLFORM:
+		case TALENT_DRAGONFORM:
+		{
+			int skill = get_skill(S_SHAPECHANGE, 0, 100);
+			int second_skill, dur;
+			bool perm;
+
+			if (talent <= TALENT_LICHFORM && talent >= TALENT_BATFORM) second_skill = get_skill(S_DOMINION, 0, 100);
+			else if (talent <= TALENT_MOUSEFORM && talent >= TALENT_HOUNDFORM) second_skill = get_skill(S_NATURE, 0, 100);
+			else second_skill = p_ptr->power;
+
+
+			dur = (skill - t_ptr->min_level + 10) * rsqrt(second_skill) * 2;
+			if (dur > t_ptr->timeout) perm = TRUE;
+
+			if (check)
+			{
+				if (t_ptr->form == p_ptr->schange) return "N";
+				if (second_skill < t_ptr->min_level / 2) return "N";
+			}
+			if (perm)
+			{
+				if (info) return "permanent";
+				if (use) shapechange(t_ptr->form);
+			}
+			else
+			{
+				if (info) return format("~%d turns", dur);
+				if (use) shapechange_temp(Rand_normal(dur, dur / 10), t_ptr->form);
+			}
+
+			break;
+		}
 
 		default:
 		{
@@ -1543,7 +1621,33 @@ static int get_talent_from_index(char ch, int talent_choice)
 	return (-1);
 }
 
+static int get_next_talent_choice(int current, int available)
+{
+	/* Paranoia */
+	if (!available) return 0;
 
+	do
+	{
+		current <<= 1;
+		if (current > TALENT_TYPE_MAX) current = 1;
+	}
+	while (!(current & available));
+
+	return current;
+}
+
+
+int bitsum(int v)
+{
+	int ret = 0;
+	while (v)
+	{
+		if (v % 2) ret++;
+		v >>= 1;
+	}
+
+	return ret;
+}
 
 /*
  * Use or browse talents.
@@ -1574,7 +1678,6 @@ void do_cmd_talents(int talent_choice)
 
 	/* List of available talents */
 	s16b talent_avail[NUM_TALENTS];
-	bool unlisted_talents = FALSE;
 
 	talent_type *t_ptr;
 
@@ -1595,7 +1698,9 @@ void do_cmd_talents(int talent_choice)
 
 	bool do_warrior = (talent_choice == TALENT_WARRIOR);
 	bool do_utility = (talent_choice == TALENT_UTILITY);
+	bool do_shape = (talent_choice == TALENT_SHAPE);
 
+	int available_types = 0;
 
 	/* Determine whether talents can be browsed and/or used  */
 	for (i = 0; i < NUM_TALENTS; i++)
@@ -1609,7 +1714,9 @@ void do_cmd_talents(int talent_choice)
 		/* Check whether we can browse or use this talent */
 		talent_avail[i] = can_use_talent(i, talent_choice);
 
-		if (talent_avail[i] < 0 && can_use_talent(i, TALENT_WARRIOR | TALENT_UTILITY) >= 0) unlisted_talents = TRUE;
+		if (can_use_talent(i, TALENT_WARRIOR) >= 0) available_types |= TALENT_WARRIOR;
+		if (can_use_talent(i, TALENT_UTILITY) >= 0) available_types |= TALENT_UTILITY;
+		if (can_use_talent(i, TALENT_SHAPE) >= 0)   available_types |= TALENT_SHAPE;
 
 		/* Note a talent that can be at least browsed */
 		if (talent_avail[i] >= 0)
@@ -1630,19 +1737,11 @@ void do_cmd_talents(int talent_choice)
 	}
 
 	/* Redirect player if no talents of the correct type */
-	if (unlisted_talents && !num_browse)
+	if (!num_browse && available_types)
 	{
-		if (do_utility)
-		{
-			do_cmd_talents(TALENT_WARRIOR);
-			return;
-		}
-		if (do_warrior)
-		{
-			do_cmd_talents(TALENT_UTILITY);
-			return;
-		}
-
+		display_change(DSP_POPDOWN, 0, 0);
+		do_cmd_talents(get_next_talent_choice(talent_choice, available_types));
+		return;
 	}
 
 	/* No talents at all */
@@ -1665,7 +1764,7 @@ void do_cmd_talents(int talent_choice)
 	/* Get a talent from the user */
 	while (TRUE)
 	{
-		if (unlisted_talents) strcpy(change_string, ", / to change");
+		if (bitsum(available_types) > 1) strcpy(change_string, ", / to change");
 		else strcpy(change_string, "");
 
 		/* In "use" mode */
@@ -1775,21 +1874,14 @@ void do_cmd_talents(int talent_choice)
 			show_list = TRUE;
 		}
 
-		/* Switch between utility and warrior talents */
+		/* Switch between talent types*/
 		else if (choice == '/')
 		{
-			if (!unlisted_talents) continue;
+			if (bitsum(available_types) == 1) continue;
 
-			if (talent_choice == TALENT_WARRIOR)
-			{
-				do_cmd_talents(TALENT_UTILITY);
-				break;
-			}
-			else if (talent_choice == TALENT_UTILITY)
-			{
-				do_cmd_talents(TALENT_WARRIOR);
-				break;
-			}
+			display_change(DSP_POPDOWN, 0, 0);
+			do_cmd_talents(get_next_talent_choice(talent_choice, available_types));
+			return;
 		}
 
 		/* (Try to) Get talent using index */

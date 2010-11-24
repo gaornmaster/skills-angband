@@ -633,9 +633,9 @@
 #define S_FORGE_ARMOR   23       /* armor forging */
 #define S_ALCHEMY       24       /* scroll, potion, ring, & amulet creation */
 #define S_INFUSION      25       /* magical enhancement (using essences) */
+#define S_SHAPECHANGE   26       /* shapechange */
 
 
-#define S_XXX1          28       /*  */
 #define S_XXX1          28       /*  */
 #define S_XXX2          29       /*  */
 #define S_XXX3          30       /*  */
@@ -645,7 +645,7 @@
 #define S_XXX7          33       /*  */
 #define S_XXX8          34       /*  */
 
-#define NUM_SK_USED     26
+#define NUM_SK_USED     27
 #define NUM_SKILLS      36
 
 
@@ -767,15 +767,23 @@
 #define TALENT_XX23                47
 
 #define TALENT_DRAGON_BREATHING    48
-#define TALENT_BEARFORM           49
-#define TALENT_XX25                50
-#define TALENT_XX26                51
-#define TALENT_XX27                52
-#define TALENT_XX28                53
-#define TALENT_XX29                54
-#define TALENT_XX30                55
+#define TALENT_UNCHANGE            49
+#define TALENT_BEARFORM            50
+#define TALENT_DRAGONFORM          51
+#define TALENT_TROLLFORM           52
+#define TALENT_MAIAFORM            53
+#define TALENT_HOUNDFORM           54
+#define TALENT_SERPENTFORM         55
+#define TALENT_CHEETAHFORM         56
+#define TALENT_MOUSEFORM           57
+#define TALENT_BATFORM             58
+#define TALENT_WEREWOLFFORM        59
+#define TALENT_VAMPIREFORM         60
+#define TALENT_LICHFORM            61
 
-#define TALENT_LUNGE               56
+#define TALENT_LUNGE               62
+#define TALENT_XX30                63
+#define TALENT_XX31                64
 
 #define NUM_TALENTS 65
 
@@ -2822,6 +2830,9 @@
 /* Talent type */
 #define TALENT_WARRIOR 0x00000001
 #define TALENT_UTILITY 0x00000002
+#define TALENT_SHAPE   0x00000004
+
+#define TALENT_TYPE_MAX 0x00000004
 
 
 /*
@@ -3103,12 +3114,19 @@
 #define SHAPE_DRAGON        7
 #define SHAPE_ENT           8
 #define SHAPE_TROLL         9
-
+#define SHAPE_MAIA         10
 #define SHAPE_BAT          11
 #define SHAPE_LICH         12
 #define SHAPE_VAMPIRE      13
 #define SHAPE_WEREWOLF     14
 #define SHAPE_SERPENT      15
+
+
+
+
+/* Various skill-based boosts */
+#define SHAPE__STRONGER   95  /* makes all affected skills better */
+#define SHAPE__LESS_BAD   80  /* makes drawbacks less severe */
 
 
 
