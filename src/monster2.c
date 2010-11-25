@@ -4682,8 +4682,6 @@ bool mon_take_hit(int m_idx, int who, int dam, bool *fear, cptr note)
 			/* Add new fractional exp */
 			new_exp_frac += monster_exp_frac(r_ptr);
 
-			debug("%d %d", monster_exp(r_ptr), monster_exp_frac(r_ptr));
-
 			/* Keep track of experience */
 			if (new_exp_frac >= 1000L)
 			{
