@@ -5241,6 +5241,9 @@ static void analyze_weapons(void)
 
 			/* The player gets to swing a heavy weapon only once. */
 			p_ptr->num_blow = 1;
+
+			/* Calculate digging bonus */
+			p_ptr->skill_dig += (get_object_pval(o_ptr, TR_PVAL_TUNNEL) * 20) + (o_ptr->weight / 25);
 		}
 
 		/* Weapon is not too heavy */
