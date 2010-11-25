@@ -2389,6 +2389,41 @@ static bool get_move_retreat(monster_type *m_ptr, int *ty, int *tx)
 	return (TRUE);
 }
 
+/*
+ * Check to see if any my friends I can see are hurt.
+ *
+ * Used by pack AI to rush player if he is using ball spells during an ambush.
+ */
+
+bool comrade_hurt(monster_type *m_ptr, bool include_self)
+{
+	monster_type *n_ptr;
+	int i;
+
+	if (m_ptr->hp < m_ptr->maxhp && include_self) return (TRUE);
+
+	/* Loop over all monsters */
+	for (i = 1; i < m_max; i++)
+	{
+		/* Get the monster */
+		n_ptr = &m_list[i];
+
+		/* Check monster index */
+		if (n_ptr->r_idx != m_ptr->r_idx) continue;
+
+		/* Check HP */
+		if (n_ptr->hp == n_ptr->maxhp) continue;
+
+		/* Check LOS */
+		if (!projectable(n_ptr->fy, n_ptr->fx, m_ptr->fy, m_ptr->fx, PROJECT_JUMP)) continue;
+
+		/* We can see a hurt comrade */
+		return (TRUE);
+	}
+
+	return (FALSE);
+}
+
 
 /*
  * Choose the probable best direction for a monster to move in.  This
@@ -2624,8 +2659,8 @@ static bool get_move(monster_type *m_ptr, int *ty, int *tx, bool *fear,
 			}
 		}
 
-		/* We are hurt */
-		else if ((p_ptr->vulnerability < 100) && (m_ptr->hp < m_ptr->maxhp))
+		/* We or comrades are hurt */
+		else if ((p_ptr->vulnerability < 100) && (comrade_hurt(m_ptr, TRUE)))
 		{
 			/* The ambush has been blown -- charge! */
 			p_ptr->vulnerability = 120;
