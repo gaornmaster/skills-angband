@@ -2559,8 +2559,8 @@ const bool option_norm[OPT_MAX] =
 	TRUE, 		/* OPT_query_floor */
 	TRUE,		/* OPT_never_haggle */
 	FALSE,		/* OPT_use_old_target */
-	TRUE, 		/* OPT_run_ignore_stairs */
-	TRUE, 		/* OPT_run_ignore_doors */
+	FALSE, 		/* OPT_run_ignore_stairs */
+	FALSE, 		/* OPT_run_ignore_doors */
 	FALSE, 		/* OPT_run_cut_corners */
 	TRUE, 		/* OPT_xchars_to_file */
 	TRUE, 		/* OPT_stack_force_notes */
