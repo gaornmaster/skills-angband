@@ -4894,6 +4894,7 @@ int player_flags_pval(u32b flag_pval, bool shape)
 				if (flag_pval == TR_PVAL_WIS)     pval -= 2;
 				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
 				if (flag_pval == TR_PVAL_INFRA)   pval += 3;
+				if (flag_pval == TR_PVAL_STEALTH) pval -= 3;  /* It's those constant howls */
 			}
 			case SHAPE_SERPENT:
 			{
@@ -4905,12 +4906,13 @@ int player_flags_pval(u32b flag_pval, bool shape)
 			}
 			case SHAPE_MAIA:
 			{
-				if (flag_pval == TR_PVAL_STR)     pval += 1;
-				if (flag_pval == TR_PVAL_INT)     pval += 1;
-				if (flag_pval == TR_PVAL_WIS)     pval += 1;
-				if (flag_pval == TR_PVAL_DEX)     pval += 1;
-				if (flag_pval == TR_PVAL_CON)     pval += 1;
-				if (flag_pval == TR_PVAL_CHR)     pval += 1;
+				if (flag_pval == TR_PVAL_STR)     pval += (get_skill(S_SHAPECHANGE, 0, 100) < 70)? 1 : 2;
+				if (flag_pval == TR_PVAL_INT)     pval += (get_skill(S_SHAPECHANGE, 0, 100) < 70)? 1 : 2;
+				if (flag_pval == TR_PVAL_WIS)     pval += (get_skill(S_SHAPECHANGE, 0, 100) < 70)? 1 : 2;
+				if (flag_pval == TR_PVAL_DEX)     pval += (get_skill(S_SHAPECHANGE, 0, 100) < 70)? 1 : 2;
+				if (flag_pval == TR_PVAL_CON)     pval += (get_skill(S_SHAPECHANGE, 0, 100) < 70)? 1 : 2;
+				if (flag_pval == TR_PVAL_CHR)     pval += (get_skill(S_SHAPECHANGE, 0, 100) < 70)? 1 : 2;
+				if (flag_pval == TR_PVAL_INVIS)   pval -= 2;
 			}
 		}
 
