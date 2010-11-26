@@ -3161,7 +3161,7 @@ void do_cmd_skills(void)
 			else
 			{
 				/* Choose a magic realm */
-				if ((selected == S_MAGIC) && (!p_ptr->realm))
+				if ((selected == S_MAGIC) && (old_pskills[S_MAGIC].max == 0 && p_ptr->pskills[S_MAGIC].max == 1))
 				{
 					/* Allow cancel */
 					if (!choose_realm()) continue;
