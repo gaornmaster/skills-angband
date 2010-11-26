@@ -407,14 +407,12 @@ static void skill_comment(int attr, const char *msg)
 static int check_for_new_talent(int skill, int level)
 {
 	int i, j;
-	talent_data *t_ptr;
 	bool check;
 
 	/* Scan the list of talents */
 	for (i = 0; i < NUM_TALENTS; i++)
 	{
 		check = FALSE;
-		t_ptr = &talent_info[i];
 
 		/* Check all skills for talents */
 		for (j = 0; j < talent_info[i].skill_count; j++)
