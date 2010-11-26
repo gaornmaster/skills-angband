@@ -697,6 +697,9 @@ static void remove_trap_aux(trap_type *t_ptr, int y, int x)
 		/* Get this object */
 		o_ptr = &o_list[t_ptr->hold_o_idx];
 
+		/* Hack -- handle "nothings" in traps */
+		if (!o_ptr->k_idx) break;
+
 		/* Get local object */
 		i_ptr = &forge;
 
