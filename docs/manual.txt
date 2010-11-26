@@ -228,7 +228,7 @@ Have fun!
 
 --- The skills screen  ('$') ---
 
-     When you collect enough experience, you can spend it on skills by typing '$' to open up the skills advancement screen.
+     When you collect enough experience, you can spend it on skills by typing '$' to open up the skills advancement screen.  Press the arrow keys or the appropriate letter to navigate the skills and press '+' to increase it.  If you make a mistake, you can press '-' to undo the error.  You may also choose to reduce a skill you raised at an earlier date with the '-' key, but your experience will not be refunded.
 
 
 --- The help screen  ('?') ---
@@ -388,6 +388,7 @@ Racial Aptitudes:
  forge armor    10   12   11   11    7   10   11   10   12   11    9   12   12   10
  alchemy        10   11   12    8   14   13   11   10   11   10   13   11   12   11
  infusion       10   10   13    9   11   13   13   10   10    7   13   10   12   11
+ shapechange    10   10    9   10   11    9   12   10   12   10   12   12    9    8
                Hum  Elf  Hob  Gno  Dwa  HlO  HlT  Dun  HiE  DkE  Gia  Ent  Dru  Brn
 
 
@@ -866,6 +867,8 @@ Magical infusion   (cost - 13):
      A relatively high magical infusion or alchemy skill is essential for reliably finding essences, especially deep in the dungeon (Perception also helps a little).  You cannot search for essences at all unless you have a magical infusion or alchemy skill of 10 or higher.
      Infusion grants one talent:  Recharging with essences (30).
 
+Shapechange  (cost - 14)
+	 Shapechaning allows you to take the form of many different beasts, modifying your stats, resistances, and more.  Some forms are only available in combination with the nature lore or blood dominion skill.  Press ']' to change form.  See the shapechaning section for more details.
 
 
 ====== Talents ======
@@ -959,6 +962,25 @@ Alchemy:
 Dragon-breathing:
      If you are in dragonform, you can use this talent to consume essences and breathe them out in powerful breaths.  The amount of damage you do depends on your total power and on the type of essence you choose (the more likely the breath is to be resisted, the more damage it does).
      Of course, you have to find a way to turn into a dragon first...
+
+- Warrior Talents -
+Warrior talents can be accessed by pressing 'p'
+
+
+Lunge
+	 Attack a monster two squares away.  Suffer a penalty to attack from the distance.  Requires the Oath of Iron.
+	 
+Whirlwind Attack
+	 Attack all monsters nearby in a spinning attack.  Requires a weapon, and a weapon skill of 30 or more.
+	 
+Circle Kick
+	 Attempts to stun all monsters surrounding you, becoming more powerful with your karate skill.  Requires a karate skill of 30 or more.
+	 
+Impact Blow
+	 Attack and knock back a monster.  Requires a blunt weapon and hafted skill of 30.
+	 
+Earthquakes
+	 Call the walls down around you to provide cover.  Requires a blunt weapon, the oath of iron, and hafted skill of 60.
 
 
 --- Other skills-based abilities ---
@@ -2215,6 +2237,7 @@ Shapeshifting:
             Extra damage from light, less from dark.
   Werewolf: Strong, hale, and fearless.  Good bare-clawed fighter.
   Serpent : Strong, stealthy, and great at wrestling.
+  Maia    : All around improvement, especially at high levels.
 
 
 --- Getting Good at Magic ---
@@ -2353,7 +2376,7 @@ Recharging:
  {  Inscribe an item                    ^K  (unused)
  }  Uninscribe an item                  ^L  (unused)
  [  Use talents                         ^M  (special - return)
- ]  end shapechange                     ^N  (unused)
+ ]  end/change shapechange              ^N  (unused)
  -  Walk (flip pickup)                  ^O  (unused)
  _  (unused)                            ^P  Show previous messages
  +  Alter grid                          ^Q  Show quests
@@ -2424,7 +2447,7 @@ Mouse commands (not available in all ports)
  {  Inscribe an item                    ^K  (alter - north)
  }  Uninscribe an item                  ^L  (alter - east)
  [  Use talents                         ^M  (special - return)
- ]  end shapechange                     ^N  (alter - south east)
+ ]  end/change shapechange              ^N  (alter - south east)
  -  Walk (flip pickup)                  ^O  (unused)
  _  (unused)                            ^P  Show previous messages
  +  Alter grid                          ^Q  Show quests
@@ -2581,7 +2604,7 @@ Cast a spell or Pray a Prayer (m and p) :
 --- Player Manipulation Commands ---
 
 End/Default shapechange (]) :
-     Return to your normal state if you have previously transformed yourself into any creature.
+     Return to your normal state if you have previously transformed yourself into any creature.  Shapeshifters may change into other forms with this command.
 
 
 --- Object Manipulation Commands ---

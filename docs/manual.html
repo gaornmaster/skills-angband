@@ -333,7 +333,11 @@ and save character dumps to file (which appear in the "lib/user" directory).
 
 <H3>The skills screen  ('$')</H3>
      When you collect enough experience, you can spend it on skills by typing    
-'$' to open up the skills advancement screen.                                    
+'$' to open up the skills advancement screen.  Press the arrow keys or the       
+appropriate letter to navigate the skills and press '+' to increase it.  If you  
+make a mistake, you can press '-' to undo the error.  You may also choose to     
+reduce a skill you raised at an earlier date with the '-' key, but your          
+experience will not be refunded.                                                 
 
 
 <H3>The help screen  ('?')</H3>
@@ -565,6 +569,7 @@ but his dexterity only to 18/70.
  forge armor  10  12  11  11   7  10  11  10  12  11   9  12  12  10             
  alchemy      10  11  12   8  14  13  11  10  11  10  13  11  12  11             
  infusion     10  10  13   9  11  13  13  10  10   7  13  10  12  11             
+ shapechange  10  10   9  10  11   9  12  10  12  10  12  12   9   8             
              Hum Elf Hob Gno Dwa HlO HlT Dun HiE DkE Gia Ent Dru Brn             
 
      Higher values mean that the skill is more expensive to raise.               
@@ -1365,6 +1370,11 @@ a little).  You cannot search for essences at all unless you have a magical
 infusion or alchemy skill of 10 or higher.                                       
      Infusion grants one talent:  Recharging with essences (30).                 
 
+<b>Shapechange  (cost - 14)</b>                                                         
+	 Shapechaning allows you to take the form of many different beasts, modifying
+your stats, resistances, and more.  Some forms are only available in combination 
+with the nature lore or blood dominion skill.  Press ']' to change form.  See the
+shapechaning section for more details.                                           
 
 
 <H2><A NAME="2.5X">Talents</A></H2><A HREF="manual.html#2.">(return)</A>
@@ -1376,7 +1386,7 @@ you can browse (get extra information about) it by typing '*', or mark it (get
 notification when it is again available for use) by typing '!'.                  
 
 
-<H3>List of Talents</H3>
+<H3>List of Talents ('[')</H3>
 <b>Turn skin to stone:</b>                                                              
      Increases your armor class substantially.  Requires a wrestling skill of 65 
 and the Oath of Iron.                                                            
@@ -1516,6 +1526,29 @@ breathe them out in powerful breaths.  The amount of damage you do depends on
 your total power and on the type of essence you choose (the more likely the      
 breath is to be resisted, the more damage it does).                              
      Of course, you have to find a way to turn into a dragon first...            
+
+<H4>Warrior Talents ('p')</H4>
+
+<b>Lunge</b>                                                                            
+	 Attack a monster two squares away.  Suffer a penalty to attack from the     
+distance.  Requires the Oath of Iron.                                            
+	 
+<b>Whirlwind Attack</b>                                                                 
+	 Attack all monsters nearby in a spinning attack.  Requires a weapon, and a
+weapon skill of 30 or more.                                                      
+	 
+<b>Circle Kick</b>                                                                 
+	 Attempts to stun all monsters surrounding you, becoming more powerful with  
+your karate skill.  Requires a karate skill of 30 or more.                       
+	 
+<b>Impact Blow</b>                                                                 
+	 Attack and knock back a monster.  Requires a blunt weapon and hafted skill  
+of 30.                                                                           
+	 
+<b>Earthquakes</b>                                                                 
+	 Call the walls down around you to provide cover.  Requires a blunt weapon,  
+the oath of iron, and hafted skill of 60.                                        
+
 
 
 <H3>Other skills-based abilities</H3>
@@ -3526,7 +3559,7 @@ be checked by using the Character screen.
             Extra damage from light, less from dark.                             
   Werewolf: Strong, hale, and fearless.  Good bare-clawed fighter.               
   Serpent : Strong, stealthy, and great at wrestling.                            
-
+  Maia    : All around improvement, especially at high levels.                   
 
 <H3>Getting Good at Magic</H3>
 1)   Take a spellcaster's Oath to tap the full power of a realm.  You take an    
