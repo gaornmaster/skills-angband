@@ -4072,7 +4072,7 @@ static void calc_torch(void)
 	}
 
 	/* Examine all wielded objects, use the brightest */
-	for (light = 0, i = INVEN_WIELD; i < INVEN_TOTAL; i++)
+	for (light = 0, i = INVEN_WIELD; i < INVEN_SUBTOTAL; i++)
 	{
 		object_type *o_ptr = &inventory[i];
 
