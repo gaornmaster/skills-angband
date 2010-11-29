@@ -612,22 +612,6 @@ void do_cmd_wield(void)
 	/* Take a turn */
 	p_ptr->energy_use = 100;
 
-	/* Activate hidden curses, which may or may not be caught in time */
-	if (o_ptr->flags3 & (TR3_CURSE_HIDDEN))
-	{
-		if (!activate_hidden_curse(o_ptr)) return;
-
-		/* No further messages or effects */
-		hidden_curse = TRUE;
-	}
-
-	/* Get local object */
-	i_ptr = &object_type_body;
-
-	/* Obtain local object */
-	object_copy(i_ptr, o_ptr);
-
-
 	/* Usually, we wear or wield only one item. */
 	num = 1;
 
@@ -679,12 +663,32 @@ void do_cmd_wield(void)
 			return;
 		}
 
-		/* Remember that the item is quivered */
-		i_ptr->quivered = TRUE;
-
 		/* Quiver will be reorganized (again) later. */
 		p_ptr->notice |= (PN_COMBINE);
 	}
+
+	/* Activate hidden curses, which may or may not be caught in time */
+	if (o_ptr->flags3 & (TR3_CURSE_HIDDEN))
+	{
+		if (!activate_hidden_curse(o_ptr)) return;
+
+		/* No further messages or effects */
+		hidden_curse = TRUE;
+	}
+
+	/* Get local object */
+	i_ptr = &object_type_body;
+
+	/* Obtain local object */
+	object_copy(i_ptr, o_ptr);
+
+	if (slot == INVEN_Q1)
+	{
+		/* Remember that the item is quivered */
+		i_ptr->quivered = TRUE;
+	}
+
+
 
 	/* Modify quantity */
 	i_ptr->number = num;
