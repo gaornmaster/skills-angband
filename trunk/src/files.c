@@ -3184,6 +3184,8 @@ void display_player(int mode, bool change_display)
 	/* Center the display and use the standard view */
 	if (change_display) display_change(DSP_REMEMBER | DSP_CLEAR | DSP_NORM | DSP_CX, 80, 0);
 
+	/* Clear the display (the side-window) */
+	else Term_clear();
 
 	/* Verify mode XXX XXX */
 	mode = (mode % 4);
