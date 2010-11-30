@@ -4644,7 +4644,7 @@ N:650:[Apprentice Magic]
 G:?:R
 I:90:0:0
 W:5:0:30:35
-A:5/60:30/0
+A:5/60
 C:0:2d4:0:0:0
 F:GLOW_WORDS
 
@@ -4652,7 +4652,7 @@ N:651:[Lesser Conjury]
 G:?:R
 I:90:1:0
 W:10:0:30:225
-A:10/60:40/0
+A:10/60
 C:0:3d7:0:0:0
 F:GLOW_WORDS
 
@@ -4660,7 +4660,7 @@ N:652:[Elemental Sorcery]
 G:?:R
 I:90:2:0
 W:25:0:30:1000
-A:25/60:60/5
+A:25/60
 C:0:5d11:0:0:0
 F:GLOW_WORDS
 
@@ -4668,7 +4668,7 @@ N:653:[Phantasms and Illusions]
 G:?:r
 I:90:3:0
 W:40:0:30:4000
-A:40/40:55/40:75/10
+A:40/40:55/20
 C:0:7d14:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:GLOW_WORDS
@@ -4715,7 +4715,7 @@ N:660:[Novitiate]
 G:?:B
 I:91:0:0
 W:5:0:30:35
-A:5/60:30/0
+A:5/60
 C:0:1d3:0:0:0
 F:GLOW_WORDS
 
@@ -4723,7 +4723,7 @@ N:661:[Words of Wisdom]
 G:?:B
 I:91:1:0
 W:10:0:30:225
-A:10/60:40/0
+A:10/60
 C:0:1d3:0:0:0
 F:GLOW_WORDS
 
@@ -4731,7 +4731,7 @@ N:662:[Holy of Holies]
 G:?:B
 I:91:2:0
 W:25:0:30:1000
-A:25/60:60/5
+A:25/60
 C:0:1d3:0:0:0
 F:GLOW_WORDS
 
@@ -4739,7 +4739,7 @@ N:663:[Shining Spirit]
 G:?:b
 I:91:3:0
 W:40:0:30:4000
-A:40/40:55/40:75/10
+A:40/40:55/20
 C:0:1d3:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD |
 F:GLOW_WORDS
@@ -4787,7 +4787,7 @@ N:670:[Call of the Wild]
 G:?:G
 I:92:0:0
 W:5:0:30:35
-A:5/60:30/0
+A:5/60
 C:0:1d3:0:0:0
 F:GLOW_WORDS
 
@@ -4795,7 +4795,7 @@ N:671:[Communion with Nature]
 G:?:G
 I:92:1:0
 W:10:0:30:225
-A:10/60:40/0
+A:10/60
 C:0:1d3:0:0:0
 F:GLOW_WORDS
 
@@ -4803,7 +4803,7 @@ N:672:[Book of Combat]
 G:?:G
 I:92:2:0
 W:25:0:30:1000
-A:25/60:60/5
+A:25/60
 C:0:1d3:0:0:0
 F:GLOW_WORDS
 
@@ -4811,7 +4811,7 @@ N:673:[Druidic Transformations]
 G:?:g
 I:92:3:0
 W:40:0:30:4000
-A:40/40:55/40:75/10
+A:40/40:55/20
 C:0:1d3:0:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD
 F:GLOW_WORDS
@@ -4857,7 +4857,7 @@ N:680:[Beginner's Curses]
 G:?:D
 I:93:0:0
 W:5:0:30:35
-A:5/60:30/0
+A:5/60
 C:0:2d6:-5:0:0
 F:GLOW_WORDS
 
@@ -4865,7 +4865,7 @@ N:681:[Darker Elements]
 G:?:D
 I:93:1:0
 W:10:0:30:225
-A:10/60:40/0
+A:10/60
 C:0:4d8:-5:0:0
 F:GLOW_WORDS
 
@@ -4873,7 +4873,7 @@ N:682:[Frightful Realms]
 G:?:D
 I:93:2:0
 W:25:0:30:1000
-A:25/60:60/5
+A:25/60
 C:0:5d17:-5:0:0
 F:GLOW_WORDS
 
@@ -4881,7 +4881,7 @@ N:683:[Mysteries of Angmar]
 G:?:v
 I:93:3:0
 W:40:0:30:4000
-A:40/40:55/40:75/10
+A:40/40:55/20
 C:0:5d29:-5:0:0
 F:IGNORE_ACID | IGNORE_ELEC | IGNORE_FIRE | IGNORE_COLD |
 F:GLOW_WORDS
