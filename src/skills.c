@@ -284,7 +284,20 @@ s16b get_skill_race(int skill, int min, int max)
 	return (get_skill(skill, min, max));
 }
 
+int best_melee_skill(void)
+{
+	int sword, hafted, polearm, temp;
+	sword = get_skill(S_SWORD, 0, 100);
+	hafted = get_skill(S_HAFTED, 0, 100);
+	polearm = get_skill(S_POLEARM, 0, 100);
 
+	if (sword >= hafted && sword >= polearm) return S_SWORD;
+	if (hafted >= sword && hafted >= polearm) return S_HAFTED;
+	if (polearm >= hafted && polearm >= sword) return S_POLEARM;
+
+	/* Paranoia */
+	return S_SWORD;
+}
 
 /*
  * Determine which melee weapon skill we're using.
