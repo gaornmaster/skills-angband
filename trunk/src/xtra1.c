@@ -5451,9 +5451,6 @@ static void calc_bonuses(void)
 	object_type *o_ptr;
 	u32b f1, f2, f3;
 
-	int tmp, tmp2;
-
-
 	/*** Memorize ***/
 
 	/* Save the old speed */
@@ -5660,14 +5657,10 @@ static void calc_bonuses(void)
 	p_ptr->skill_thn += add_special_melee_skill();
 
 	/* Hack -- blessed weapons are used as if the best weapon type */
-	if (p_ptr->bless_blade)
-		weapon_skill = best_melee_skill();
+	if (p_ptr->bless_blade) weapon_skill = best_melee_skill();
 
 	if (get_skill(weapon_skill, 0, 100))
-		tmp = get_skill_race(weapon_skill, 5, 115);
-
-
-	p_ptr->skill_thn += MAX(tmp,tmp2);
+		p_ptr->skill_thn += get_skill_race(weapon_skill, 5, 115);
 
 	/* Hack -- special bonus for high-level martial arts experts */
 	if ((weapon_skill == S_KARATE) || (weapon_skill == S_WRESTLING))

@@ -761,6 +761,7 @@ extern void initialize_random_artifacts(void);
 /* skills.c */
 extern s16b get_skill(int skill, int min, int max);
 extern s16b get_skill_race(int skill, int min, int max);
+extern int best_melee_skill(void);
 extern int sweapon(int tval);
 extern int sbow(int tval);
 extern void calc_power(void);
