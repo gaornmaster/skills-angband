@@ -3144,6 +3144,9 @@ void process_player(void)
 			/* Take a turn */
 			p_ptr->energy_use = 100;
 
+			/* Increment resting turns counter */
+			p_ptr->resting_turns++;
+
 			/* Note end of rest */
 			if (!p_ptr->resting) left_panel_display(DISPLAY_REGEN, 0);
 		}
@@ -3200,6 +3203,8 @@ void process_player(void)
 		{
 			/* Use some energy */
 			p_ptr->energy -= p_ptr->energy_use;
+
+			p_ptr->total_turns++;
 		}
 	}
 	while (!p_ptr->energy_use && !p_ptr->leaving);
