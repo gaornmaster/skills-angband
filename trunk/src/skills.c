@@ -63,62 +63,46 @@ static int get_skill_similar(int skill)
 		case S_POLEARM:
 		case S_HAFTED:
 		{
-			/* Weapons and martial arts cross-raise weapons */
-			best += p_ptr->pskills[S_SWORD].cur / 3;
-			best += p_ptr->pskills[S_POLEARM].cur / 3;
-			best += p_ptr->pskills[S_HAFTED].cur / 3;
-			best -= p_ptr->pskills[skill].cur / 3;
+			best = MAX(best, p_ptr->pskills[S_SWORD].cur / 2);
+			best = MAX(best, p_ptr->pskills[S_POLEARM].cur / 2);
+			best = MAX(best, p_ptr->pskills[S_HAFTED].cur / 2);
 
-			best += p_ptr->pskills[S_WRESTLING].cur / 4;
-			best += p_ptr->pskills[S_KARATE].cur / 4;
+			best = MAX(best, p_ptr->pskills[S_WRESTLING].cur / 3);
+			best = MAX(best, p_ptr->pskills[S_KARATE].cur / 3);
 			break;
 		}
-
 		case S_WRESTLING:
 		case S_KARATE:
 		{
-			/* Weapons and martial arts cross-raise weapons */
-			best += p_ptr->pskills[S_SWORD].cur / 4;
-			best += p_ptr->pskills[S_POLEARM].cur / 4;
-			best += p_ptr->pskills[S_HAFTED].cur / 4;
+			best = MAX(best, p_ptr->pskills[S_SWORD].cur / 3);
+			best = MAX(best, p_ptr->pskills[S_POLEARM].cur / 3);
+			best = MAX(best, p_ptr->pskills[S_HAFTED].cur / 3);
 
-			best += p_ptr->pskills[S_WRESTLING].cur / 3;
-			best += p_ptr->pskills[S_KARATE].cur / 3;
-			best -= p_ptr->pskills[skill].cur / 3;
+			best = MAX(best, p_ptr->pskills[S_WRESTLING].cur / 2);
+			best = MAX(best, p_ptr->pskills[S_KARATE].cur / 2);
 			break;
 		}
 
 		case S_BOW:
 		case S_CROSSBOW:
 		case S_SLING:
-		{
-			/* Ranged attacks cross-raise */
-			best += p_ptr->pskills[S_BOW].cur / 3;
-			best += p_ptr->pskills[S_CROSSBOW].cur / 3;
-			best += p_ptr->pskills[S_SLING].cur / 3;
-			best -= p_ptr->pskills[skill].cur / 3;
-
-			best += p_ptr->pskills[S_THROWING].cur / 4;
-			break;
-		}
-
 		case S_THROWING:
 		{
-			/* Ranged attacks cross-raise */
-			best += p_ptr->pskills[S_BOW].cur / 4;
-			best += p_ptr->pskills[S_CROSSBOW].cur / 4;
-			best += p_ptr->pskills[S_SLING].cur / 4;
+			best = MAX(best, p_ptr->pskills[S_BOW].cur / 2);
+			best = MAX(best, p_ptr->pskills[S_CROSSBOW].cur / 2);
+			best = MAX(best, p_ptr->pskills[S_SLING].cur / 2);
+			best = MAX(best, p_ptr->pskills[S_THROWING].cur / 2);
 
 			break;
 		}
+
+		/* No related skill minimum */
 		default:
 		{
+			return 0;
 			break;
 		}
 	}
-
-	/* Sanity check */
-	if (best > 100) best = 100;
 
 	return best;
 }
