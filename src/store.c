@@ -2787,6 +2787,78 @@ static int buy_and_sell(object_type *o_ptr, s32b *price, bool buying,
 	return (0);
 }
 
+static void store_retire()
+{
+	long retire_cost;
+	char short_name[DESC_LEN];
+	cptr s = " brings in some new stock";
+
+
+	/* Show that the shelves are empty */
+	display_inventory();
+
+	/* Get the short shopkeeper name */
+	shopkeeper_short_name(short_name, ot_ptr->owner_name);
+
+	/* Get the retirement cost */
+	retire_cost = 50000L + 10L * ot_ptr->max_cost;
+
+	/* Character can offer it */
+	if (p_ptr->au >= retire_cost)
+	{
+		/* The shopkeeper may be willing to retire */
+		msg_format("%s may be willing to retire if you offer enough incentive:  %ld in gold should be sufficient.", short_name, retire_cost);
+
+		/* See if the player is up for it */
+		if (get_check(format("Offer %ld gold?", retire_cost)))
+		{
+			/* Shopkeeper decides not to retire */
+			if (one_in_(2))
+			{
+				msg_format("%s thanks you for the offer, but declines to retire.",
+					short_name);
+				msg_format("It'll take a while until I can replenish my stores.");
+			}
+
+			/* Retire */
+			else
+			{
+				/* Message */
+				msg_format("%s retires.", short_name);
+
+				/* Give the gold */
+				p_ptr->au -= retire_cost;
+
+				/* Shuffle the store */
+				store_shuffle(store_num);
+
+				/* Get the new short shopkeeper name */
+				shopkeeper_short_name(short_name, ot_ptr->owner_name);
+
+				/* Has things to sell */
+				s = ", the new shopkeeper, brings in things to sell";
+
+				/* Rebuild the stock */
+				store_maint(store_num, TRUE);
+			}
+		}
+	}
+
+	/* Flush any pending messages */
+	message_flush();
+
+	/* Start over */
+	store_top = 0;
+
+	/* Re-display the store */
+	display_store();
+
+	/* Message */
+	msg_format("%s%s.", short_name, s);
+
+}
+
+
 
 /*
  * Buy an object from a store
@@ -3021,73 +3093,7 @@ static void store_purchase(void)
 				/* Store is empty */
 				if (st_ptr->stock_num == 0)
 				{
-					long retire_cost;
-					char short_name[DESC_LEN];
-					cptr s = " brings in some new stock";
-
-
-					/* Show that the shelves are empty */
-					display_inventory();
-
-					/* Get the short shopkeeper name */
-					shopkeeper_short_name(short_name, ot_ptr->owner_name);
-
-					/* Get the retirement cost */
-					retire_cost = 50000L + 10L * ot_ptr->max_cost;
-
-					/* Character can offer it */
-					if (p_ptr->au >= retire_cost)
-					{
-						/* The shopkeeper may be willing to retire */
-						msg_format("%s may be willing to retire if you offer enough incentive:  %ld in gold should be sufficient.", short_name, retire_cost);
-
-						/* See if the player is up for it */
-						if (get_check(format("Offer %ld gold?", retire_cost)))
-						{
-							/* Shopkeeper decides not to retire */
-							if (one_in_(2))
-							{
-								msg_format("%s thanks you for the offer, but declines to retire.",
-									short_name);
-							}
-
-							/* Retire */
-							else
-							{
-								/* Message */
-								msg_format("%s retires.", short_name);
-
-								/* Give the gold */
-								p_ptr->au -= retire_cost;
-
-								/* Shuffle the store */
-								store_shuffle(store_num);
-
-								/* Get the new short shopkeeper name */
-								shopkeeper_short_name(short_name, ot_ptr->owner_name);
-
-								/* Has things to sell */
-								s = ", the new shopkeeper, brings in things to sell";
-							}
-						}
-					}
-
-					/* Flush any pending messages */
-					message_flush();
-
-
-					/* Start over */
-					store_top = 0;
-
-					/* Rebuild the stock (in all cases) */
-					store_maint(store_num, TRUE);
-
-					/* Re-display the store */
-					display_store();
-
-					/* Message */
-					msg_format("%s%s.", short_name, s);
-
+					store_retire();
 				}
 
 				/* The object is gone */
@@ -3713,7 +3719,7 @@ static void store_process_command(bool inn_cmd)
 				store_prt_invest();
 
 				/* Prompt */
-				prt("Command (I to invest money, C to cycle inventory, ESC to return)?", 0, 0);
+				prt("Command (I to invest money, C to clear inventory, ESC to return)?", 0, 0);
 
 				ch = inkey(FALSE);
 
@@ -3782,11 +3788,18 @@ static void store_process_command(bool inn_cmd)
 					do_cmd_redraw();
 					display_store();
 				}
-				else if (ch == 'c' || ch == 'C')  /* Cycle store goods, for a price */
+				else if (ch == 'c' || ch == 'C')  /* Clear store goods, for a price */
 				{
 					int cost = 0, invest, i, num, price, markup;
 					char prompt[80];
 					object_type *o_ptr;
+
+					if (st_ptr->stock_num == 0)
+					{
+						prt("", 0, 0);
+						msg_print("There is nothing to buy.  You'll have to wait for a restock.");
+						break;
+					}
 
 					/* Determine total cost of items in store */
 					for (i = 0; i < st_ptr->stock_num; i++)
@@ -3828,8 +3841,9 @@ static void store_process_command(bool inn_cmd)
 							store_item_optimize(i);
 						}
 					}
-					/* Bring in new stock */
-					store_maint(store_num, TRUE);
+
+					/* Give the player an option to retire the storekeeper */
+					store_retire();
 
 					/* Credit store with some investment */
 					st_ptr->total_buy += cost / 2;
