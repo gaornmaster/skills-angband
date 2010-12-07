@@ -1092,9 +1092,12 @@ void adjust_dam(int *damage, object_type *o_ptr, monster_type *m_ptr,
 	/* Use up special attack powers, unless a trap */
 	if (!is_trap) dec_special_atk();
 
-
 	/* Apply addition and subtraction */
-	*damage += (add - sub);
+	/* Scale damage for low level characters */
+	if (skill_being_used != S_NOSKILL)
+		*damage += ((add - sub) * get_skill(skill_being_used, 50, 100)) / 100;
+	else
+		*damage += (add - sub);
 
 	/* Apply multiplier, if positive */
 	if (mul > 1) *damage *= mul;
@@ -2099,6 +2102,9 @@ bool py_attack(int y, int x)
 			/* Monster can evade */
 			if (resist == 100) continue;
 
+			/* Practice the melee skill */
+			skill_being_used = sweapon(o_ptr->tval);
+
 			/* Character is wielding a weapon */
 			if (is_melee_weapon(o_ptr))
 			{
@@ -2162,9 +2168,6 @@ bool py_attack(int y, int x)
 
 			/* Paranoia -- No negative damage */
 			if (damage < 0) damage = 0;
-
-			/* Practice the melee skill */
-			skill_being_used = sweapon(o_ptr->tval);
 
 			/* Learn about damage */
 			learn_about_damage(damage, offhand);
