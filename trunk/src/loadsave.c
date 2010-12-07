@@ -1503,18 +1503,16 @@ static errr do_character(void)
 	do_byte((byte *)&p_ptr->suppress_bottle);
 	do_byte((byte *)&p_ptr->move_dir);
 
-	do_u16b(&blank_u16b);   /* Space for more temporary shapechanges */
+	do_u16b(&blank_u16b);
 	do_u16b(&blank_u16b);
 	do_u16b(&blank_u16b);
 
 	if (!older_than(0, 9, 9, 21)) do_s16b(&p_ptr->self_knowledge);
 	else do_u16b(&blank_u16b);
 
-	/* Space for more temporary conditions */
-	do_u16b(&blank_u16b);
-	do_u16b(&blank_u16b);
-	do_u16b(&blank_u16b);
-	do_u16b(&blank_u16b);
+	/* Turn counters */
+	do_u32b(&p_ptr->resting_turns);
+	do_u32b(&p_ptr->total_turns);
 	do_u16b(&blank_u16b);
 
 	do_s16b(&p_ptr->life_recovery_value);

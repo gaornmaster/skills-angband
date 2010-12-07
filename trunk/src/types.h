@@ -1292,6 +1292,9 @@ struct player_type
 	s16b resting;			/* Resting counter */
 	s16b running;			/* Running counter */
 
+	s32b resting_turns;     /* Number of turns spent resting */
+	s32b total_turns;      /* Number of turns spent active */
+
 	s16b run_cur_dir;			/* Direction we are running */
 	s16b run_old_dir;			/* Direction we came from */
 	bool run_unused;			/* Unused (padding field) */

@@ -5659,14 +5659,13 @@ static void calc_bonuses(void)
 	p_ptr->skill_thn  = 10 + rp_ptr->r_thn;
 	p_ptr->skill_thn += add_special_melee_skill();
 
+	/* Hack -- blessed weapons are used as if the best weapon type */
+	if (p_ptr->bless_blade)
+		weapon_skill = best_melee_skill();
 
 	if (get_skill(weapon_skill, 0, 100))
 		tmp = get_skill_race(weapon_skill, 5, 115);
 
-	/* Hack -- priests can wield blessed sharp weapons as if they were clubs */
-	tmp2 = 0;
-	if (p_ptr->realm == PRIEST && (inventory[INVEN_WIELD].flags3 & TR3_BLESSED))
-		tmp2 = get_skill_race(S_HAFTED, 5, 115);
 
 	p_ptr->skill_thn += MAX(tmp,tmp2);
 

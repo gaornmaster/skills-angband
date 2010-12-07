@@ -1467,9 +1467,8 @@ static void display_player_middle(void)
 	o_ptr = &inventory[INVEN_WIELD];
 
 	/* Combat information -- melee */
-	put_str("       (Melee)       ", 12, 1);
-	if (p_ptr->twoweap) prt_2num("Blows per round ", p_ptr->num_blow, p_ptr->num_blow2, 13, 1, TERM_L_BLUE);
-	else prt_num("Blows per round  ", p_ptr->num_blow, 13, 1, TERM_L_BLUE);
+	if (p_ptr->twoweap) prt_2num("Blows per round ", p_ptr->num_blow, p_ptr->num_blow2, 14, 1, TERM_L_BLUE);
+	else prt_num("Blows per round  ", p_ptr->num_blow, 14, 1, TERM_L_BLUE);
 
 	/* Using a weapon */
 	if (is_melee_weapon(o_ptr))
@@ -1481,12 +1480,12 @@ static void display_player_middle(void)
 
     /* Display hit rate */
 
-    if (p_ptr->twoweap) prt_2num("Hit Rate        ", p_ptr->avg_hit, p_ptr->avg_hit_offhand, 14, 1, TERM_L_BLUE);
-    else prt_num("Hit Rate         ", p_ptr->avg_hit, 14, 1, TERM_L_BLUE);
+    if (p_ptr->twoweap) prt_2num("Hit Rate        ", p_ptr->avg_hit, p_ptr->avg_hit_offhand, 15, 1, TERM_L_BLUE);
+    else prt_num("Hit Rate         ", p_ptr->avg_hit, 15, 1, TERM_L_BLUE);
 
     /* Display average damage */
-    if (p_ptr->twoweap) prt_2num("Average Damage  ", (p_ptr->avg_dam + 5) / 10, (p_ptr->avg_dam_offhand + 5) / 10, 15, 1, TERM_L_BLUE);
-    else prt_num("Average Damage   ", (p_ptr->avg_dam + 5) / 10, 15, 1, TERM_L_BLUE);
+    if (p_ptr->twoweap) prt_2num("Average Damage  ", (p_ptr->avg_dam + 5) / 10, (p_ptr->avg_dam_offhand + 5) / 10, 16, 1, TERM_L_BLUE);
+    else prt_num("Average Damage   ", (p_ptr->avg_dam + 5) / 10, 16, 1, TERM_L_BLUE);
 
 
 
@@ -1500,26 +1499,25 @@ static void display_player_middle(void)
 
 
 	/* Combat information -- shooting */
-	put_str("       (Missile)     ", 12, 53);
 	if (p_ptr->num_fire % 2)
 	{
-		prt_num("Shots per round", p_ptr->num_fire / 2, 13, 53, TERM_L_BLUE);
-		c_put_str(TERM_L_BLUE, ".5", 13, 74);
+		prt_num("Shots per round", p_ptr->num_fire / 2, 14, 53, TERM_L_BLUE);
+		c_put_str(TERM_L_BLUE, ".5", 14, 74);
 	}
 	else
 	{
-		prt_num("Shots per round  ", p_ptr->num_fire / 2, 13, 53, TERM_L_BLUE);
+		prt_num("Shots per round  ", p_ptr->num_fire / 2, 14, 53, TERM_L_BLUE);
 	}
 
-	prt_num("+ to Skill       ", show_a_tohit, 14, 53, TERM_L_BLUE);
+	prt_num("+ to Skill       ", show_a_tohit, 15, 53, TERM_L_BLUE);
 	if (show_a_todam > 0)
-		prt_num("Deadliness (%)   ", deadliness_conversion[show_a_todam], 15, 53, TERM_L_BLUE);
+		prt_num("Deadliness (%)   ", deadliness_conversion[show_a_todam], 16, 53, TERM_L_BLUE);
 	else
-		prt_num("Deadliness (%)   ", -deadliness_conversion[-show_a_todam], 15, 53, TERM_L_BLUE);
+		prt_num("Deadliness (%)   ", -deadliness_conversion[-show_a_todam], 16, 53, TERM_L_BLUE);
 
 
 	/* Print maximum depth */
-	put_str("Max Depth", 15, 27);
+	put_str("Max Depth", 12, 27);
 
 	if (depth_in_feet)
 	{
@@ -1534,7 +1532,7 @@ static void display_player_middle(void)
 		     (void)strnfmt(tmp, sizeof(tmp), " Lev %d", p_ptr->max_depth);
 		else (void)strnfmt(tmp, sizeof(tmp), "Lev %d", p_ptr->max_depth);
 	}
-	c_put_str(TERM_L_BLUE, tmp, 15, 43);
+	c_put_str(TERM_L_BLUE, tmp, 12, 43);
 
 
 
@@ -1548,15 +1546,21 @@ static void display_player_middle(void)
 
 	if (p_ptr->character_type != PCHAR_NORMAL)
 	{
-		move_cursor(11, 27);
-		c_roff_centered(TERM_L_BLUE, character_type_name[p_ptr->character_type], 27, 52);
+		move_cursor(8, 10);
+		c_roff(TERM_L_RED, character_type_name[p_ptr->character_type], 0, 0);
 	}
 
-	prt_lnum("Unspent Exp   ",   p_ptr->exp,       12, 27, TERM_L_GREEN);
-	prt_lnum("Gold          ",   p_ptr->au,        13, 27, TERM_L_GREEN);
-	prt_lnum("Turns         ",   turn,             14, 27, TERM_L_BLUE);
+	prt_lnum("Unspent Exp   ", p_ptr->exp,           11, 27, TERM_L_GREEN);
 
 
+	/* Middle top */
+	prt_lnum("Turns         ", turn,                 14, 27, TERM_L_BLUE);
+	prt_lnum("Active Turns  ", p_ptr->total_turns - p_ptr->resting_turns,  15, 27, TERM_L_BLUE);
+	prt_lnum("Resting Turns ", p_ptr->resting_turns, 16, 27, TERM_L_BLUE);
+
+
+	/* Right top */
+	prt_lnum("Gold          ", p_ptr->au,             9, 53, TERM_L_GREEN);
 
 
 	/* Hitpoints, Mana */
@@ -1579,8 +1583,8 @@ static void display_player_middle(void)
 		if (p_ptr->csp < (p_ptr->msp * warn / 10)) attr = TERM_RED;
 		else if (p_ptr->csp < p_ptr->msp) attr = TERM_YELLOW;
 
-		prt_num("Max Mana         ", p_ptr->msp, 9, 53, TERM_L_GREEN);
-		prt_num("Cur Mana         ", p_ptr->csp, 10, 53, attr);
+		prt_num("Max Mana         ", p_ptr->msp, 11, 1, TERM_L_GREEN);
+		prt_num("Cur Mana         ", p_ptr->csp, 12, 1, attr);
 	}
 }
 
@@ -1760,60 +1764,60 @@ static void display_player_various(void)
 	xstl = p_ptr->skill_stl;
 	xsrh = p_ptr->skill_srh;
 
-	put_str("Melee       :", 18, 1);
-	desc = likert(xthn, 8 + p_ptr->max_depth / 20);
-	c_put_str(likert_color, desc, 18, 15);
-
-	put_str("Shooting    :", 19, 1);
-	desc = likert(xthb, 5 + p_ptr->max_depth / 15);
+	put_str("Melee       :", 19, 1);
+	desc = likert(xthn,8 + p_ptr->max_depth / 20);
 	c_put_str(likert_color, desc, 19, 15);
 
-	put_str("Throwing    :", 20, 1);
-	desc = likert(xtht, 6 + p_ptr->max_depth / 15);
+	put_str("Shooting    :", 20, 1);
+	desc = likert(xthb, 5 + p_ptr->max_depth / 15);
 	c_put_str(likert_color, desc, 20, 15);
 
-	put_str("Digging     :", 21, 1);
-	desc = likert(xdig, 10);
+	put_str("Throwing    :", 21, 1);
+	desc = likert(xtht, 6 + p_ptr->max_depth / 15);
 	c_put_str(likert_color, desc, 21, 15);
 
-	put_str("Saving Throw:", 18, 27);
-	desc = likert(xsav, 6);
-	c_put_str(likert_color, desc, 18, 41);
+	put_str("Digging     :", 22, 1);
+	desc = likert(xdig, 10);
+	c_put_str(likert_color, desc, 22, 15);
 
-	put_str("Stealth     :", 19, 27);
+	put_str("Saving Throw:", 19, 27);
+	desc = likert(xsav, 6);
+	c_put_str(likert_color, desc, 19, 41);
+
+	put_str("Stealth     :", 20, 27);
 	if (p_ptr->aggravate)
 	{
-		c_put_str(TERM_L_RED, "Aggravate", 19, 41);
+		c_put_str(TERM_L_RED, "Aggravate", 20, 41);
 	}
 	else
 	{
 		desc = likert(xstl, 1);
-		c_put_str(likert_color, desc, 19, 41);
+		c_put_str(likert_color, desc, 20, 41);
 	}
 
-	put_str("Perception  :", 20, 27);
+	put_str("Perception  :", 21, 27);
 	desc = likert(xsrh, 3 + p_ptr->max_depth / 40);
-	c_put_str(likert_color, desc, 20, 41);
-
-	put_str("Disarming   :", 21, 27);
-	desc = likert(xdis, 5 + p_ptr->max_depth / 23);
 	c_put_str(likert_color, desc, 21, 41);
 
-	put_str("Magic Device:", 18, 53);
-	desc = likert(xdev, 5 + p_ptr->max_depth / 40);
-	c_put_str(likert_color, desc, 18, 67);
+	put_str("Disarming   :", 22, 27);
+	desc = likert(xdis, 5 + p_ptr->max_depth / 23);
+	c_put_str(likert_color, desc, 22, 41);
 
-	put_str("Dodging     :", 19, 53);
-	desc = likert(dodging_ability(300), 11 + p_ptr->max_depth / 20);
+	put_str("Magic Device:", 19, 53);
+	desc = likert(xdev, 5 + p_ptr->max_depth / 40);
 	c_put_str(likert_color, desc, 19, 67);
 
-	put_str("Fame        :", 20, 53);
-	get_fame_desc(&attr, fame_desc);
-	c_put_str(attr, fame_desc, 20, 67);
+	put_str("Dodging     :", 20, 53);
+	desc = likert(dodging_ability(300), 11 + p_ptr->max_depth / 20);
+	c_put_str(likert_color, desc, 20, 67);
 
-	put_str("Infra-Vision:", 21, 53);
-	if (use_metric) put_str(format("%d meters", p_ptr->see_infra * 3), 21, 67);
-	else put_str(format("%d feet", p_ptr->see_infra * 10), 21, 67);
+	put_str("Fame        :", 21, 53);
+	get_fame_desc(&attr, fame_desc);
+	c_put_str(attr, fame_desc, 21, 67);
+
+	put_str("Infra-Vision:", 22, 53);
+	if (use_metric) put_str(format("%d meters", p_ptr->see_infra * 3), 22, 67);
+	else put_str(format("%d feet", p_ptr->see_infra * 10), 22, 67);
 }
 
 /*
@@ -3334,7 +3338,7 @@ void display_player(int mode, bool change_display)
 		if (mode == 1)
 		{
 			/* Header */
-			put_str("(Character Background)", 17, 28);
+			put_str("(Character Background)", 18, 28);
 
 			/* History */
 			roff("\n", 0, 0);
@@ -3344,7 +3348,7 @@ void display_player(int mode, bool change_display)
 		/* Display "various" info */
 		else
 		{
-			put_str("(Character Abilities)", 17, 28);
+			put_str("(Character Abilities)", 18, 28);
 
 			display_player_various();
 		}
