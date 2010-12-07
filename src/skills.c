@@ -2005,7 +2005,7 @@ void prt_oath_message()
 static bool can_reduce_skill(int skill, bool verbose)
 {
 	int martial_skills = 0;
-	int level = get_skill(skill, 0, 100);
+	int level = p_ptr->pskills[skill].max;
 
 	if (level == 0) return (FALSE);
 
