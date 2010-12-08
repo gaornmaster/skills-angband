@@ -4525,7 +4525,8 @@ void monster_death(int m_idx)
  */
 long monster_exp(monster_race *r_ptr)
 {
-	return r_ptr->mexp * r_ptr->level / calc_exp_power();
+	int pow = calc_exp_power();
+	return r_ptr->mexp * (r_ptr->level * r_ptr->level)/ (pow * pow);
 }
 
 /*
@@ -4533,8 +4534,8 @@ long monster_exp(monster_race *r_ptr)
  */
 long monster_exp_frac(monster_race *r_ptr)
 {
-	int power = calc_exp_power();
-	return ((long)r_ptr->mexp * r_ptr->level) % power * 1000L / power;
+	int pow = calc_exp_power();
+	return ((long)r_ptr->mexp * r_ptr->level * r_ptr->level) % (pow * pow) * 1000L / (pow * pow);
 }
 
 
