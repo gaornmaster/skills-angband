@@ -6570,6 +6570,8 @@ bool switch_weapons(bool allow_empty)
         object_copy(i_ptr, j_ptr);
         object_copy(j_ptr, o_ptr);
         object_wipe(o_ptr);
+
+        p_ptr->update |= PU_BONUS;
         return (TRUE);
     }
 	return (FALSE);

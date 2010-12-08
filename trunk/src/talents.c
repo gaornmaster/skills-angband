@@ -1365,28 +1365,22 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				/* Attack target if valid monster */
 				if (cave_m_idx[y][x])
 				{
-					/* Hack -- Adjust blows and skill */
-					s16b old_skill = p_ptr->skill_thn;
-					s16b old_blows = p_ptr->num_blow;
-					s16b old_blows2 = p_ptr->num_blow2;
-
 					/* True polearms do better */
 					if (!is_polearm(o_ptr))
 					{
-						p_ptr->skill_thn -= p_ptr->skill_thn / 5;
-						p_ptr->num_blow  -= p_ptr->num_blow  / 3;
-						p_ptr->num_blow2 -= p_ptr->num_blow2 / 3;
+						p_ptr->skill_thn  -= p_ptr->skill_thn / 5;
+						p_ptr->skill_thn2 -= p_ptr->skill_thn / 5;
+						p_ptr->num_blow   -= p_ptr->num_blow  / 3;
+						p_ptr->num_blow2  -= p_ptr->num_blow2 / 3;
 					}
 
 					/* Attack monster */
 					if (!py_attack(y, x)) skip = TRUE;
 
-					/* Hack -- restore blows and skill */
-					p_ptr->num_blow = old_blows;
-					p_ptr->num_blow2 = old_blows2;
-					p_ptr->skill_thn = old_skill;
+					/* Restore values, later */
+					p_ptr->update |= PU_BONUS;
 				}
-				else msg_print("There is nothing there to attack");
+				else msg_print("There is nothing there to attack!");
 				if (skip) return "";
 			}
 
