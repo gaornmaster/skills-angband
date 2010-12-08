@@ -4217,7 +4217,7 @@ s16b calc_hp_regen(void)
 s16b calc_mana_regen(void)
 {
 	/* Get basic regeneration -- MP should regen slightly faster than HP */
-	int base = calc_regen_aux() * 3 / 2;
+	int base = calc_regen_aux();
 	int regen_amount = base;
 
 	/* Regeneration ability -- +50% */
