@@ -3330,6 +3330,13 @@ void do_cmd_skills(void)
 		do_cmd_barehanded();
 	}
 
+	/* Reset magic choice if needed */
+	if (get_skill(S_MAGIC, 0, 100) == 0)
+	{
+		p_ptr->realm = 0;
+		mp_ptr = &magic_info[NONE];
+	}
+
 	/* Combine and Reorder the pack (later) */
 	p_ptr->notice |= (PN_COMBINE | PN_REORDER);
 
