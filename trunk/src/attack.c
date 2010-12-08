@@ -3863,7 +3863,11 @@ void do_cmd_throw(void)
 void do_cmd_weapon_switch()
 {
 	if (p_ptr->barehanded)	do_cmd_barehanded();
-	else 					(void) switch_weapons(FALSE);
+	else if (switch_weapons(FALSE))
+	{
+		p_ptr->energy_use = 100;
+		msg_print("You swap your weapons.");
+	}
 }
 
 
