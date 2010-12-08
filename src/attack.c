@@ -2084,8 +2084,8 @@ bool py_attack(int y, int x)
 			else             bonus = o_ptr->to_h;
 
 			/* Calculate the attack quality. */
-			chance = p_ptr->skill_thn + BTH_PLUS_ADJ * bonus;
-
+			if (!offhand) chance = p_ptr->skill_thn + BTH_PLUS_ADJ * bonus;
+			else chance = p_ptr->skill_thn2 + BTH_PLUS_ADJ * bonus;
 
 			/* This blow missed */
 			if (!test_hit_combat(chance + sleeping_bonus,

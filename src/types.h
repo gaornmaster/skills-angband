@@ -1434,7 +1434,8 @@ struct player_type
 	s16b skill_stl;				/* Skill: Stealth factor */
 	s16b skill_srh;				/* Skill: Perception */
 	s16b skill_awr;				/* Skill: Awareness */
-	s16b skill_thn;				/* Skill: To hit (normal) */
+	s16b skill_thn;				/* Skill: To hit (melee) */
+	s16b skill_thn2;			/* Skill: To hit (offhand) */
 	s16b skill_thb;				/* Skill: To hit (shooting) */
 	s16b skill_tht;				/* Skill: To hit (throwing) */
 	s16b skill_dig;				/* Skill: Digging */

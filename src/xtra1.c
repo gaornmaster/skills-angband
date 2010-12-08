@@ -4575,6 +4575,7 @@ void player_flags(u32b *f1, u32b *f2, u32b *f3, bool shape, bool modify)
 
 		/* Only melee skill is affected */
 		p_ptr->skill_thn += to_h * BTH_PLUS_ADJ;
+		p_ptr->skill_thn2 += to_h * BTH_PLUS_ADJ;
 
 		p_ptr->to_d += to_d;
 		p_ptr->dis_to_d += to_d;
@@ -5222,6 +5223,7 @@ static void analyze_weapons(void)
 
 		/* Automatic penalty to melee skill */
 		p_ptr->skill_thn -= 10 + (o_ptr->weight + i_ptr->weight) / 10;
+		p_ptr->skill_thn2 -= 10 + (o_ptr->weight + i_ptr->weight) / 10;
 	}
 
 	/* Assume not heavy */
@@ -5237,6 +5239,7 @@ static void analyze_weapons(void)
 		if (hold < weapon_weight / 10)
 		{
 			p_ptr->skill_thn += 5 * (hold - weapon_weight / 10);
+			p_ptr->skill_thn2 += 5 * (hold - weapon_weight / 10);
 
 			/* Note that weapon is heavy */
 			p_ptr->heavy_wield = TRUE;
@@ -5323,6 +5326,7 @@ static void analyze_weapons(void)
 	{
 		/* Reduce the melee combat ability (not anything else) */
 		p_ptr->skill_thn /= 2;
+		p_ptr->skill_thn2 /= 2;
 
 		/* Icky weapon */
 		p_ptr->icky_wield = TRUE;
@@ -5450,6 +5454,8 @@ static void calc_bonuses(void)
 
 	object_type *o_ptr;
 	u32b f1, f2, f3;
+
+	int tmp;
 
 	/*** Memorize ***/
 
@@ -5648,19 +5654,26 @@ static void calc_bonuses(void)
 
 
 	/* Determine which weapon and bow skills are currently applicable */
-	weapon_skill = sweapon(inventory[INVEN_WIELD].tval);
 	bow_skill = sbow(inventory[INVEN_BOW].tval);
-
 
 	/* Melee Combat (ranges from ~12 to ~140 (~185 with martial arts)) */
 	p_ptr->skill_thn  = 10 + rp_ptr->r_thn;
-	p_ptr->skill_thn += add_special_melee_skill();
+	p_ptr->skill_thn2  = 10 + rp_ptr->r_thn;
 
-	/* Hack -- blessed weapons are used as if the best weapon type */
-	if (p_ptr->bless_blade) weapon_skill = best_melee_skill();
+	tmp = add_special_melee_skill();
+	p_ptr->skill_thn += tmp;
+	p_ptr->skill_thn2 += tmp;
 
-	if (get_skill(weapon_skill, 0, 100))
-		p_ptr->skill_thn += get_skill_race(weapon_skill, 5, 115);
+
+	if (inventory[INVEN_WIELD].flags3 & TR3_BLESSED) weapon_skill = best_melee_skill();  	/* Hack -- blessed weapons are used as if the best weapon type */
+	else weapon_skill = sweapon(inventory[INVEN_WIELD].tval);
+	if (get_skill(weapon_skill, 0, 100)) p_ptr->skill_thn += get_skill_race(weapon_skill, 5, 115);
+
+
+	if (inventory[INVEN_ARM].flags3 & TR3_BLESSED) weapon_skill = best_melee_skill();  	/* Hack -- blessed weapons are used as if the best weapon type */
+	else weapon_skill = sweapon(inventory[INVEN_ARM].tval);
+	if (get_skill(weapon_skill, 0, 100)) p_ptr->skill_thn2 += get_skill_race(weapon_skill, 5, 115);
+
 
 	/* Hack -- special bonus for high-level martial arts experts */
 	if ((weapon_skill == S_KARATE) || (weapon_skill == S_WRESTLING))
@@ -6039,9 +6052,10 @@ static void calc_bonuses(void)
 	}
 
 	/* Apply bonuses to the non-magical combat skills */
-	p_ptr->skill_thn += hit_bonus * BTH_PLUS_ADJ;
-	p_ptr->skill_thb += hit_bonus * BTH_PLUS_ADJ;
-	p_ptr->skill_tht += hit_bonus * BTH_PLUS_ADJ;
+	p_ptr->skill_thn  += hit_bonus * BTH_PLUS_ADJ;
+	p_ptr->skill_thn2 += hit_bonus * BTH_PLUS_ADJ;
+	p_ptr->skill_thb  += hit_bonus * BTH_PLUS_ADJ;
+	p_ptr->skill_tht  += hit_bonus * BTH_PLUS_ADJ;
 
 
 	/* Sorcerers and necromancers are hindered by most gloves */
@@ -6096,18 +6110,20 @@ static void calc_bonuses(void)
 	/* Apply stunning  */
 	if (p_ptr->stun >= HVY_STUN)
 	{
-		p_ptr->skill_thn /= 2;
-		p_ptr->skill_thb /= 2;
-		p_ptr->skill_tht /= 2;
+		p_ptr->skill_thn  /= 2;
+		p_ptr->skill_thn2 /= 2;
+		p_ptr->skill_thb  /= 2;
+		p_ptr->skill_tht  /= 2;
 
 		p_ptr->to_d -= 10;
 		p_ptr->dis_to_d -= 10;
 	}
 	else if (p_ptr->stun)
 	{
-		p_ptr->skill_thn -= p_ptr->skill_thn / 3;
-		p_ptr->skill_thb -= p_ptr->skill_thb / 3;
-		p_ptr->skill_tht -= p_ptr->skill_tht / 3;
+		p_ptr->skill_thn  -= p_ptr->skill_thn / 3;
+		p_ptr->skill_thn2 -= p_ptr->skill_thn2 / 3;
+		p_ptr->skill_thb  -= p_ptr->skill_thb / 3;
+		p_ptr->skill_tht  -= p_ptr->skill_tht / 3;
 		p_ptr->to_d -= 5;
 		p_ptr->dis_to_d -= 5;
 	}
@@ -6136,6 +6152,7 @@ static void calc_bonuses(void)
 		p_ptr->to_a += 20;
 		p_ptr->dis_to_a += 20;
 		p_ptr->skill_thn += 5;
+		p_ptr->skill_thn2 += 5;
 		p_ptr->skill_thb += 5;
 		p_ptr->skill_tht += 5;
 	}
@@ -6145,6 +6162,7 @@ static void calc_bonuses(void)
 		p_ptr->to_a += 10;
 		p_ptr->dis_to_a += 10;
 		p_ptr->skill_thn += 5;
+		p_ptr->skill_thn2 += 5;
 		p_ptr->skill_thb += 5;
 		p_ptr->skill_tht += 5;
 	}
@@ -6160,6 +6178,7 @@ static void calc_bonuses(void)
 	if (p_ptr->hero)
 	{
 		p_ptr->skill_thn += 20;
+		p_ptr->skill_thn2 += 20;
 		p_ptr->skill_thb += 20;
 		p_ptr->skill_tht += 20;
 	}
@@ -6174,6 +6193,7 @@ static void calc_bonuses(void)
 
 			/* Berserkers are great in melee, but not in ranged combat */
 			p_ptr->skill_thn += 36;
+			p_ptr->skill_thn2 += 36;
 			p_ptr->skill_thb -= 36;
 			p_ptr->skill_tht -= 36;
 
@@ -6536,6 +6556,7 @@ static void calc_bonuses(void)
 	/* Print "regen" (unless dead or in a special display) */
 	if ((!p_ptr->is_dead) && (!main_screen_inactive))
 		left_panel_display(DISPLAY_REGEN, 0);
+
 }
 
 

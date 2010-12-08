@@ -519,21 +519,16 @@ void do_cmd_wield(void)
 				/* Weapon in the primary wield slot is light enough */
 				if (o_ptr->weight + i_ptr->weight <= hold)
 				{
-					/* Weapon is of same type -- allow dual wield in slot 2 */
-					if (i_ptr->tval == o_ptr->tval) slot2_ok = TRUE;
+					slot2_ok = TRUE;
 				}
 
 				/* Get item in secondary wield slot */
 				i_ptr = &inventory[INVEN_ARM];
 
-				/* Anything but a melee weapon allows wielding in slot 1 */
-				if (!is_melee_weapon(i_ptr)) slot1_ok = TRUE;
-
 				/* Weapon in the secondary wield slot is light enough */
-				else if (o_ptr->weight + i_ptr->weight <= hold)
+				if (o_ptr->weight + i_ptr->weight <= hold)
 				{
-					/* Weapon is of same type -- allow dual wield in slot 1 */
-					if (i_ptr->tval == o_ptr->tval) slot1_ok = TRUE;
+					slot1_ok = TRUE;
 				}
 
 				/* Weapon is too heavy to wield with either existing weapon. */
