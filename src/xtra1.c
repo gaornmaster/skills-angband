@@ -5664,14 +5664,18 @@ static void calc_bonuses(void)
 	p_ptr->skill_thn += tmp;
 	p_ptr->skill_thn2 += tmp;
 
-
-	if (inventory[INVEN_WIELD].flags3 & TR3_BLESSED) weapon_skill = best_melee_skill();  	/* Hack -- blessed weapons are used as if the best weapon type */
-	else weapon_skill = sweapon(inventory[INVEN_WIELD].tval);
+	/* Main weapon */
+	o_ptr = &inventory[INVEN_WIELD];
+	object_flags(o_ptr, &f1, &f2, &f3);
+	if (f3 & TR3_BLESSED) weapon_skill = best_melee_skill();  	/* Hack -- blessed weapons are used as if the best weapon type */
+	else weapon_skill = sweapon(o_ptr->tval);
 	if (get_skill(weapon_skill, 0, 100)) p_ptr->skill_thn += get_skill_race(weapon_skill, 5, 115);
 
-
-	if (inventory[INVEN_ARM].flags3 & TR3_BLESSED) weapon_skill = best_melee_skill();  	/* Hack -- blessed weapons are used as if the best weapon type */
-	else weapon_skill = sweapon(inventory[INVEN_ARM].tval);
+	/* Offhand weapon */
+	o_ptr = &inventory[INVEN_ARM];
+	object_flags(o_ptr, &f1, &f2, &f3);
+	if (f3 & TR3_BLESSED) weapon_skill = best_melee_skill();  	/* Hack -- blessed weapons are used as if the best weapon type */
+	else weapon_skill = sweapon(o_ptr->tval);
 	if (get_skill(weapon_skill, 0, 100)) p_ptr->skill_thn2 += get_skill_race(weapon_skill, 5, 115);
 
 
