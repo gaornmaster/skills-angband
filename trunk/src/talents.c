@@ -1390,12 +1390,13 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 		case TALENT_BEARFORM:
 		{
 			int skill, dur;
+
 			bool perm;
 			if (desc) return "Assume the form of a bear";
 
 			if (p_ptr->prace == RACE_BEORNING)
 			{
-				if (info) return "";
+				if (info) return "permanent";
 				if (use)
 				{
 					shapechange(SHAPE_BEAR);
@@ -1403,24 +1404,26 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 					return;  /* no timeout for beornings */
 				}
 			}
-
-			skill = get_skill(S_SHAPECHANGE, 0, 100);
-			dur = skill * skill;
-			if (dur > t_ptr->timeout) perm = TRUE;
-
-			if (check)
-			{
-				if (skill < 10) return "N";
-			}
-			if (perm)
-			{
-				if (info) return "permanent";
-				if (use) shapechange(SHAPE_BEAR);
-			}
 			else
 			{
-				if (info) return format("%d turns", dur);
-				if (use) shapechange_temp(Rand_normal(dur, dur / 10), SHAPE_BEAR);
+				skill = get_skill(S_SHAPECHANGE, 0, 100);
+				dur = (skill - t_ptr->min_level + 10) * rsqrt(p_ptr->power);
+				if (dur > t_ptr->timeout) perm = TRUE;
+
+				if (check)
+				{
+					if (skill < 10) return "N";
+				}
+				if (perm)
+				{
+					if (info) return "permanent";
+					if (use) shapechange(SHAPE_BEAR);
+				}
+				else
+				{
+					if (info) return format("~%d turns", dur);
+					if (use) shapechange_temp(Rand_normal(dur, dur / 10), SHAPE_BEAR);
+				}
 			}
 
 			break;
@@ -1458,7 +1461,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			else second_skill = p_ptr->power;
 
 
-			dur = (skill - t_ptr->min_level + 10) * rsqrt(second_skill) * 2;
+			dur = (skill - t_ptr->min_level + 10) * rsqrt(second_skill);
 			if (dur > t_ptr->timeout) perm = TRUE;
 
 			if (check)
