@@ -40,14 +40,14 @@
 /*
  * Current version string
  */
-#define VERSION_STRING   "1.0.1"
+#define VERSION_STRING   "1.0.2b1"
 
 /*
  * Current (Sangband) version numbers
  */
 #define VERSION_MAJOR   1
 #define VERSION_MINOR   0
-#define VERSION_PATCH   1
+#define VERSION_PATCH   2
 
 /*
  * This value is used for beta versions (now deprecated)
