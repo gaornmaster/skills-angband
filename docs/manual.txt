@@ -1923,15 +1923,15 @@ Deadliness:
 
 Brands and Slays:
      Some remarkable weapons do extra damage to various kinds of monsters; a Dagger of Fire, for instance, would do extra damage to creatures not immune to fire.  Slays, in contrast, do extra damage to particular monster races, so wield that Mace of Orc Slaying if you come upon any orcs.  Only the best applicable quality is used; they do not combine.
-     Bonuses from slays and brands are applied after all other damage adjustments, except monster resistances.
+     Bonuses from slays and brands are applied after all other damage adjustments, except monster resistances.  Being more skilled with the weapon you wield increases the effect of the brand.
 
 
 --- Melee (unarmed) ---
 
 Unarmed Combat:
-     The unarmed combat methods, Karate and Wrestling, are known as martial arts.  When using a martial art, you always get two blows.
+     The unarmed combat methods, Karate and Wrestling, are known as martial arts.  When using a martial art, you gain additional blows as you increase your skill in the martial art.
      They are effective against almost all sorts of monsters, are relatively inexpensive to learn, and really come into their own against monsters that seem to resist everything.  But be warned!  You need to be blessed (Scrolls of Blessing work) to do damage to non-material beings, and touching certain kinds of monsters can be quite painful...
-     You can get (temporary) slays and brands with martial arts.  You can also get critical hits on occasion, especially if you have skill in Piety, Blood Dominion, or Nature Lore, or get vorpal blows or sneak attacks.  Bonuses (and penalties) to Skill from non-weapon equipment count when using martial arts, but bonuses to Deadliness do not.
+     You can get (temporary) slays and brands with martial arts, or you can use the brand offered by some rare gauntlets.  You can also get critical hits on occasion, especially if you have skill in Piety, Blood Dominion, or Nature Lore, or get vorpal blows or sneak attacks.  Bonuses (and penalties) to Skill from non-weapon equipment count when using martial arts, but bonuses to Deadliness do not.
 
 Damage Display:
      The melee section of your character screen changes when you use a martial art.  Instead of displaying Skill and Deadliness, it shows the approximate average damage you did with your last ten or twenty hits.  If your skill, strength, or dexterity change significantly, you have to engage in combat to get more accurate figures.
