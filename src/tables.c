@@ -3497,22 +3497,22 @@ talent_type talent_info[NUM_TALENTS] =
 
 	/* General shapechanges */
 	{"Unchange",                    'u', 1, {S_SHAPECHANGE},                  1,   0, 0,            TALENT_SHAPE},
-	{"Bear-form",                   'b', 1, {NUM_SKILLS},                     0, 1000, 0,            TALENT_UTILITY | TALENT_SHAPE, SHAPE_BEAR},  /* Can be accessed by shapechage skill or beornings */
-	{"Dragon-form",                 'd', 1, {S_SHAPECHANGE},                 90, 1000, 0,            TALENT_SHAPE, SHAPE_DRAGON},
-	{"Troll-form",                  't', 1, {S_SHAPECHANGE},                 40, 1000, 0,            TALENT_SHAPE, SHAPE_TROLL},
-	{"Maia-form",                   'm', 1, {S_SHAPECHANGE},                 20, 1000, 0,            TALENT_SHAPE, SHAPE_MAIA},
+	{"Bear-form",                   'b', 1, {NUM_SKILLS},                     0,  200, 0,            TALENT_UTILITY | TALENT_SHAPE, SHAPE_BEAR},  /* Can be accessed by shapechage skill or beornings */
+	{"Dragon-form",                 'd', 1, {S_SHAPECHANGE},                 90,  200, 0,            TALENT_SHAPE, SHAPE_DRAGON},
+	{"Troll-form",                  't', 1, {S_SHAPECHANGE},                 40,  200, 0,            TALENT_SHAPE, SHAPE_TROLL},
+	{"Maia-form",                   'm', 1, {S_SHAPECHANGE},                 20,  200, 0,            TALENT_SHAPE, SHAPE_MAIA},
 
 	/* Nature lore shapechanges */
-	{"Hound-form",                  'h', 1, {S_SHAPECHANGE},                 60, 1000, 0,            TALENT_SHAPE, SHAPE_HOUND},
-	{"Serpent-form",                's', 1, {S_SHAPECHANGE},                 20, 1000, 0,            TALENT_SHAPE, SHAPE_SERPENT},
-	{"Cheetah-form",                'c', 1, {S_SHAPECHANGE},                 40, 1000, 0,            TALENT_SHAPE, SHAPE_CHEETAH},
-	{"Mouse-form",                  'o', 1, {S_SHAPECHANGE},                 10, 1000, 0,            TALENT_SHAPE, SHAPE_MOUSE},
+	{"Hound-form",                  'h', 1, {S_SHAPECHANGE},                 60,  200, 0,            TALENT_SHAPE, SHAPE_HOUND},
+	{"Serpent-form",                's', 1, {S_SHAPECHANGE},                 20,  200, 0,            TALENT_SHAPE, SHAPE_SERPENT},
+	{"Cheetah-form",                'c', 1, {S_SHAPECHANGE},                 40,  200, 0,            TALENT_SHAPE, SHAPE_CHEETAH},
+	{"Mouse-form",                  'o', 1, {S_SHAPECHANGE},                 10,  200, 0,            TALENT_SHAPE, SHAPE_MOUSE},
 
 	/* Blood Dominion shapechanges */
-	{"Bat-form",                    'e', 1, {S_SHAPECHANGE},                 10, 1000, 0,            TALENT_SHAPE, SHAPE_BAT},
-	{"Werewolf-form",               'w', 1, {S_SHAPECHANGE},                 20, 1000, 0,            TALENT_SHAPE, SHAPE_WEREWOLF},
-	{"Vampire-form",                'v', 1, {S_SHAPECHANGE},                 60, 1000, 0,            TALENT_SHAPE, SHAPE_VAMPIRE},
-	{"Lich-form",                   'l', 1, {S_SHAPECHANGE},                 90, 1000, 0,            TALENT_SHAPE, SHAPE_LICH},
+	{"Bat-form",                    'e', 1, {S_SHAPECHANGE},                 10,  200, 0,            TALENT_SHAPE, SHAPE_BAT},
+	{"Werewolf-form",               'w', 1, {S_SHAPECHANGE},                 20,  200, 0,            TALENT_SHAPE, SHAPE_WEREWOLF},
+	{"Vampire-form",                'v', 1, {S_SHAPECHANGE},                 60,  200, 0,            TALENT_SHAPE, SHAPE_VAMPIRE},
+	{"Lich-form",                   'l', 1, {S_SHAPECHANGE},                 90,  200, 0,            TALENT_SHAPE, SHAPE_LICH},
 
 	/* Extra combat skills */
 	{"Lunge",                       'l', 1, {NUM_SKILLS},                     0,   3, OATH_OF_IRON, TALENT_WARRIOR},
