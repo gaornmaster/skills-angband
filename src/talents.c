@@ -1418,6 +1418,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				{
 					if (info) return "permanent";
 					if (use) shapechange(SHAPE_BEAR);
+					if (use && !p_ptr->depth) return;
 				}
 				else
 				{
@@ -1464,11 +1465,14 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			dur = (skill - t_ptr->min_level + 10) * rsqrt(second_skill);
 			if (dur > t_ptr->timeout) perm = TRUE;
 
+			if (desc) return "";
+
 			if (check)
 			{
 				if (t_ptr->form == p_ptr->schange) return "N";
 				if (second_skill < t_ptr->min_level / 2) return "N";
 			}
+
 			if (perm)
 			{
 				if (info) return "permanent";
@@ -1478,6 +1482,13 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			{
 				if (info) return format("~%d turns", dur);
 				if (use) shapechange_temp(Rand_normal(dur, dur / 10), t_ptr->form);
+
+			}
+
+			if (use && !p_ptr->depth)
+			{
+				p_ptr->energy_use = 100;
+				return;
 			}
 
 			break;
