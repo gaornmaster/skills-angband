@@ -270,7 +270,7 @@ s16b get_skill_race(int skill, int min, int max)
 
 int best_melee_skill(void)
 {
-	int sword, hafted, polearm, temp;
+	int sword, hafted, polearm;
 	sword = get_skill(S_SWORD, 0, 100);
 	hafted = get_skill(S_HAFTED, 0, 100);
 	polearm = get_skill(S_POLEARM, 0, 100);

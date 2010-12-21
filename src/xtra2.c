@@ -319,7 +319,7 @@ bool set_fast(int v)
 	bool notice = FALSE;
 
 	/* Hack -- handle lich's temporary speed */
-	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return;
+	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return (TRUE);
 
 
 	/* Sounds */
@@ -1308,7 +1308,7 @@ bool set_oppose_cold(int v)
 	bool notice = FALSE;
 
 	/* Hack -- handle lich's temporary resistance */
-	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return;
+	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return (TRUE);
 
 	/* Sounds */
 	if      (!p_ptr->oppose_cold && v) sound(MSG_RES_COLD);
@@ -1344,7 +1344,7 @@ bool set_oppose_pois(int v)
 	bool notice = FALSE;
 
 	/* Hack -- handle lich's temporary resistance */
-	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return;
+	if ((p_ptr->schange == SHAPE_LICH) && (v == 0)) return (TRUE);
 
 	/* Sounds */
 	if      (!p_ptr->oppose_pois && v) sound(MSG_RES_POIS);

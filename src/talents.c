@@ -1182,11 +1182,6 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			{
 				int old_num_blows, old_num_blows2;
 
-				monster_type *m_ptr;
-				object_type *o_ptr;
-
-				bool stop = FALSE;
-
 				/* Hack -- set blows per attempt to one */
 				old_num_blows = p_ptr->num_blow;
 				old_num_blows2 = p_ptr->num_blow2;
@@ -1272,7 +1267,6 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				char ch;
 				int dir = 0;
 				int x, y;
-				int dam, chance, bonus = 0;
 
 				while (!dir)
 				{
@@ -1401,7 +1395,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				{
 					shapechange(SHAPE_BEAR);
 					p_ptr->energy_use = 100;
-					return;  /* no timeout for beornings */
+					return "";  /* no timeout for beornings */
 				}
 			}
 			else
@@ -1418,7 +1412,12 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				{
 					if (info) return "permanent";
 					if (use) shapechange(SHAPE_BEAR);
-					if (use && !p_ptr->depth) return;
+
+					if (use && !p_ptr->depth)
+					{
+						p_ptr->energy_use = 100;
+						return "";
+					}
 				}
 				else
 				{
@@ -1488,7 +1487,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			if (use && !p_ptr->depth)
 			{
 				p_ptr->energy_use = 100;
-				return;
+				return "";
 			}
 
 			break;

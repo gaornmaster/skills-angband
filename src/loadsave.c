@@ -1511,8 +1511,8 @@ static errr do_character(void)
 	else do_u16b(&blank_u16b);
 
 	/* Turn counters */
-	do_u32b(&p_ptr->resting_turns);
-	do_u32b(&p_ptr->total_turns);
+	do_s32b(&p_ptr->resting_turns);
+	do_s32b(&p_ptr->total_turns);
 	do_u16b(&blank_u16b);
 
 	do_s16b(&p_ptr->life_recovery_value);

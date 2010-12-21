@@ -1930,8 +1930,8 @@ void object_absorb(object_type *o_ptr, object_type *j_ptr)
 		o_ptr->ident |= (IDENT_EMPTY);
 	}
 
-	if ((o_ptr->ident & (IDENT_EMPTY)) && object_known_p(j_ptr) ||
-		(j_ptr->ident & (IDENT_EMPTY)) && object_known_p(o_ptr))
+	if (((o_ptr->ident & (IDENT_EMPTY)) && object_known_p(j_ptr)) ||
+		((j_ptr->ident & (IDENT_EMPTY)) && object_known_p(o_ptr)))
 	{
 		ident_flags |= (IDENT_KNOWN);
 	}
