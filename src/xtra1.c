@@ -3384,6 +3384,9 @@ static void fix_m_list(void)
 
 	term *old = Term;
 
+	/* Skip updating monster list while running */
+	if (p_ptr->running) return;
+
 	/* Scan sub-windows */
 	for (j = TERM_SUBWINDOW; j < TERM_MAX; j++)
 	{
@@ -3416,6 +3419,9 @@ static void fix_o_list(void)
 	int j;
 
 	term *old = Term;
+
+	/* Skip updating object list while running */
+	if (p_ptr->running) return;
 
 	/* Scan sub-windows */
 	for (j = TERM_SUBWINDOW; j < TERM_MAX; j++)
