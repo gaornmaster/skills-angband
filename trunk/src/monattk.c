@@ -2812,7 +2812,7 @@ bool make_attack_ranged(monster_type *m_ptr, int attack)
 		}
 		else
 		{
-			if (spell_desire_RF4[attack-192][D_SUMM]) summon = TRUE;
+			if (spell_desire_RF4[attack-96][D_SUMM]) summon = TRUE;
 		}
 
 		/* Spell is a summon spell */

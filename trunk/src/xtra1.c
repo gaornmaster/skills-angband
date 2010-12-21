@@ -5260,8 +5260,6 @@ static void analyze_weapons(void)
 		/* Weapon is not too heavy */
 		else
 		{
-			int str_index, dex_index;
-			int effective_weight = 0;
 			int skill_dig1 = 0, skill_dig2 = 0;
 
 			/* First weapon */
