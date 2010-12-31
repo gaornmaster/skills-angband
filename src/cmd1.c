@@ -1189,6 +1189,24 @@ static bool escape_pit(void)
 	return (TRUE);
 }
 
+
+/*
+ * Turn off running, updating visuals as necessary
+ */
+void cancel_running()
+{
+	/* Cancel */
+	p_ptr->running = 0;
+
+	/* Calculate torch radius */
+	p_ptr->update |= (PU_TORCH);
+
+	/* Update object list and monster list */
+	p_ptr->window |= (PW_O_LIST | PW_M_LIST);
+}
+
+
+
 /*
  * Move player in the given direction, with the given "pickup" flag.
  *
@@ -1296,7 +1314,7 @@ void move_player(int dir, int do_pickup)
 					p_ptr->command_dir = dir;
 
 					/* Stop any run */
-					p_ptr->running = FALSE;
+					cancel_running();
 
 					/* Repeat 99 times */
 					p_ptr->command_rep = 99;
@@ -1433,7 +1451,7 @@ void move_player(int dir, int do_pickup)
 				}
 				else
 				{
-					p_ptr->running = 0;
+					cancel_running();
 
 					if (p_ptr->crossing_dir == dir)
 					{
@@ -1542,7 +1560,7 @@ void move_player(int dir, int do_pickup)
 				if (p_ptr->running)
 				{
 					/* Stop the run */
-					p_ptr->running = 0;
+					cancel_running();
 
 					/* Hack -- Use no energy */
 					p_ptr->energy_use = 0;
