@@ -2791,7 +2791,7 @@ static void store_retire()
 {
 	long retire_cost;
 	char short_name[DESC_LEN];
-	cptr s = " brings in some new stock";
+	cptr s = "";
 
 
 	/* Show that the shelves are empty */
@@ -2840,21 +2840,21 @@ static void store_retire()
 
 				/* Rebuild the stock */
 				store_maint(store_num, TRUE);
+
+				/* Flush any pending messages */
+				message_flush();
+
+				/* Start over */
+				store_top = 0;
+
+				/* Re-display the store */
+				display_store();
+
+				/* Message */
+				msg_format("%s%s.", short_name, s);
 			}
 		}
 	}
-
-	/* Flush any pending messages */
-	message_flush();
-
-	/* Start over */
-	store_top = 0;
-
-	/* Re-display the store */
-	display_store();
-
-	/* Message */
-	msg_format("%s%s.", short_name, s);
 
 }
 
@@ -3707,6 +3707,7 @@ static void store_process_command(bool inn_cmd)
 			break;
 		}
 
+
 		/* Use special commands */
 		case '*':
 		{
@@ -3719,7 +3720,7 @@ static void store_process_command(bool inn_cmd)
 				store_prt_invest();
 
 				/* Prompt */
-				prt("Command (I to invest money, C to clear inventory, ESC to return)?", 0, 0);
+				prt("Command (I to invest money, C to cycle inventory, ESC to return)?", 0, 0);
 
 				ch = inkey(FALSE);
 
@@ -3794,13 +3795,6 @@ static void store_process_command(bool inn_cmd)
 					char prompt[80];
 					object_type *o_ptr;
 
-					if (st_ptr->stock_num == 0)
-					{
-						prt("", 0, 0);
-						msg_print("There is nothing to buy.  You'll have to wait for a restock.");
-						break;
-					}
-
 					/* Determine total cost of items in store */
 					for (i = 0; i < st_ptr->stock_num; i++)
 					{
@@ -3816,6 +3810,9 @@ static void store_process_command(bool inn_cmd)
 						cost +=  price * o_ptr->number;
 					}
 
+					/* Make sure there's a large cost associated with cycling inventory */
+					cost += 100000;
+
 					/* Prompt player with total cost */
 					if (cost > p_ptr->au)
 					{
@@ -3825,7 +3822,7 @@ static void store_process_command(bool inn_cmd)
 					}
 
 					/* Verify player wants to spend the money */
-					sprintf(prompt, "Clearing out the inventory will cost %d gold.  Are you sure?", cost);
+					sprintf(prompt, "Cycling the inventory will cost %d gold.  Are you sure?", cost);
 					if (!get_check(prompt))  break;
 
 					/* Reduce gold */
@@ -3842,8 +3839,8 @@ static void store_process_command(bool inn_cmd)
 						}
 					}
 
-					/* Give the player an option to retire the storekeeper */
-					store_retire();
+					/* Update goods */
+					store_maint(store_num, TRUE);
 
 					/* Credit store with some investment */
 					st_ptr->total_buy += cost / 2;
