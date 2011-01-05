@@ -680,7 +680,7 @@ void do_cmd_wield(void)
 	/* Obtain local object */
 	object_copy(i_ptr, o_ptr);
 
-	if (slot == INVEN_Q1)
+	if (slot >= INVEN_Q1 && slot <= INVEN_Q0)
 	{
 		/* Remember that the item is quivered */
 		i_ptr->quivered = TRUE;
