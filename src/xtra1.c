@@ -1868,7 +1868,7 @@ static bool prt_diseased(byte r_margin)
  */
 static bool prt_invisible(byte r_margin)
 {
-	if (p_ptr->invisible)
+	if (p_ptr->invisible > 0)
 	{
 		int i = p_ptr->invisible;
 		int a;
@@ -2733,7 +2733,7 @@ static void prt_conditions(void)
 	}
 
 	/* Show invisibility */
-	if ((p_ptr->invisible) && (!left_panel_display(DISPLAY_INVISIBILITY, 1)))
+	if ((p_ptr->invisible > 0) && (!left_panel_display(DISPLAY_INVISIBILITY, 1)))
 	{
 		prt_invisible(r_margin);
 	}
