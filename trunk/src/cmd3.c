@@ -525,6 +525,9 @@ void do_cmd_wield(void)
 				/* Get item in secondary wield slot */
 				i_ptr = &inventory[INVEN_ARM];
 
+				/* Anything but a melee weapon allows wielding in slot 1 */
+				if (!is_melee_weapon(i_ptr)) slot1_ok = TRUE;
+
 				/* Weapon in the secondary wield slot is light enough */
 				if (o_ptr->weight + i_ptr->weight <= hold)
 				{
