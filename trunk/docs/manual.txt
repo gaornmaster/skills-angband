@@ -964,7 +964,7 @@ Dragon-breathing:
      Of course, you have to find a way to turn into a dragon first...
 
 - Warrior Talents -
-Warrior talents can be accessed by pressing 'p'
+Warrior talents can be accessed by pressing 'p'.
 
 
 Lunge
