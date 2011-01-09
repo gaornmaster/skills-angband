@@ -1458,10 +1458,14 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			int second_skill, dur;
 			bool perm;
 
-			if (talent <= TALENT_LICHFORM && talent >= TALENT_BATFORM) second_skill = get_skill(S_DOMINION, 0, 100);
-			else if (talent <= TALENT_MOUSEFORM && talent >= TALENT_HOUNDFORM) second_skill = get_skill(S_NATURE, 0, 100);
-			else second_skill = p_ptr->power;
-
+			switch(talent)
+			{
+				case TALENT_BATFORM: case TALENT_LICHFORM: case TALENT_VAMPIREFORM: case TALENT_WEREWOLFFORM:
+					second_skill = get_skill(S_DOMINION, 0, 100); break;
+				case TALENT_SERPENTFORM: case TALENT_HOUNDFORM: case TALENT_CHEETAHFORM: case TALENT_MOUSEFORM:
+					second_skill = get_skill(S_NATURE, 0, 100); break;
+				default: second_skill = p_ptr->power; break;
+			}
 
 			dur = (skill - t_ptr->min_level + 10) * rsqrt(second_skill);
 			if (dur > t_ptr->timeout) perm = TRUE;
