@@ -4554,7 +4554,7 @@ void player_flags(u32b *f1, u32b *f2, u32b *f3, bool shape, bool modify)
 		case SHAPE_VAMPIRE:
 		{
 			(*f2) |= (TR2_RES_DARK);
-			(*f2) |= (TR3_HOLD_LIFE);
+			(*f3) |= (TR3_HOLD_LIFE);
 			break;
 		}
 		case SHAPE_WEREWOLF:
