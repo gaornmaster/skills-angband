@@ -1433,7 +1433,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 		case TALENT_UNCHANGE:
 		{
 			if (info) return "";
-			if (desc) "Return to your normal self";
+			if (desc) return "Return to your normal self";
 			if (check)
 			{
 				if (!p_ptr->schange) return "N";
@@ -1456,7 +1456,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 		{
 			int skill = get_skill(S_SHAPECHANGE, 0, 100);
 			int second_skill, dur;
-			bool perm;
+			bool perm = FALSE;
 
 			switch(talent)
 			{
@@ -1705,7 +1705,6 @@ void do_cmd_talents(int talent_choice)
 	char choice;
 	int end_row = 18;
 	int col = MAX(0, (Term->cols - 80) / 3);
-	int count = 0;
 
 	char change_string[] = ", / to change";
 
