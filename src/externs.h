@@ -377,7 +377,7 @@ extern bool quiver_carry(object_type *o_ptr, int o_idx);
 extern byte py_pickup(int pickup);
 extern void move_player(int dir, int do_pickup);
 extern void run_step(int dir);
-
+extern void cancel_running();
 
 /* cmd2.c */
 extern void do_cmd_go_up(void);
@@ -619,6 +619,8 @@ extern void mon_death_effect(int m_idx);
 extern bool monster_loot(int max, bool steal, monster_type *m_ptr);
 extern void monster_death(int m_idx);
 extern bool mon_take_hit(int m_idx, int who, int dam, bool *fear, cptr note);
+long monster_exp(monster_race *r_ptr);
+long monster_exp_frac(monster_race *r_ptr);
 
 
 /* obj_make.c */
