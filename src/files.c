@@ -2411,10 +2411,12 @@ static void display_player_flag_info(void)
 					attr_title = TERM_GREEN;
 				else if ((resist || temp_resist) && vuln)
 					attr_title = TERM_YELLOW;
+				else if (vuln)
+					attr_title = TERM_L_RED;
 				else if (temp_resist && resist)
-							  attr_title = TERM_L_BLUE;
+					attr_title = TERM_L_BLUE;
 				else if (temp_resist || resist)
-							  attr_title = TERM_GREEN;
+					attr_title = TERM_GREEN;
 			}
 			else
 			{
