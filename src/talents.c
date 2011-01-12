@@ -396,6 +396,8 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 		else can_use = FALSE;
 	}
 
+	talent_skill = S_NOSKILL;
+
 	/* Get skill (note that there may not always be one) */
 	for (i = 0; i < t_ptr->skill_count; i++)
 	{
