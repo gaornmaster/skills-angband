@@ -140,28 +140,24 @@ void search_essence(bool strong)
 	char o_name[DESC_LEN];
 	object_type *o_ptr;
 
-	int skill_choice;
+	int infus, alchm;
 
-	/* Allow users to use either infusion or alchemy */
-	if (get_skill(S_INFUSION, 0, 100) > get_skill(S_ALCHEMY, 0, 100))
-		skill_choice = S_INFUSION;
-	else	skill_choice = S_ALCHEMY;
+	/* Allow users to use both infusion and alchemy */
+	infus = get_skill(S_INFUSION, 0, 130);
+	alchm = get_skill(S_ALCHEMY, 0, 130);
 
-	/* Require an infusion or alchemy skill of 10 */
-	if (get_skill(skill_choice, 0, 100) < LEV_REQ_INFUSE) return;
-
-	skill = get_skill(skill_choice, 0, 150) +
+	skill = rsqrt((infus * infus) + (alchm + alchm)) +
 			get_skill(S_PERCEPTION, 0, 50);
 
-	/* Penalize various conditions */
+	/* Various conditions prevent finding essences */
 	if (p_ptr->confused || p_ptr->image) return;
 	if (p_ptr->berserk || p_ptr->necro_rage) return;
 
+	/* Deliberate search is better */
+	if (strong) skill += 10 + skill / 3;
+
 	/* Modify effective skill by randomized depth */
 	skill -= randint(20 + 5 * p_ptr->depth / 3);
-
-	/* Deliberate search is better */
-	if (strong) skill += get_skill(skill_choice, 10, 60);
 
 	/* Search only sometimes */
 	if (skill <= 0) return;

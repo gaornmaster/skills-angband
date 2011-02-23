@@ -864,7 +864,7 @@ Alchemy   (cost - 8):
 
 Magical infusion   (cost - 13):
      Infusion is among the most powerful of skills, because it allows you to use magical essences to control the powers that armor, weapons, and missiles get, pack essences into potions that explode violently when thrown, and make more potions and scrolls using a given number of essences.  You need an infusion skill of 10 to infuse forged items.
-     A relatively high magical infusion or alchemy skill is essential for reliably finding essences, especially deep in the dungeon (Perception also helps a little).  You cannot search for essences at all unless you have a magical infusion or alchemy skill of 10 or higher.
+     A relatively high magical infusion or alchemy skill is essential for reliably finding essences, especially deep in the dungeon (Perception also helps a little).
      Infusion grants one talent:  Recharging with essences (30).
 
 Shapechange  (cost - 14)
