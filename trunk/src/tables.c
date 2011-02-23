@@ -3496,7 +3496,7 @@ talent_type talent_info[NUM_TALENTS] =
 	{"Dragon-breathing",            'a', 1, {NUM_SKILLS},                     0,   2, 0,            TALENT_UTILITY | TALENT_SHAPE},
 
 	/* General shapechanges */
-	{"Unchange",                    'u', 1, {S_SHAPECHANGE},                  1,   0, 0,            TALENT_SHAPE},
+	{"Unchange",                    'y', 1, {S_SHAPECHANGE},                  1,   0, 0,            TALENT_SHAPE},
 	{"Bear-form",                   'b', 1, {NUM_SKILLS},                     0,  200, 0,            TALENT_UTILITY | TALENT_SHAPE, SHAPE_BEAR},  /* Can be accessed by shapechage skill or beornings */
 	{"Dragon-form",                 'd', 1, {S_SHAPECHANGE},                 90,  200, 0,            TALENT_SHAPE, SHAPE_DRAGON},
 	{"Troll-form",                  't', 1, {S_SHAPECHANGE},                 40,  200, 0,            TALENT_SHAPE, SHAPE_TROLL},
