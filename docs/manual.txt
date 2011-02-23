@@ -323,7 +323,7 @@ Racial Adjustments:
  Dark-Elf      -1    +3     0    +2    -2    -1     10        2
  Giant         +3     0    -2    -2    +2    -1     15        0
  Ent           +3    -2    +3    -4    +3    -1     15        0
- Drúedain       0    -2    +1     0    +1    -2     12        0
+ Druedain       0    -2    +1     0    +1    -2     12        0
  Beorning      +1    -1    +1    -1    +1    -1     12        0
  
      All racial stat adjustments act as modifiers to your maximum internal
@@ -346,7 +346,7 @@ Racial Abilities:
  Dark-Elf      9       8       5       7       7       4       5       5
  Giant         2       4       5       3       1       8       4       4
  Ent           1       3       5       3       5       8       5       5 
- Drúedain      5       4       5       5       6       5       5       5
+ Druedain      5       4       5       5       6       5       5       5
  Beorning      4       4       5       5       5       6       5       5
  
 
