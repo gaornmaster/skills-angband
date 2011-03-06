@@ -2368,6 +2368,19 @@ static void display_player_flag_info(void)
 				c_put_str(TERM_GREEN, "+", row, col + n);
 			}
 
+			if (flag == RES_LITE && p_ptr->oppose_ethereal)
+			{
+				resist = TRUE;
+
+				c_put_str(TERM_GREEN, "+", row, col + n);
+			}
+
+			if (flag == RES_DARK && p_ptr->oppose_ethereal)
+			{
+				resist = TRUE;
+				c_put_str(TERM_GREEN, "+", row, col + n);
+			}
+
 			/* Hack -- Cancel immunities specially -JM */
 			if (immune && (f_cancel[flag/32] & (1L << (flag % 32 - 4))))
 			{
