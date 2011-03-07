@@ -5829,7 +5829,7 @@ cptr do_spell(int mode, int spell)
 	/* Shapechange after mana is deducted -JM */
 	if (do_shapechange)
 	{
-		shapechange(do_shapechange);
+		shapechange_perm(do_shapechange);
 	}
 
 

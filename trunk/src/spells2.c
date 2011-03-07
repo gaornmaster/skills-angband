@@ -2181,7 +2181,7 @@ bool apply_disenchant(int dam)
 			msg_print("You are wrenched back into your normal form!");
 
 			/* Change back to normal form */
-			shapechange(SHAPE_NORMAL);
+			shapechange_perm(SHAPE_NORMAL);
 		}
 
 		/* A shapechanged character's armor is safe from disenchantment */
@@ -2442,7 +2442,7 @@ void apply_nexus(int fy, int fx, int dam)
 	if ((p_ptr->schange != SHAPE_NORMAL) && (dam > randint(200)))
 	{
 		msg_print("You are wrenched back into your normal form!");
-		shapechange(SHAPE_NORMAL);
+		shapechange_perm(SHAPE_NORMAL);
 	}
 
 	/* Effects of nexus */

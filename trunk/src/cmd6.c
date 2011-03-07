@@ -374,7 +374,7 @@ cptr do_object(int mode, object_type *o_ptr)
 				if (p_ptr->schange != SHAPE_NORMAL)
 				{
 					msg_print("You are wrenched back into your normal form!");
-					shapechange(SHAPE_NORMAL);
+					shapechange_perm(SHAPE_NORMAL);
 				}
 
 				/* Shuffle stats (resist nexus helps a lot) */

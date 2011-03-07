@@ -1553,7 +1553,10 @@ void self_knowledge(bool full)
 			case SHAPE_VAMPIRE: roff(format("%sa vampire.\n", p), 0, 0); 			    break;
 			case SHAPE_WEREWOLF:roff(format("%sa werewolf.\n",p), 0, 0); 			    break;
 			case SHAPE_SERPENT: roff(format("%sa serpent.\n", p), 0, 0); 			    break;
-			case SHAPE_MAIA:    roff(format("%sa maia.\n",    p), 0, 0); 			    break;
+			case SHAPE_ANGEL:   roff(format("%san angel.\n",  p), 0, 0); 			    break;
+			case SHAPE_VORTEX:  roff(format("%sa vortex.\n",  p), 0, 0); 			    break;
+			case SHAPE_GOLEM:   roff(format("%sa golem.\n",   p), 0, 0); 			    break;
+			case SHAPE_EAGLE:   roff(format("%san eagle.\n",  p), 0, 0); 			    break;
 			default:  roff(format("%san unknown creature.\n", p), 0, 0);
 				break;
 		}
