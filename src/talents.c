@@ -1395,7 +1395,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				if (info) return "permanent";
 				if (use)
 				{
-					shapechange(SHAPE_BEAR);
+					shapechange_perm(SHAPE_BEAR);
 					p_ptr->energy_use = 100;
 					return "";  /* no timeout for beornings */
 				}
@@ -1403,19 +1403,19 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			else
 			{
 				skill = get_skill(S_SHAPECHANGE, 0, 100);
-				dur = (skill - t_ptr->min_level + 10) * rsqrt(p_ptr->power);
+				dur = (skill + get_skill(S_NATURE, 0, 100)) * (t_ptr->timeout - 10) / (100) + 10;
 				if (dur > t_ptr->timeout) perm = TRUE;
 
 				if (check)
 				{
-					if (p_ptr->prace == RACE_BEORNING && get_skill(S_SHAPECHANGE, 0, 100) == 0 && talent_choice == TALENT_SHAPE) return "N";
-					if (p_ptr->prace != RACE_BEORNING && talent_choice == TALENT_UTILITY) return "N";
+					if (get_skill(S_SHAPECHANGE, 0, 100) == 0 && talent_choice == TALENT_SHAPE) return "N";
+					if (talent_choice == TALENT_UTILITY) return "N";
 				}
 
 				if (perm)
 				{
 					if (info) return "permanent";
-					if (use) shapechange(SHAPE_BEAR);
+					if (use) shapechange_perm(SHAPE_BEAR);
 
 					if (use && !p_ptr->depth)
 					{
@@ -1440,7 +1440,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			{
 				if (!p_ptr->schange) return "N";
 			}
-			if (use) shapechange(SHAPE_NORMAL);
+			if (use) shapechange_perm(SHAPE_NORMAL);
 			break;
 		}
 
@@ -1452,9 +1452,12 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 		case TALENT_HOUNDFORM:
 		case TALENT_CHEETAHFORM:
 		case TALENT_MOUSEFORM:
-		case TALENT_MAIAFORM:
+		case TALENT_ANGELFORM:
 		case TALENT_TROLLFORM:
 		case TALENT_DRAGONFORM:
+		case TALENT_GOLEMFORM:
+		case TALENT_VORTEXFORM:
+		case TALENT_EAGLEFORM:
 		{
 			int skill = get_skill(S_SHAPECHANGE, 0, 100);
 			int second_skill, dur;
@@ -1466,24 +1469,33 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 					second_skill = get_skill(S_DOMINION, 0, 100); break;
 				case TALENT_SERPENTFORM: case TALENT_HOUNDFORM: case TALENT_CHEETAHFORM: case TALENT_MOUSEFORM:
 					second_skill = get_skill(S_NATURE, 0, 100); break;
-				default: second_skill = p_ptr->power; break;
+				case TALENT_ANGELFORM:
+					second_skill = get_skill(S_PIETY, 0, 100); break;
+				case TALENT_GOLEMFORM: case TALENT_VORTEXFORM:
+					second_skill = get_skill(S_WIZARDRY, 0, 100); break;
+				default: second_skill = skill;  break;
 			}
 
-			dur = (skill - t_ptr->min_level + 10) * rsqrt(second_skill);
-			if (dur > t_ptr->timeout) perm = TRUE;
+			/*
+			 * Calculate the duration
+			 * shapechange should become permanent when the average of skill and second_skill
+			 * reaches halfway to 100 from minimum skill
+			 */
+			dur = (skill + second_skill - t_ptr->min_level * 2) * (t_ptr->timeout - 10) / (100 - t_ptr->min_level) + 10;
+			if (dur >= t_ptr->timeout) perm = TRUE;
 
 			if (desc) return "";
 
 			if (check)
 			{
+				if (dur < 10) return "N";
 				if (t_ptr->form == p_ptr->schange) return "N";
-				if (second_skill < t_ptr->min_level / 2) return "N";
 			}
 
 			if (perm)
 			{
 				if (info) return "permanent";
-				if (use) shapechange(t_ptr->form);
+				if (use) shapechange_perm(t_ptr->form);
 			}
 			else
 			{
