@@ -16,8 +16,6 @@
 
 #include "angband.h"
 
-
-
 /*
  * Warriors will eventually learn to pseudo-probe monsters.  This allows
  * them to better choose between slays and brands.  They select a target,
@@ -1263,7 +1261,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			}
 
 			if (info) return (format("force dam %d-%d", dam_low, dam_high));
-			if (desc) return ("");
+			if (desc) return ("Knock back monsters with a powerful attack.");
 			if (use)
 			{
 				char ch;
@@ -1463,6 +1461,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			int second_skill, dur;
 			bool perm = FALSE;
 
+
 			switch(talent)
 			{
 				case TALENT_BATFORM: case TALENT_LICHFORM: case TALENT_VAMPIREFORM: case TALENT_WEREWOLFFORM:
@@ -1484,7 +1483,30 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			dur = (skill + second_skill - t_ptr->min_level * 2) * (t_ptr->timeout - 10) / (100 - t_ptr->min_level) + 10;
 			if (dur >= t_ptr->timeout) perm = TRUE;
 
-			if (desc) return "";
+			/* Describe stat bonuses for different forms */
+			if (desc)
+			{
+				int i, stat;
+				u32b flag = 1;
+				byte old_shape = p_ptr->schange;
+
+				/* Hack -- change form */
+				p_ptr->schange = t_ptr->form;
+
+				/* Display bonuses and maluses to stats */
+				for (i = 0; i < 32; i++)
+				{
+					stat = player_flags_pval(1L << i, TRUE) - player_flags_pval(1L << i, FALSE);
+					if (stat > 0) c_roff(TERM_L_BLUE, format("+%d %s ", stat, pval_desc_text[i]), 10, 78);
+					if (stat < 0) c_roff(TERM_L_BLUE, format("%d %s ",  stat, pval_desc_text[i]), 10, 78);
+				}
+
+				/* Todo -- add resistances and other properties */
+
+				/* Hack -- return form */
+				p_ptr->schange = old_shape;
+				return "";
+			}
 
 			if (check)
 			{

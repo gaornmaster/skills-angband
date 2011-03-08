@@ -338,45 +338,6 @@ void object_info(char *buf, object_type *o_ptr, bool reveal_flavor)
 	}
 }
 
-/*
- * Descriptions of pval-dependent qualities.
- */
-static cptr pval_desc_text[32] =
-{
-	"strength",
-	"intelligence",
-	"wisdom",
-	"dexterity",
-	"constitution",
-	"charisma",
-	"XXX6",
-	"XXX7",
-	"stealth",
-	"awareness",
-	"infravision",
-	"tunneling",
-	"speed",
-	"invisibility",
-	"disarming",
-	"device skill",
-	"saving throw",
-	"mana",
-	"light radius",
-	"XX19",
-	"melee blows",
-	"shooting speed",
-	"missile weapon power",
-	"XX23",
-	"XX24",
-	"XX25",
-	"XX26",
-	"XX27",
-	"XX28",
-	"XX29",
-	"XX30",
-	"XX31"
-};
-
 
 /*
  * Display most of what is known about any object.  Rewritten to

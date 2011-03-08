@@ -93,7 +93,7 @@ extern cptr character_type_desc[PCHAR_MAX];
 extern graphics_data_type graphics_data[GRAPHICS_MAX];
 extern byte term_size_min[TERM_MAX + 1][2];
 extern byte misc_graphics_info[MISC_GRAPHICS_MAX][2];
-
+extern cptr pval_desc_text[32];
 
 /* variable.c */
 extern cptr copyright;
