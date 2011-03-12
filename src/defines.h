@@ -40,7 +40,7 @@
 /*
  * Current version string
  */
-#define VERSION_STRING   "1.0.2b1"
+#define VERSION_STRING   "1.0.2b4"
 
 /*
  * Current (Sangband) version numbers
