@@ -1191,6 +1191,8 @@ struct player_type
 	s32b food;				/* Current nutrition */
 
 	byte schange;			/* Current shapechange */
+	byte schange_skill;     /* Which skill increases power of shapechange */
+	byte schange_min_skill; /* The minimum skill required to use the skill */
 
 	s16b soul_reserve;		/* Xp your weapon has stored */
 	bool feed_weapon;			/* We can feed our weapon */

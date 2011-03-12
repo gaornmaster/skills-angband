@@ -3127,13 +3127,6 @@
 #define SHAPE_EAGLE        18
 
 
-
-/* Various skill-based boosts */
-#define SHAPE__STRONGER   95  /* makes all affected skills better */
-#define SHAPE__LESS_BAD   80  /* makes drawbacks less severe */
-
-
-
 /*
  * Bit flags for the "p_ptr->special_attack" variable.  -LM-
  */

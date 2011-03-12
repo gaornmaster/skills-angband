@@ -5830,6 +5830,8 @@ cptr do_spell(int mode, int spell)
 	if (do_shapechange)
 	{
 		shapechange_perm(do_shapechange);
+		p_ptr->schange_skill = mp_ptr->spell_skill;
+		p_ptr->schange_min_skill = s_ptr->slevel;
 	}
 
 

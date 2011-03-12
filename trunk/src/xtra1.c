@@ -4872,7 +4872,7 @@ int player_flags_pval(u32b flag_pval, bool shape)
 				if (flag_pval == TR_PVAL_INFRA)   pval += 2;
 				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 15;
 				if (flag_pval == TR_PVAL_STEALTH) pval += 10;
-				if (flag_pval == TR_PVAL_AWARE)   pval += 3;
+				if (flag_pval == TR_PVAL_AWARE)   pval += 5;
 				break;
 			}
 			case SHAPE_HOUND:
@@ -4890,7 +4890,7 @@ int player_flags_pval(u32b flag_pval, bool shape)
 			{
 				if (flag_pval == TR_PVAL_DEX)     pval += 2;
 				if (flag_pval == TR_PVAL_INFRA)   pval += 2;
-				if (flag_pval == TR_PVAL_SPEED)   pval += get_skill(S_NATURE, 3, 7);
+				if (flag_pval == TR_PVAL_SPEED)   pval += get_skill(S_NATURE, 1, 7);
 				if (flag_pval == TR_PVAL_DEVICE)  pval -= p_ptr->skill_dev / 20;
 				break;
 			}
@@ -5003,7 +5003,7 @@ int player_flags_pval(u32b flag_pval, bool shape)
 			case SHAPE_EAGLE:
 			{
 				if (flag_pval == TR_PVAL_STR)      pval -= 2;
-				if (flag_pval == TR_PVAL_AWARE)    pval += 2;
+				if (flag_pval == TR_PVAL_AWARE)    pval += 4;
 				if (flag_pval == TR_PVAL_STEALTH)  pval += get_skill(S_SHAPECHANGE, 0, 6);
 				if (flag_pval == TR_PVAL_SPEED)    pval += get_skill(S_SHAPECHANGE, 0, 6);
 				if (flag_pval == TR_PVAL_DEVICE)   pval -= p_ptr->skill_dev / 15;
@@ -5011,9 +5011,12 @@ int player_flags_pval(u32b flag_pval, bool shape)
 			}
 		}
 
-		/* Add incentive for high-level shapechangers */
-		if (pval && get_skill(S_SHAPECHANGE, 0, 100) >= SHAPE__STRONGER) pval++;
-		if (pval < 0 && get_skill(S_SHAPECHANGE, 0, 100) >= SHAPE__LESS_BAD) pval++;
+		/* Decrease penalties for high-level shapechangers */
+		/* Should trigger at 3/4 of the way to 100 from where player got the skill */
+		if (get_skill(p_ptr->schange_skill, 0, 100) >= (300 + p_ptr->schange_min_skill) / 4)
+		{
+			if (pval < 0) pval++;
+		}
 
 	}
 
