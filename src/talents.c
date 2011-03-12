@@ -1393,6 +1393,8 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				if (info) return "permanent";
 				if (use)
 				{
+					p_ptr->schange_skill = -1;
+					p_ptr->schange_min_skill = 0;
 					shapechange_perm(SHAPE_BEAR);
 					p_ptr->energy_use = 100;
 					return "";  /* no timeout for beornings */
@@ -1408,6 +1410,13 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				{
 					if (get_skill(S_SHAPECHANGE, 0, 100) == 0 && talent_choice == TALENT_SHAPE) return "N";
 					if (talent_choice == TALENT_UTILITY) return "N";
+				}
+
+				if (use)
+				{
+					p_ptr->schange_skill = S_SHAPECHANGE;
+					p_ptr->schange_min_skill = t_ptr->min_level;
+
 				}
 
 				if (perm)
@@ -1438,7 +1447,13 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			{
 				if (!p_ptr->schange) return "N";
 			}
-			if (use) shapechange_perm(SHAPE_NORMAL);
+			if (use)
+			{
+				p_ptr->schange_skill = -1;
+				p_ptr->schange_min_skill = 0;
+
+				shapechange_perm(SHAPE_NORMAL);
+			}
 			break;
 		}
 
@@ -1458,22 +1473,24 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 		case TALENT_EAGLEFORM:
 		{
 			int skill = get_skill(S_SHAPECHANGE, 0, 100);
-			int second_skill, dur;
+			int second_skill, second_skill_type, dur;
 			bool perm = FALSE;
 
 
 			switch(talent)
 			{
 				case TALENT_BATFORM: case TALENT_LICHFORM: case TALENT_VAMPIREFORM: case TALENT_WEREWOLFFORM:
-					second_skill = get_skill(S_DOMINION, 0, 100); break;
+					second_skill_type = S_DOMINION; break;
 				case TALENT_SERPENTFORM: case TALENT_HOUNDFORM: case TALENT_CHEETAHFORM: case TALENT_MOUSEFORM:
-					second_skill = get_skill(S_NATURE, 0, 100); break;
+					second_skill_type = S_NATURE; break;
 				case TALENT_ANGELFORM:
-					second_skill = get_skill(S_PIETY, 0, 100); break;
+					second_skill_type = S_PIETY; break;
 				case TALENT_GOLEMFORM: case TALENT_VORTEXFORM:
-					second_skill = get_skill(S_WIZARDRY, 0, 100); break;
-				default: second_skill = skill;  break;
+					second_skill_type = S_WIZARDRY; break;
+				default: second_skill_type = S_SHAPECHANGE;  break;
 			}
+
+			second_skill = get_skill(second_skill_type, 0, 100);
 
 			/*
 			 * Calculate the duration
@@ -1489,9 +1506,13 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 				int i, stat;
 				u32b flag = 1;
 				byte old_shape = p_ptr->schange;
+				byte old_skill = p_ptr->schange_skill;
+				byte old_min_skill = p_ptr->schange_min_skill;
 
 				/* Hack -- change form */
 				p_ptr->schange = t_ptr->form;
+				p_ptr->schange_min_skill = t_ptr->min_level;
+				p_ptr->schange_skill = second_skill_type;
 
 				/* Display bonuses and maluses to stats */
 				for (i = 0; i < 32; i++)
@@ -1505,6 +1526,8 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 
 				/* Hack -- return form */
 				p_ptr->schange = old_shape;
+				p_ptr->schange_skill = old_skill;
+				p_ptr->schange_min_skill = old_min_skill;
 				return "";
 			}
 
@@ -1512,6 +1535,12 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			{
 				if (dur < 10) return "N";
 				if (t_ptr->form == p_ptr->schange) return "N";
+			}
+
+			if(use)
+			{
+				p_ptr->schange_skill = second_skill_type;
+				p_ptr->schange_min_skill = t_ptr->min_level;
 			}
 
 			if (perm)

@@ -3511,7 +3511,7 @@ talent_type talent_info[NUM_TALENTS] =
 
 	/* Nature lore shapechanges */
 	{"Hound",                       'h', 1, {S_SHAPECHANGE},                 45,  200, 0,            TALENT_SHAPE, SHAPE_HOUND},
-	{"Cheetah",                     'c', 1, {S_SHAPECHANGE},                 55,  200, 0,            TALENT_SHAPE, SHAPE_CHEETAH},
+	{"Cheetah",                     'c', 1, {S_SHAPECHANGE},                 30,  200, 0,            TALENT_SHAPE, SHAPE_CHEETAH},
 	{"Mouse",                       'o', 1, {S_SHAPECHANGE},                 10,  200, 0,            TALENT_SHAPE, SHAPE_MOUSE},
 	{"Serpent",                     's', 1, {S_SHAPECHANGE},                 20,  200, 0,            TALENT_SHAPE, SHAPE_SERPENT},
 
