@@ -150,7 +150,7 @@ carrying around flasks of oil, mushrooms, or boulders quite handy, and allow you
 to turn potions you wouldn't want to drink and well-balanced weapons into deadly
 missiles.
 
-Wrestling   (cost - 10):
+Wrestling   (cost - 12):
      Affects hit chance and damage when wrestling.  Sufficient increases in this
 skill increase strength and also dexterity, allow you to bash doors and chests
 with greater force, tunnel more rapidly, and recover from stuns more quickly.
@@ -168,7 +168,7 @@ skilled wrestlers who are not wielding a weapon get special immunities:  free
 action at a skill of 86, resist sound and stunning at 92, and resist confusion
 at 98.
 
-Karate   (cost - 10):
+Karate   (cost - 11):
      Affects hit chance and damage when using karate.  Sufficient increases in
 this skill increase dexterity and also strength, allow you to dodge better and
 become slightly more stealthy, and recover from stuns more quickly.
@@ -330,7 +330,7 @@ dungeon.  Armor forging is very powerful, because there are almost no object
 qualities that cannot be had with enough skill, good enough components, and a
 dash of luck.
 
-Alchemy   (cost - 8):
+Alchemy   (cost - 6):
      Allows you to create potions, scrolls, rings and amulets.  You need a skill
 of 10 to create potions and scrolls, and a skill of 35 to create rings and
 amulets.

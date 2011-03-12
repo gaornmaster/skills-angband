@@ -3367,8 +3367,8 @@ const skill_type skill_info[NUM_SKILLS] =
 	{"Archery - Slings", "ability to use slings",                        7},
 	{"Throwing", "ability to throw weapons and objects",                 9},
 
-	{"Wrestling", "ability to grapple and slam your opponents",         10},
-	{"Karate", "ability to kick and punch your opponents",              10},
+	{"Wrestling", "ability to grapple and slam your opponents",         12},
+	{"Karate", "ability to kick and punch your opponents",              11},
 
 	{"Spellcasting", "ability to master powerful spells",               16},
 	{"Magical Power", "ability to gather and use mana",                 12},
@@ -3389,7 +3389,7 @@ const skill_type skill_info[NUM_SKILLS] =
 
 	{"Weaponsmithing", "ability to forge weapons, bows, and missiles",  11},
 	{"Armor Forging", "ability to forge armor",                         15},
-	{"Alchemy", "ability to create scrolls, potions, rings, & amulets",  8},
+	{"Alchemy", "ability to create scrolls, potions, rings, & amulets",  6},
 	{"Magical Infusion", "ability to magically enhance objects",        13},
 
 	{"Shapechange", "ability to assume other forms",                    14},
