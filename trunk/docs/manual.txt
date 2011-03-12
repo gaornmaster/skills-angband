@@ -787,12 +787,12 @@ Archery - Slings   (cost - 7):
 Throwing   (cost - 9):
      Determines hit chance with any thrown object.  Increases the damage and/or power of many kinds of thrown potions.  With special throwing weapons, determines chance of critical hits and damage multiplier.  This skill can make carrying around flasks of oil, mushrooms, or boulders quite handy, and allow you to turn potions you wouldn't want to drink and well-balanced weapons into deadly missiles.
 
-Wrestling   (cost - 10):
+Wrestling   (cost - 12):
      Affects hit chance and damage when wrestling.  Sufficient increases in this skill increase strength and also dexterity, allow you to bash doors and chests with greater force, tunnel more rapidly, and recover from stuns more quickly.  Good wrestlers get an HP bonus of up to 50.
      Wrestling requires that you not wield a weapon (You can carry a shield, however).  This combat method doesn't work on non-material beings unless you are blessed, and will hurt you if you try it on highly poisonous or acidic creatures, elementals, or vortexes, but is fully effective against monsters that resist edged and/or blunt weapons.  Wrestling does a lot of damage and sometimes allows you to rob monsters of energy by throwing them to the ground.  You need to be quite strong to be a truly effective wrestler.
      If you are a good enough wrestler, and have taken the Oath of Iron, you can turn your skin to stone (65) or go into a berserk fury (80) at will.  Very skilled wrestlers who are not wielding a weapon get special immunities:  free action at a skill of 86, resist sound and stunning at 92, and resist confusion at 98.
 
-Karate   (cost - 10):
+Karate   (cost - 11):
      Affects hit chance and damage when using karate.  Sufficient increases in this skill increase dexterity and also strength, allow you to dodge better and become slightly more stealthy, and recover from stuns more quickly.
      Karate requires that you not wield a weapon (You can carry a shield, however).  This combat method doesn't work on non-material beings unless you are blessed, and will hurt you if you try it on highly poisonous or acidic creatures, elementals, or vortexes, but is fully effective against monsters that resist edged and/or blunt weapons.  Karate does a fair amount of damage and often inflicts momentary stunning, confusing, or slowing.  You need to be quite dexterous (and also strong) to be a truly effective user of karate.
      If you are good enough at karate, and have taken the Oath of Iron, you can sometimes go into a brief trance-like state (90) in which you are highly resistant to damage.  Very skilled karate users who are not wielding a weapon get special immunities:  free action at a skill of 86, resist sound and stunning at 92, and resist confusion at 98.
@@ -859,7 +859,7 @@ Weaponsmithing   (cost - 11):
 Armor forging   (cost - 14):
      With a skill of 15, allows you to forge armor from components found in the dungeon.  Armor forging is very powerful, because there are almost no object qualities that cannot be had with enough skill, good enough components, and a dash of luck.
 
-Alchemy   (cost - 8):
+Alchemy   (cost - 6):
      Allows you to create potions, scrolls, rings and amulets.  You need a skill of 10 to create potions and scrolls, and a skill of 35 to create rings and amulets.
 
 Magical infusion   (cost - 13):
