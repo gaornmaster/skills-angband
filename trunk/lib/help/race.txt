@@ -102,13 +102,15 @@ Ent:
 exterior protects them from attacks, but they are vulnerable to fire.  They can
 handle weapons well, but dislike axes; they are clumsy with bows, crossbows, and
 magical devices.  Their harmony with nature makes them natural druids, and they
-are in touch with priestly magics as well.
+are in touch with priestly magics as well.  Ents have no trouble walking through
+forests.
 
 Druedain (Woses):
      The Druedain are wild men, with squat bodies and limbs.  They are a
 versatile race not unsimilar to humans, though a little less educated and
 friendly.  They make decent fighters, as they are apt with many weapons; they
-also are make excellent druids.  
+also are make excellent druids.  Woses have no trouble walking through
+forests.
 
 Beorning:
 	The beornings are descendants of Beor, and retain his ability to change 

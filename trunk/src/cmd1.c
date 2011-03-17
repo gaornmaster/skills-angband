@@ -1476,6 +1476,10 @@ void move_player(int dir, int do_pickup)
 				/* Characters in wraithform move easily through trees */
 				else if (p_ptr->wraithform) can_move = TRUE;
 
+				/* Ents and Woses can move through trees easily */
+				else if (p_ptr->prace == RACE_ENT) can_move = TRUE;
+				else if (p_ptr->prace == RACE_WOSES) can_move = TRUE;
+
 				/* Require two turns to get through trees */
 				else if (p_ptr->crossing_moves)
 				{
