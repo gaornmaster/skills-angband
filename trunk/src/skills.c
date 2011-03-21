@@ -2045,6 +2045,8 @@ static bool can_reduce_skill(int skill, bool verbose, bool refund)
 				}
 			}
 
+			break;
+
 		case S_MAGIC:
 			if (level == 1)
 			{
@@ -2099,6 +2101,7 @@ static bool can_reduce_skill(int skill, bool verbose, bool refund)
 		case S_INFUSION:
 		case S_ALCHEMY:
 		{
+			/* Only allow while still on screen */
 			return refund;
 		}
 		default:
