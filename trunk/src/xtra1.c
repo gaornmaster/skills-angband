@@ -2775,6 +2775,11 @@ static void prt_conditions(void)
 		}
 	}
 
+	if (num_trap_on_level >= PLAYER_ALLOWED_TRAPS)
+	{
+		c_roff_insert(TERM_YELLOW, "Traps", r_margin);
+	}
+
 	/* Show oppositions */
 	if (!left_panel_display(DISPLAY_OPPOSE, 1)) prt_oppose(r_margin);
 }

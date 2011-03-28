@@ -2780,7 +2780,7 @@ void py_steal(int y, int x)
 bool py_set_trap(int y, int x, int dir)
 {
 	/* Limit traps. */
-	if (num_trap_on_level >= get_skill(S_BURGLARY, 1, 6))
+	if (num_trap_on_level >= PLAYER_ALLOWED_TRAPS)
 	{
 		msg_print("You must disarm an existing trap to free up your equipment.");
 		return (FALSE);
