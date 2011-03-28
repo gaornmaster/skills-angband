@@ -3228,6 +3228,8 @@
 
 /*** Trap defines ***/
 
+#define PLAYER_ALLOWED_TRAPS get_skill(S_BURGLARY, 1, 6)
+
 
 /*
  * Limit on number of trap kinds
