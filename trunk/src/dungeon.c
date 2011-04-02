@@ -865,10 +865,6 @@ static void process_world(void)
 
 	/*** Damage over Time ***/
 
-	/* Natural vitality allows faster recovery from some conditions */
-	temp = 1;
-	if (p_ptr->vitality) temp = 4;
-
 	/* Take damage from poison */
 	if ((p_ptr->poisoned) && (p_ptr->necro_rage <= NECRO_WEAKNESS_LENGTH))
 	{
@@ -1054,6 +1050,11 @@ static void process_world(void)
 
 
 	/*** Timeout Various Things ***/
+
+	/* Natural vitality allows faster recovery from some conditions */
+	temp = 1;
+	if (p_ptr->vitality) temp = 4;
+
 
 	/* Blindness */
 	if (p_ptr->blind)
@@ -1432,6 +1433,16 @@ static void process_world(void)
 				"You sense that the Pits have forgotten your thievery.");
 		}
 	}
+
+	/* Occassionally restore stats while exploring */
+	if (adj_con_fix[p_ptr->stat_ind[A_CON]] + temp > randint(10000 / 6))
+	{
+		if (!p_ptr->poisoned & !p_ptr->diseased & (p_ptr->chp == p_ptr->mhp) & !p_ptr->necro_rage & !p_ptr->berserk & !p_ptr->stun& !p_ptr->cut)
+		{
+			(void) do_heal_stat(randint(6) - 1);
+		}
+	}
+
 
 
 	/*** Process Inventory ***/
