@@ -3053,6 +3053,46 @@ bool do_dec_stat(int stat, int points, bool perm, cptr msg_drain,
 	return (FALSE);
 }
 
+bool heal_stat(int stat)
+{
+	/* Heal stat if needed */
+	if (p_ptr->stat_cur[stat] < p_ptr->stat_max[stat])
+	{
+		if (p_ptr->stat_cur[stat] < 18)
+		{
+			p_ptr->stat_cur[stat]++;
+		}
+		else
+		{
+			p_ptr->stat_cur[stat] += MIN(randint(10), p_ptr->stat_max[stat] - p_ptr->stat_cur[stat]);
+		}
+
+		p_ptr->update |= (PU_BONUS);
+
+		return (TRUE);
+	}
+
+	/* Nothing to restore */
+	return (FALSE);
+}
+
+bool do_heal_stat(int stat)
+{
+	if (heal_stat(stat))
+	{
+		if (stat == A_STR) message(MSG_GREEN, 0, "You feel some strength return to your muscles.");
+		if (stat == A_INT) message(MSG_GREEN, 0, "Your mind focuses.");
+		if (stat == A_WIS) message(MSG_GREEN, 0, "You regain some clarity of mind.");
+		if (stat == A_CON) message(MSG_GREEN, 0, "Your body returns to a more healthy state.");
+		if (stat == A_DEX) message(MSG_GREEN, 0, "Your limbs feel a bit more limber.");
+		if (stat == A_CHR) message(MSG_GREEN, 0, "You feel less grumpy.");
+
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+
 /*
  * Restore a stat.  Return TRUE only if this actually makes a difference.
  */

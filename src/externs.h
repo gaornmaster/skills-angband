@@ -840,6 +840,8 @@ extern bool do_inc_stat(int stat, int points, cptr msg);
 extern bool dec_stat(int stat, int points, int permanent);
 extern bool do_dec_stat(int stat, int points, bool perm, cptr msg_drain,
 	cptr msg_sustain);
+bool heal_stat(int stat);
+bool do_heal_stat(int stat);
 extern bool res_stat(int stat);
 extern bool do_res_stat(int stat, cptr msg);
 extern bool restore_stats(void);
