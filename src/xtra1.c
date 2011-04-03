@@ -1446,7 +1446,7 @@ static void prt_shape(void)
 			shapedesc = "Golem     ";
 			break;
 		case SHAPE_EAGLE:
-			shapedesc = "Golem     ";
+			shapedesc = "Eagle     ";
 			break;
 
 		default:

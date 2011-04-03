@@ -2668,6 +2668,9 @@ void shapechange(s16b shape)
 		case SHAPE_WEREWOLF:shapedesc = "werewolf";   break;
 		case SHAPE_SERPENT: shapedesc = "serpent";    break;
 		case SHAPE_ANGEL:   shapedesc = "angel";      break;
+		case SHAPE_VORTEX:  shapedesc = "vortex";     break;
+		case SHAPE_GOLEM:   shapedesc = "golem";      break;
+		case SHAPE_EAGLE:   shapedesc = "eagle";      break;
 		default:            shapedesc = "monster";    break;
 	}
 
