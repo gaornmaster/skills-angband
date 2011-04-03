@@ -1348,7 +1348,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			if (use)
 			{
 				int x, y;
-				bool skip;
+				bool skip = FALSE;;
 
 				p_ptr->max_dist = 2;
 				if (!get_aim_dir(&dir)) return "";
