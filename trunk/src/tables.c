@@ -51,6 +51,12 @@ const s16b ddx_ddd[9] =
 const s16b ddy_ddd[9] =
 {  1, -1,  0,  0,  1,  1, -1, -1,  0 };
 
+/*
+ * Global arrays for cardinal directions
+ */
+const s16b ddy_cardinal[4] = {1, 0, -1, 0};
+const s16b ddx_cardinal[4] = {0, 1, 0, -1};
+
 
 /*
  * Number of grids in circles with radii from 0 to 5
