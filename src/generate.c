@@ -2611,130 +2611,84 @@ static bool generate_pool(int y1, int x1, int y2, int x2, int feat)
  *
  */
 
+#define YPOS(y) (y1 + 2 * y + 1)
+#define XPOS(x) (x1 + 2 * x + 1)
+#define pos(y,x) (y * size_x + x)
+/*
+ * Create a maze within bounds using a recursive algorithm
+ */
+void make_maze(int y, int x, int y1, int x1, int y2, int x2, int size_y, int size_x, int visited[], byte feat_wall, byte feat_path)
+{
+	int i, j;
 
+	/* Verify in-bounds */
+	if (!in_bounds_fully(y, x)) return;
+	if (y < 0 || y >= size_y || x < 0 || x >= size_x) return;
 
-/* Convert a maze coordinate into a dungeon coordinate */
-#define YPOS(y, y1)		((y1) + (y) * 2 + 1)
-#define XPOS(x, x1)		((x1) + (x) * 2 + 1)
+	/* Mark posistion as visited */
+	visited[pos(y, x)] = TRUE;
 
+	/* Set square to path */
+	cave_set_feat(YPOS(y), XPOS(x), feat_path);
+
+	/* Check all neighbors */
+	for (i = 0, j = rand_int(4); i < 4; i++, j++)
+	{
+		int ty, tx;
+		ty = y + ddy_cardinal[j % 4];
+		tx = x + ddx_cardinal[j % 4];
+
+		/* Verify bounds */
+		if (ty < 0 || tx < 0 || ty >= size_y || tx >= size_x) continue;
+
+		/* Only move to unconnected squares */
+		if (!visited[pos(ty, tx)])
+		{
+			int path_y = (YPOS(y) + YPOS(ty)) / 2;
+			int path_x = (XPOS(x) + XPOS(tx)) / 2;
+
+			cave_set_feat(path_y, path_x, feat_path);
+			make_maze(ty, tx, y1, x1, y2, x2, size_y, size_x, visited, feat_wall, feat_path);
+		}
+	}
+}
 
 /*
  * Build an acyclic maze inside a given rectangle.  - Eric Bock -
  * Construct the maze from a given pair of features.
  *
- * Note that the edge lengths should be odd.
- *
- * THIS FUNCTION IS AVAILABLE ONLY UNDER THE MORIA LICENSE.
+ * Rewritten by Joshua Middendorf for full GPL compatibility
  */
 static void draw_maze(int y1, int x1, int y2, int x2, byte feat_wall,
     byte feat_path)
 {
-	int i, j;
-	int ydim, xdim;
-	int grids;
-
 	int y, x;
-	int ty, tx;
-	int dy, dx;
 
-	byte dir[4];
-	byte dirs;
+	int size_y = (y2 - y1) / 2;
+	int size_x = (x2 - x1) / 2;
 
-	/* Start with a solid rectangle of the "wall" feat */
-	generate_fill(y1, x1, y2, x2, feat_wall);
+	int visited[size_y * size_x];
+	C_WIPE(visited, size_y * size_x, int);
 
-	/* Calculate dimensions */
-	ydim = (y2 - y1) / 2;
-	xdim = (x2 - x1) / 2;
-
-	/* Number of unexamined grids */
-	grids = ydim * xdim - 1;
-
-	/* Set the initial position */
-	y = rand_int(ydim);
-	x = rand_int(xdim);
-
-	/* Place a floor here */
-	cave_set_feat(YPOS(y, y1), XPOS(x, x1), feat_path);
-
-	/* Now build the maze */
-	while (grids)
+	/* Fill with walls and initialize the visited array */
+	for (y = y1; y <= y2; y++)
 	{
-		/* Only use maze grids */
-		if (cave_feat[YPOS(y, y1)][XPOS(x, x1)] == feat_path)
+		for (x = x1; x <= x2; x++)
 		{
-			/* Pick a target */
-			ty = rand_int(ydim);
-			tx = rand_int(xdim);
-
-			while (TRUE)
-			{
-				dirs = 0;
-				dy = 0;
-				dx = 0;
-
-				/* Calculate the dungeon position */
-				j = YPOS(y, y1);
-				i = XPOS(x, x1);
-
-				/** Enumerate possible directions **/
-
-				/* Up */
-				if (y && (cave_feat[j - 2][i] == feat_wall)) dir[dirs++] = 1;
-
-				/* Down */
-				if ((y < ydim - 1) && (cave_feat[j + 2][i] == feat_wall)) dir[dirs++] = 2;
-
-				/* Left */
-				if (x && (cave_feat[j][i - 2] == feat_wall)) dir[dirs++] = 3;
-
-				/* Right */
-				if ((x < xdim - 1) && (cave_feat[j][i + 2] == feat_wall)) dir[dirs++] = 4;
-
-				/* Dead end; go to the next valid grid */
-				if (!dirs) break;
-
-				/* Pick a random direction */
-				switch (dir[rand_int(dirs)])
-				{
-					/* Move up */
-					case 1:  dy = -1;  break;
-
-					/* Move down */
-					case 2:  dy =  1;  break;
-
-					/* Move left */
-					case 3:  dx = -1;  break;
-
-					/* Move right */
-					case 4:  dx =  1;  break;
-				}
-
-				/* Place floors */
-				cave_set_feat(j + dy, i + dx, feat_path);
-				cave_set_feat(j + dy * 2, i + dx * 2, feat_path);
-
-				/* Advance */
-				y += dy;
-				x += dx;
-
-				/* One less grid to examine */
-				grids--;
-
-				/* Check for completion */
-				if ((y == ty) && (x == tx)) break;
-			}
+			cave_set_feat(y, x, feat_wall);
 		}
-
-		/* Find a new position */
-		y = rand_int(ydim);
-		x = rand_int(xdim);
 	}
+
+	/* Choose a starting location */
+	y = randint(size_y);
+	x = randint(size_x);
+	make_maze(y, x, y1, x1, y2, x2, size_y, size_x, visited, feat_wall, feat_path);
 }
 
 
 #undef YPOS
 #undef XPOS
+#undef pos
 
 
 /*
@@ -2845,199 +2799,104 @@ static void set_feat_room(int y, int x, int feat)
 /*
  * Type 1 -- Special vaulted and ragged-edge rooms
  *
- * -EB-, -LM-
+ * -EB-, -LM-, rewritten by -JGM- to be GPL complete
  *
- * PARTS OF THIS FUNCTION ARE AVAILABLE ONLY UNDER THE MORIA LICENSE.
  */
 static bool build_type1_pillars(bool light)
 {
-	int y, x, dy, dx, y0, x0, y1, x1, y2, x2;
-	int y_num, x_num;
+	int width, height;
+	int y0, x0, y1, x1, y2, x2, y, x;
+	int spacing_y, spacing_x, size, shift;
+	int pad_y, pad_x;
+	byte feat;
 
-	int choice;
-	int pillar_count = 0;
+	bool found;
 
-	int spacing;
-	int offset = 0;
-	int stagger_y = 0;
-	int stagger_x = 0;
-
-	/* Vaulted rooms are two times as common as ragged-edge rooms */
-	bool vaulted = (!one_in_(3));
-
-
-	/* Spacing of pillars or wall alcoves is usually two */
-	spacing = 2;
-
-	/* Allow wider spacing sometimes */
-	if (one_in_(4))
+	if ((map_rows < 3 * BLOCK_HGT) || (!one_in_(5)))
 	{
-		spacing++;
-		if ((!vaulted) && (one_in_(4))) spacing++;
+		width  = 1 + damroll(2, 11);
+		height = 1 + damroll(2, 4);
 	}
-
-
-	/* Determine size of room */
-	while (TRUE)
+	else
 	{
-		/* Pick number of pillars -- prefer horizontal rooms */
-		if ((map_rows < 3 * BLOCK_HGT) || (!one_in_(6)))
-		{
-			y_num = rand_range(MAX(2, 6 / spacing), 15 / spacing);
-			x_num = rand_range(MAX(2, 6 / spacing), y_num + 15 / spacing);
-		}
-		else
-		{
-			x_num = rand_range(MAX(2, 6 / spacing), 15 / spacing);
-			y_num = rand_range(MAX(2, 6 / spacing), x_num + 15 / spacing);
-		}
-
-
-		/* Assume an offset from the border walls of one */
-		offset = 1;
-
-		/* The offset of pillars in vaulted rooms varies */
-		if ((vaulted) && (spacing >= 2) && (one_in_(4)))
-		{
-			/* Pillars can (rarely) be right at the walls */
-			if ((spacing >= 3) && (y_num > 3) && (x_num > 3) &&
-			    (one_in_(3)))
-			{
-				offset--;
-			}
-
-			/* Pillars can be two grids away from the walls */
-			else offset++;
-		}
-
-		/* Calculate room dimensions (y) */
-		dy = offset + offset + 1 + (y_num - 1) * spacing;
-
-		/* Calculate room dimensions (x) */
-		dx = offset + offset + 1 + (x_num - 1) * spacing;
-
-		/* Room must not be higher than 33.  XXX XXX */
-		if (dy > BLOCK_HGT * 3) continue;
-
-		/* Room must not be wider than 44.  XXX XXX */
-		if (dx > BLOCK_WID * 4) continue;
-
-		/* Accept dimensions */
-		break;
+		width  = 1 + damroll(2, 4);
+		height = 1 + damroll(2, 11);
 	}
-
-	/* Pillars two grids apart may be staggered in some cases */
-	if ((spacing % 2 == 0) && (offset == 1))
-	{
-		if      ((x_num % 2 == 1) && (one_in_(4)))
-			stagger_y = spacing / 2;
-
-		else if ((y_num % 2 == 1) && (one_in_(3)))
-			stagger_x = spacing / 2;
-	}
-
 
 	/* Find and reserve some space in the dungeon.  Get center of room. */
-	if (!find_space(&y0, &x0, dy, dx)) return (FALSE);
+	if (!find_space(&y0, &x0, height+2, width+2)) return (FALSE);
 
 	/* Locate the room */
-	y1 = y0 - dy / 2;
-	x1 = x0 - dx / 2;
-	y2 = y1 + dy - 1;
-	x2 = x1 + dx - 1;
+	y1 = y0 - height / 2;
+	x1 = x0 - width / 2;
+	y2 =  y1 + height - 1;
+	x2 =  x1 + width - 1;
 
 	/* Generate new room.  Quit immediately if out of bounds. */
-	if (!generate_room(y1, x1, y2, x2, light)) return (FALSE);
+	if (!generate_room(y1-1, x1-1, y2+1, x2+1, light)) return (FALSE);
 
 	/* Generate outer walls */
-	generate_draw(y1, x1, y2, x2, FEAT_WALL_OUTER);
+	generate_draw(y1-1, x1-1, y2+1, x2+1, FEAT_WALL_OUTER);
 
-	/* Make a standard room */
-	generate_fill(y1+1, x1+1, y2-1, x2-1, FEAT_FLOOR);
+	/* Make a standard room. */
+	generate_fill(y1, x1, y2, x2, FEAT_FLOOR);
+
+	/* Now to generate pillars! */
+	size = 1;
+	shift = 1000;
+	feat = FEAT_PILLAR;
+
+	/* Once in a special blue moon, get pillars of gold! */
+	if (one_in_(100)) feat = FEAT_PILLAR_GOLD;
 
 
-	/*** Fill room ***/
-
-	/* Randomize start of staggering */
-	choice = rand_int(2);
-
-	/* For every row of pillars, ... */
-	for (y = y1 + offset; y <= y2; y += spacing)
+	/* Sometimes make shifting pillars with simple spacing, especially with problematic sizes */
+	if (one_in_(4) || width == 2 || width == 4 || width == 10 || height == 2 || height == 4 || height == 10)
 	{
-		/* Toggle stagger at start of every line */
-		if ((stagger_x) || (stagger_y)) choice++;
+		shift = 2;
+		spacing_x = 2;
+		spacing_y = 2;
+		pad_y = randint(2);
+		pad_x = randint(2);
+	}
 
-		/* ... and every column: */
-		for (x = x1 + offset; x <= x2; x += spacing)
+	else
+	{
+		/* Try to find a nice arrangement */
+		found = FALSE;
+		for (spacing_y = 2; spacing_y < 6 && !found; spacing_y++)
+			for (pad_y = 0; pad_y < spacing_y && !found; pad_y++)
+				if ((height - 2 * pad_y - 1) % spacing_y == 0)
+					found = TRUE;
+		spacing_y--;
+
+		found = FALSE;
+		for (spacing_x = 2; spacing_x < 6 && !found; spacing_x++)
+			for (pad_x = 0; pad_x < spacing_x && !found; pad_x++)
+				if ((width - 2 * pad_x - 1) % spacing_x == 0)
+					found = TRUE;
+		spacing_x--;
+	}
+
+
+	/* Sometimes make them big! */
+	if (spacing_x == 3 && spacing_y == 3 && one_in_(5) && pad_x > 2 && pad_y > 2)
+	{
+		size = 2;
+	}
+
+	/* Actually go through and add pillars */
+	for (y = y1; y <= y2; y++)
+	{
+		for (x = x1; x <= x2; x++)
 		{
-			/* Toggle vertical stagger in every grid */
-			if (stagger_y) choice++;
-
-			/* Place a pillar shifted vertically */
-			if ((stagger_y) && (choice % 2 == 0))
+			if (((y - y1 + pad_y) % spacing_y < size) && ((x - x1 + pad_x + (y - y1) / shift) % spacing_x) < size)
 			{
-				if ((y + stagger_y > y1+1) && (y + stagger_y < y2-1) && (x > x1+1) && (x < x2-1))
-				{
-					set_feat_room(y + stagger_y, x, FEAT_PILLAR);
-					pillar_count++;
-				}
-				else
-					set_feat_room(y + stagger_y, x, FEAT_WALL_INNER);
-			}
-
-			/* Place a pillar shifted horizontally */
-			else if ((stagger_x) && (choice % 2 == 0))
-			{
-				if ((y > y1+1) && (y < y2-1) && (x + stagger_x > x1+1) && (x + stagger_x < x2-1))
-				{
-					set_feat_room(y, x + stagger_x, FEAT_PILLAR);
-					pillar_count++;
-				}
-				else
-					set_feat_room(y, x + stagger_x, FEAT_WALL_INNER);
-			}
-
-			/* Place a pillar with no shift */
-			else
-			{
-				if ((y > y1+1) && (y < y2-1) && (x > x1+1) && (x < x2-1))
-				{
-					set_feat_room(y, x, FEAT_PILLAR);
-					pillar_count++;
-				}
-				else
-					set_feat_room(y, x, FEAT_WALL_INNER);
+				cave_set_feat(y, x, feat);
 			}
 		}
 	}
 
-	/* On rare occasion, every pillar is solid gold! */
-	if ((vaulted) && (p_ptr->depth >= pillar_count * 2) && (one_in_(80)))
-	{
-		/* Check interior of room (not adjacent to the walls) */
-		for (y = y1+2; y <= y2-2; y++)
-		{
-			for (x = x1+2; x <= x2-2; x++)
-			{
-				/* This is a pillar */
-				if (cave_feat[y][x] == FEAT_PILLAR)
-				{
-					/* Of gold */
-					set_feat_room(y, x, FEAT_PILLAR_GOLD);
-				}
-			}
-		}
-	}
-
-
-	/* Ragged-edged rooms have no pillars in the interior of the room */
-	if (!vaulted)
-	{
-		/* Fill with floor  XXX XXX */
-		generate_fill(y1+2, x1+2, y2-2, x2-2, FEAT_FLOOR);
-	}
-
-	/* Success */
 	return (TRUE);
 }
 

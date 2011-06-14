@@ -21,6 +21,8 @@ extern const s16b ddx[10];
 extern const s16b ddy[10];
 extern const s16b ddx_ddd[9];
 extern const s16b ddy_ddd[9];
+extern const s16b ddy_cardinal[4];
+extern const s16b ddx_cardinal[4];
 extern byte grids_in_radius[6];
 extern s16b nearby_grids_y[37];
 extern s16b nearby_grids_x[37];
