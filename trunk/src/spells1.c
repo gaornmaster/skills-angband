@@ -724,12 +724,23 @@ static bool project_f(int who, int y, int x, int dist, int dam, int typ)
 		case GF_KILL_WALL:
 		case GF_DISINTEGRATE:
 		{
+			int i;
+			bool okay;
+
 			/* Kill-wall only affects rock and doors */
 			if ((typ == GF_KILL_WALL) && (!cave_rock_bold(y, x)) &&
 			    (!cave_any_door(y, x))) break;
 
 			/* Permanent walls and stores are immune */
 			if (cave_perma_bold(y, x)) break;
+
+			/* Kill wall doesn't work when there's nowhere to excavate */
+			okay = FALSE;
+			if (typ == GF_KILL_WALL)
+				for (i = 0; i < 9; i++)
+					if (cave_passable_bold(y + ddy_ddd[i], x + ddx_ddd[i])) okay = TRUE;
+			if (!okay) return;
+
 
 			/* Floors are unaffected */
 			if (cave_floor_bold(y, x)) break;

@@ -1824,6 +1824,9 @@ void do_cmd_close(void)
  */
 static bool do_cmd_tunnel_test(int y, int x)
 {
+	int i;
+	bool okay = FALSE;
+
 	/* Must have knowledge */
 	if (!(cave_info[y][x] & (CAVE_MARK)))
 	{
@@ -1842,6 +1845,22 @@ static bool do_cmd_tunnel_test(int y, int x)
 		msg_print("You see nothing there to tunnel.");
 
 		/* Nope */
+		return (FALSE);
+	}
+
+	/* Prevent tunnelling when surrounded by walls */
+	for (i = 0; i < 9; i++)
+	{
+		if (cave_passable_bold(y + ddy_ddd[i], x + ddx_ddd[i]))
+		{
+			okay = TRUE;
+		}
+
+	}
+
+	if (!okay)
+	{
+		msg_print("There's nowhere to put the dirt!");
 		return (FALSE);
 	}
 
