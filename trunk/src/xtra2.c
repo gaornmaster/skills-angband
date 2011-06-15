@@ -4124,6 +4124,132 @@ static s16b target_pick(int y0, int x0, int dy, int dx)
 
 
 /*
+ * Draw a visible path over the squares between (x1,y1) and (x2,y2).
+ * The path consists of "*", which are white except where there is a
+ * monster, object or feature in the grid.
+ *
+ * This routine has (at least) three weaknesses:
+ * - remembered objects/walls which are no longer present are not shown,
+ * - squares which (e.g.) the player has walked through in the dark are
+ *   treated as unknown space.
+ * - walls which appear strange due to hallucination aren't treated correctly.
+ *
+ * The first two result from information being lost from the dungeon arrays,
+ * which requires changes elsewhere
+ */
+static int draw_path(char *c, byte *a, int y1, int x1, int y2, int x2)
+{
+	int i;
+	int max;
+	bool on_screen;
+	term *old = Term;
+
+	/* Find the path. */
+	max = project_path(MAX_RANGE, y1, x1, &y2, &x2, PROJECT_THRU);
+
+	Term_activate(term_map);
+
+	/* No path, so do nothing. */
+	if (max < 1) return 0;
+
+	/* The starting square is never drawn, but notice if it is being
+     * displayed. In theory, it could be the last such square.
+     */
+	on_screen = panel_contains(y1, x1);
+
+	/* Draw the path. */
+	for (i = 0; i < max; i++)
+	{
+		byte colour;
+
+		/* Find the co-ordinates on the level. */
+		int y = GRID_Y(path_g[i]);
+		int x = GRID_X(path_g[i]);
+		/*
+		 * As path[] is a straight line and the screen is oblong,
+		 * there is only section of path[] on-screen.
+		 * If the square being drawn is visible, this is part of it.
+		 * If none of it has been drawn, continue until some of it
+		 * is found or the last square is reached.
+		 * If some of it has been drawn, finish now as there are no
+		 * more visible squares to draw.
+		 *
+		 */
+		 if (panel_contains(y,x)) on_screen = TRUE;
+		 else if (on_screen) break;
+		 else continue;
+
+	 	/* Find the position on-screen */
+		move_cursor_relative(y,x);
+
+		/* This square is being overwritten, so save the original. */
+		Term_what(Term->scr->cx, Term->scr->cy, a+i, c+i);
+
+		/* Choose a colour. */
+		/* Visible monsters are red. */
+		if (cave_m_idx[y][x] && m_list[cave_m_idx[y][x]].ml)
+		{
+			monster_type *m_ptr = &m_list[cave_m_idx[y][x]];
+
+			/*mimics act as objects*/
+			if (m_ptr->mflag & (MFLAG_MIME)) colour = TERM_YELLOW;
+			else colour = TERM_L_RED;
+		}
+
+		/* Known objects are yellow. */
+		else if (cave_o_idx[y][x] && o_list[cave_o_idx[y][x]].marked)
+		{
+
+			colour = TERM_YELLOW;
+    	}
+
+		/* Known walls are blue. */
+		else if (!cave_project_bold(y,x) &&
+				((cave_info[y][x] & (CAVE_MARK)) ||	player_can_see_bold(y,x)))
+		{
+			colour = TERM_BLUE;
+		}
+		/* Unknown squares are grey. */
+		else if (!(cave_info[y][x] & (CAVE_MARK)) && !player_can_see_bold(y,x))
+		{
+			colour = TERM_L_DARK;
+		}
+		/* Unoccupied squares are white. */
+		else
+		{
+			colour = TERM_WHITE;
+		}
+
+		/* Draw the path segment */
+		(void)Term_addch(colour, '*');
+	}
+
+	(void)Term_activate(old);
+
+	return i;
+}
+
+/*
+ * Load the attr/char at each point along "path" which is on screen from
+ * "a" and "c". This was saved in draw_path().
+ */
+static void load_path(int max, char *c, byte *a)
+{
+	int i;
+	for (i = 0; i < max; i++)
+	{
+		if (!panel_contains(GRID_Y(path_g[i]), GRID_X(path_g[i]))) continue;
+
+		move_cursor_relative(GRID_Y(path_g[i]), GRID_X(path_g[i]));
+
+		(void)Term_addch(a[i], c[i]);
+	}
+
+	(void)Term_fresh();
+}
+
+
+/*
  * Hack -- determine if a given location is "interesting".
  *
  * Mimics are "interesting", even if hidden.  Most of the time, however,
@@ -4183,6 +4309,8 @@ static bool target_set_interactive_accept(int y, int x)
 static void target_set_interactive_prepare(int mode)
 {
 	int y, x;
+
+	Term_activate(term_main);
 
 	/* Reset "temp" array */
 	temp_n = 0;
@@ -4977,6 +5105,10 @@ bool target_set_interactive(u16b mode)
 
 	char info[DESC_LEN];
 
+	/* These are used for displaying the path to the target */
+	char path_char[MAX_RANGE];
+	byte path_attr[MAX_RANGE];
+	int max;
 
 	/* Cancel target  (always?) XXX */
 	target_set_monster(0);
@@ -5036,8 +5168,19 @@ bool target_set_interactive(u16b mode)
 				strcpy(info, "p,o,+,-,?,<dir>");
 			}
 
+			/* Draw the path in "target" mode. If there is one */
+			if (mode & (TARGET_KILL))
+			{
+				max = draw_path (path_char, path_attr, py, px, y, x);
+			}
+
+
+
 			/* Describe and Prompt */
 			query = target_set_interactive_aux(y, x, mode, info);
+
+			/* Remove the path */
+			if (max > 0)	load_path (max, path_char, path_attr);
 
 			/* Allow all direction keys */
 			get_ui_direction(&query, 0x00, &shift_key);
@@ -5246,8 +5389,17 @@ bool target_set_interactive(u16b mode)
 			/* Default prompt */
 			strcpy(info, "t,p,m,+,-,?,<dir>");
 
+			/* Draw the path in "target" mode. If there is one */
+			if (mode & (TARGET_KILL))
+			{
+				max = draw_path (path_char, path_attr, py, px, y, x);
+			}
+
 			/* Describe and Prompt (enable "TARGET_LOOK") */
 			query = target_set_interactive_aux(y, x, mode | TARGET_LOOK, info);
+
+			/* Remove the path */
+			if (max > 0)	load_path (max, path_char, path_attr);
 
 			/* Allow all direction keys and shift-movement */
 			get_ui_direction(&query, 0x00, &shift_key);
