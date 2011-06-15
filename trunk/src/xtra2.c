@@ -4147,10 +4147,10 @@ static int draw_path(char *c, byte *a, int y1, int x1, int y2, int x2)
 	/* Find the path. */
 	max = project_path(MAX_RANGE, y1, x1, &y2, &x2, PROJECT_THRU);
 
-	Term_activate(term_map);
-
 	/* No path, so do nothing. */
 	if (max < 1) return 0;
+
+	(void)Term_activate(term_map);
 
 	/* The starting square is never drawn, but notice if it is being
      * displayed. In theory, it could be the last such square.
@@ -4236,6 +4236,9 @@ static int draw_path(char *c, byte *a, int y1, int x1, int y2, int x2)
 static void load_path(int max, char *c, byte *a)
 {
 	int i;
+	term *old = Term;
+	Term_activate(term_map);
+
 	for (i = 0; i < max; i++)
 	{
 		if (!panel_contains(GRID_Y(path_g[i]), GRID_X(path_g[i]))) continue;
@@ -4245,6 +4248,7 @@ static void load_path(int max, char *c, byte *a)
 		(void)Term_addch(a[i], c[i]);
 	}
 
+	(void)Term_activate(old);
 	(void)Term_fresh();
 }
 
@@ -5171,7 +5175,7 @@ bool target_set_interactive(u16b mode)
 			/* Draw the path in "target" mode. If there is one */
 			if (mode & (TARGET_KILL))
 			{
-				max = draw_path (path_char, path_attr, py, px, y, x);
+				max = draw_path(path_char, path_attr, py, px, y, x);
 			}
 
 
@@ -5392,14 +5396,14 @@ bool target_set_interactive(u16b mode)
 			/* Draw the path in "target" mode. If there is one */
 			if (mode & (TARGET_KILL))
 			{
-				max = draw_path (path_char, path_attr, py, px, y, x);
+				max = draw_path(path_char, path_attr, py, px, y, x);
 			}
 
 			/* Describe and Prompt (enable "TARGET_LOOK") */
 			query = target_set_interactive_aux(y, x, mode | TARGET_LOOK, info);
 
 			/* Remove the path */
-			if (max > 0)	load_path (max, path_char, path_attr);
+			if (max > 0)	load_path(max, path_char, path_attr);
 
 			/* Allow all direction keys and shift-movement */
 			get_ui_direction(&query, 0x00, &shift_key);
