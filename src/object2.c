@@ -3946,10 +3946,10 @@ void apply_random_qualities(object_type *o_ptr)
 		int max_lev = MIN(MAX_DEPTH, k_ptr->level + 60);
 
 		/* Bonuses depend on object level being well above base level */
-		xtra = m_bonus(k_ptr->ds, object_level - k_ptr->level, max_lev);
+		int bonus = m_bonus(k_ptr->ds, object_level - k_ptr->level, max_lev);
 
 		/* Enhance the dice sides (up to 100%) */
-		o_ptr->ds += rand_int(xtra + 1);
+		o_ptr->ds += rand_int(bonus + 1);
 	}
 
 	/* Enhance object value for new flags */
