@@ -730,6 +730,7 @@ A:8/33:25/33:45/5
 M:100:4d3
 C:0:1d5:0:0:0
 F:THROWING | SHOW_MODS
+X:ADD_DICE_SIDES
 D:A light throwing spear that can be easily carried in bunches, perfect for 
 D:harassing a stronger foe.
 
