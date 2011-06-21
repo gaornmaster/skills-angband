@@ -739,7 +739,7 @@ static bool project_f(int who, int y, int x, int dist, int dam, int typ)
 			if (typ == GF_KILL_WALL)
 				for (i = 0; i < 9; i++)
 					if (cave_passable_bold(y + ddy_ddd[i], x + ddx_ddd[i])) okay = TRUE;
-			if (!okay) return;
+			if (!okay) return (FALSE);
 
 
 			/* Floors are unaffected */

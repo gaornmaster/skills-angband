@@ -1504,7 +1504,6 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 			if (desc)
 			{
 				int i, stat;
-				u32b flag = 1;
 				byte old_shape = p_ptr->schange;
 				byte old_skill = p_ptr->schange_skill;
 				byte old_min_skill = p_ptr->schange_min_skill;
@@ -1772,10 +1771,6 @@ void do_cmd_talents(int talent_choice)
 	int col = MAX(0, (Term->cols - 80) / 3);
 
 	char change_string[] = ", / to change";
-
-	bool do_warrior = (talent_choice == TALENT_WARRIOR);
-	bool do_utility = (talent_choice == TALENT_UTILITY);
-	bool do_shape = (talent_choice == TALENT_SHAPE);
 
 	int available_types = 0;
 

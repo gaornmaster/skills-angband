@@ -18,7 +18,7 @@
 
 #include "angband.h"
 
-void food_hit_damage(object_type *o_ptr, int who, int *dam, int *typ)
+void food_hit_damage(const object_type *o_ptr, int who, int *dam, int *typ)
 {
 
 	/* By default, use character power for effects */
@@ -116,7 +116,7 @@ void food_hit_damage(object_type *o_ptr, int who, int *dam, int *typ)
 
 				/* Damage ranges from 0.5x to 1.5x normal */
 				*dam = damroll(o_ptr->dd, o_ptr->ds) * get_skill(skill, 5, 15);
-				*dam = div_round(dam, 10);
+				*dam = div_round(*dam, 10);
 			}
 			break;
 		}
@@ -161,7 +161,7 @@ void food_hit_effect(int who, int y, int x, object_type *o_ptr)
 }
 
 
-void potion_smash_damage(object_type* o_ptr, int who, int *dam, int *typ, int *rad, bool *do_fire_star)
+void potion_smash_damage(const object_type* o_ptr, int who, int *dam, int *typ, int *rad, bool *do_fire_star)
 {
     int sides, dice;
     int skill = S_NOSKILL;
@@ -320,14 +320,14 @@ void potion_smash_damage(object_type* o_ptr, int who, int *dam, int *typ, int *r
 		{
 			*typ = GF_ENLIGHTENMENT;
 			*rad = 10;
-			do_fire_star = TRUE;
+			*do_fire_star = TRUE;
 			break;
 		}
 		case SV_POTION_STAR_ENLIGHTENMENT:
 		{
 			*typ = GF_ENLIGHTENMENT;
 			*rad = 18;
-			do_fire_star = TRUE;
+			*do_fire_star = TRUE;
 			break;
 		}
 
@@ -335,7 +335,7 @@ void potion_smash_damage(object_type* o_ptr, int who, int *dam, int *typ, int *r
 		{
 			*typ = GF_ENLIGHTENMENT;
 			*rad = 6;
-			do_fire_star = TRUE;
+			*do_fire_star = TRUE;
 			break;
 		}
 
@@ -382,7 +382,6 @@ bool potion_smash_effect(int who, int y, int x, object_type *o_ptr)
 	int rad = 1;
 	int typ = 0;
 	int dam = 0;
-	int dice, sides;
 	u32b flg;
 
 	bool notice;
