@@ -446,11 +446,11 @@
 /*
  * Player regeneration constants
  */
-#define PY_REGEN_NORMAL     30	/* Normal regen: 30/10000ths HP per HP per turn */
+#define PY_REGEN_NORMAL     60	/* Normal regen: 60/10000ths HP per HP per turn */
 #define PY_REGEN_WEAK       15	/* Regeneration when weak */
 #define PY_REGEN_FAINT       5	/* Regeneration when fainting */
-#define PY_REGEN_HPBASE    400	/* Bonus to regeneration:  1/25 HP per turn */
-#define PY_REGEN_MNBASE    400	/* Bonus to regeneration:  1/25 MP per turn */
+#define PY_REGEN_HPBASE   1000	/* Bonus to regeneration:  1/10 HP per turn */
+#define PY_REGEN_MNBASE   1000	/* Bonus to regeneration:  1/10 MP per turn */
 
 
 
