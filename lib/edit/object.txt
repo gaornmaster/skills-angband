@@ -2451,7 +2451,9 @@ D:of unknown weapons and armor.
 N:333:Identify
 G:?:w
 I:70:13:0
+
 W:5:0:5:75
+
 A:2/50:100/75
 M:100:1d5
 E:KNOWLEDGE 1
@@ -3899,6 +3901,7 @@ C:10:1d2:0:0:0
 E:KNOWLEDGE 1
 F:EASY_ACTIVATE
 D:that reveals evil creatures nearby.
+
 
 N:516:Cure Medium Wounds
 G:_:d

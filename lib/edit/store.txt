@@ -210,9 +210,6 @@ D:331, 100,  6  # Scroll of Word of Recall
 D:332, 100, 40  # Scroll of Learn Magic
 D:333, 100, 20  # Scroll of Identify
 D:334,  25,  3  # Scroll of *Identify*
-D:337,  75,  4  # Scroll of Enchant Armor
-D:338,  60,  4  # Scroll of Enchant Weapon (Skill)
-D:339,  60,  4  # Scroll of Enchant Weapon (Deadliness)
 D:342,  80,  7  # Scroll of Recharging
 D:344, 100, 40  # Scroll of Light
 D:345,  50, 20  # Scroll of Mapping

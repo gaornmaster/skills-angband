@@ -2151,8 +2151,19 @@ void cold_dam(int dam0, int msg_type, cptr hit_str, cptr kb_str)
 }
 
 /*
- * Apply disenchantment to the player's stuff, unless it is melded with
- * his body because of a shapechange.
+ * Attempt to resist the effects of disenchantment
+ */
+static bool resist_disen(int dam)
+{
+    if (randint(p_ptr->skill_sav) > randint(dam))
+    {
+        return (TRUE);
+    }
+    return (FALSE);
+}
+
+/*
+ * Apply disenchantment to the player's temporary statuses
  *
  * Some effects require a high enough damage.
  *
@@ -2160,138 +2171,60 @@ void cold_dam(int dam0, int msg_type, cptr hit_str, cptr kb_str)
  */
 bool apply_disenchant(int dam)
 {
-	int i;
-	int slot = 0;
-
-	object_type *o_ptr;
-
-	char o_name[DESC_LEN];
-
-
 	/* Character is gone */
 	if (p_ptr->leaving) return (FALSE);
 
 	/* Character is shapeshifted */
-	if (p_ptr->schange)
-	{
-		/* Disenchantment can force the player back into his normal form */
-		if ((randint(dam) > 20 + (dam / 2)) && (!check_save(150)))
-		{
-			/* Message */
-			msg_print("You are wrenched back into your normal form!");
+	if (p_ptr->schange && !check_save(150))
+    {
+        /* Message */
+        msg_print("You are wrenched back into your normal form!");
 
-			/* Change back to normal form */
-			shapechange_perm(SHAPE_NORMAL);
-		}
-
-		/* A shapechanged character's armor is safe from disenchantment */
-		else
-		{
-			/* Pick a random slot -- armor is safe */
-			switch (randint(9))
-			{
-				case 1: slot = INVEN_WIELD; break;
-				case 2: slot = INVEN_BOW; break;
-				case 3: return (FALSE);
-				case 4: return (FALSE);
-				case 5: return (FALSE);
-				case 6: return (FALSE);
-				case 7: return (FALSE);
-				case 8: return (FALSE);
-				case 9: slot = INVEN_Q1; break;
-			}
-		}
-	}
-	else
-	{
-		/* Pick a random slot -- weapons and armor are both fair game */
-		switch (randint(9))
-		{
-			case 1: slot = INVEN_WIELD; break;
-			case 2: slot = INVEN_BOW; break;
-			case 3: slot = INVEN_BODY; break;
-			case 4: slot = INVEN_OUTER; break;
-			case 5: slot = INVEN_ARM; break;
-			case 6: slot = INVEN_HEAD; break;
-			case 7: slot = INVEN_HANDS; break;
-			case 8: slot = INVEN_FEET; break;
-			case 9: slot = INVEN_Q1; break;
-		}
-	}
-
-	/* Check for protective blanket */
-	if (check_blanket(CHECK_BLANKET_DISEN, 1)) return (FALSE);
+        /* Change back to normal form */
+        shapechange_perm(SHAPE_NORMAL);
+    }
 
 
-	/* Search the quiver */
-	if (slot == INVEN_Q1)
-	{
-		int start = rand_int(QUIVER_SLOTS);
-
-		/* Search the entire quiver with random start point */
-		for (i = start; i < QUIVER_SLOTS + start; i++)
-		{
-			/* Get the item here */
-			o_ptr = &inventory[INVEN_Q1 + (i % QUIVER_SLOTS)];
-
-			/* No item -- continue */
-			if (!o_ptr->k_idx) continue;
-
-			/* Choose this item */
-			slot = INVEN_Q1 + (i % QUIVER_SLOTS);
-			break;
-		}
-	}
-
-	/* Get the item in this slot */
-	o_ptr = &inventory[slot];
+    /* General statuses */
+    if (p_ptr->confused && !resist_disen(dam)) set_confused(0);
+    if (p_ptr->afraid && !resist_disen(dam)) set_afraid(0);
+    if (p_ptr->image && !resist_disen(dam)) set_image(0);
+    if (p_ptr->slow && !resist_disen(dam)) set_slow(0);
+    if (p_ptr->fast && !resist_disen(dam)) set_fast(0);
 
 
-	/* No item, nothing happens */
-	if (!o_ptr->k_idx) return (FALSE);
+
+    /* Various wizardly effects */
+    if (p_ptr->blink_away && !resist_disen(dam)) set_blink_away(0);
+    if (p_ptr->nexus_field && !resist_disen(dam)) set_nexus_field(0, 0);
+    if (p_ptr->aura_cold && !resist_disen(dam)) set_aura_cold(0);
+    if (p_ptr->aura_fire && !resist_disen(dam)) set_aura_fire(0);
+    if (p_ptr->shield && !resist_disen(dam)) set_shield(0, NULL);
+
+    /* Various necromatic and holy effects */
+    if (p_ptr->necro_rage && !resist_disen(dam)) set_necro_rage(0);
+    if (p_ptr->blessed && !resist_disen(dam)) set_blessed(0, NULL);
+    if (p_ptr->holy && !resist_disen(dam)) set_holy(0);
 
 
-	/* Nothing to disenchant */
-	if ((o_ptr->to_h <= 0) && (o_ptr->to_d <= 0) && (o_ptr->to_a <= 0))
-	{
-		/* Nothing to notice */
-		return (FALSE);
-	}
+    if (p_ptr->protevil && !resist_disen(dam)) set_protevil(0);
+    if (p_ptr->bold && !resist_disen(dam)) set_bold(0);
+    if (p_ptr->hero && !resist_disen(dam)) set_hero(0);
+    if (p_ptr->tim_invis && !resist_disen(dam)) set_invis(0, 0);
+    if (p_ptr->tim_infra && !resist_disen(dam)) set_tim_infra(0);
+    if (p_ptr->detect_inv && !resist_disen(dam)) set_detect_inv(0);
+    if (p_ptr->esp_evil && !resist_disen(dam)) set_esp_evil(0);
+    if (p_ptr->tim_esp && !resist_disen(dam)) set_tim_esp(0);
 
 
-	/* Describe the object */
-	object_desc(o_name, sizeof(o_name), o_ptr, FALSE, 0);
+    /* Can strip temporary resistances */
+    if (p_ptr->oppose_acid && !resist_disen(dam)) set_oppose_acid(0);
+    if (p_ptr->oppose_cold && !resist_disen(dam)) set_oppose_cold(0);
+    if (p_ptr->oppose_elec && !resist_disen(dam)) set_oppose_elec(0);
+    if (p_ptr->oppose_ethereal && !resist_disen(dam)) set_oppose_ethereal(0);
+    if (p_ptr->oppose_fire && !resist_disen(dam)) set_oppose_fire(0);
+    if (p_ptr->oppose_pois && !resist_disen(dam)) set_oppose_pois(0);
 
-
-	/* Artifacts have a two-thirds chance to resist */
-	if (artifact_p(o_ptr) && (!one_in_(3)))
-	{
-		/* Message */
-		msg_format("Your %s (%c) resist%s disenchantment!",
-			   o_name, index_to_label(slot),
-			   ((o_ptr->number != 1) ? "" : "s"));
-
-		/* Notice */
-		return (TRUE);
-	}
-
-
-	/* Disenchant tohit */
-	if (o_ptr->to_h > 0) o_ptr->to_h--;
-	if ((o_ptr->to_h > 5) && (one_in_(5))) o_ptr->to_h--;
-
-	/* Disenchant todam */
-	if (o_ptr->to_d > 0) o_ptr->to_d--;
-	if ((o_ptr->to_d > 5) && (one_in_(5))) o_ptr->to_d--;
-
-	/* Disenchant toac */
-	if (o_ptr->to_a > 0) o_ptr->to_a--;
-	if ((o_ptr->to_a > 5) && (one_in_(5))) o_ptr->to_a--;
-
-	/* Message */
-	msg_format("Your %s (%c) %s disenchanted!",
-		   o_name, index_to_label(slot),
-		   ((o_ptr->number != 1) ? "were" : "was"));
 
 	/* Recalculate bonuses */
 	p_ptr->update |= (PU_BONUS);

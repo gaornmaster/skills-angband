@@ -2629,11 +2629,12 @@ bool set_self_knowledge(int v, cptr msg)
 	return (TRUE);
 }
 
-void shapechange_perm(s16b shape)
+bool shapechange_perm(s16b shape)
 {
 	/* Clear form duration */
 	p_ptr->form_dur = 0;
 	shapechange(shape);
+	return (TRUE);
 }
 
 

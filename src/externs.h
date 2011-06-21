@@ -944,9 +944,9 @@ extern bool change_weather(s16b humid, s16b wind, s16b temp);
 
 
 /* spells3.c */
-extern void food_hit_damage(object_type *o_ptr, int who, int *dam, int *typ);
+extern void food_hit_damage(const object_type *o_ptr, int who, int *dam, int *typ);
 extern void food_hit_effect(int who, int y, int x, object_type *o_ptr);
-extern void potion_smash_damage(object_type *o_ptr, int who, int *dam, int *typ, int *rad, bool *do_fire_star);
+extern void potion_smash_damage(const object_type *o_ptr, int who, int *dam, int *typ, int *rad, bool *do_fire_star);
 extern bool potion_smash_effect(int who, int y, int x, object_type *o_ptr);
 extern int scroll_read_effect(int who, int y, int x, object_type *o_ptr);
 extern bool device_use_effect(int who, int power, int y, int x,
@@ -1234,7 +1234,7 @@ extern bool set_aura_cold(int v);
 extern bool set_mental_barrier(int v);
 extern bool set_forbid_summoning(int v);
 extern bool set_wraithform(int v);
-extern bool shapechange_pern(s16b shape);
+extern bool shapechange_perm(s16b shape);
 extern bool shapechange_temp(int v, s16b shape);
 extern bool set_pois_power(int v, int dur);
 extern bool set_chaos_power(int v, int dur);
