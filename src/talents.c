@@ -1408,7 +1408,7 @@ static cptr do_talent(int talent, int mode, int talent_choice)
 
 				if (check)
 				{
-					if (get_skill(S_SHAPECHANGE, 0, 100) == 0 && talent_choice == TALENT_SHAPE) return "N";
+					if (get_skill(S_SHAPECHANGE, 0, 100) < 10 && talent_choice == TALENT_SHAPE) return "N";
 					if (talent_choice == TALENT_UTILITY) return "N";
 				}
 
