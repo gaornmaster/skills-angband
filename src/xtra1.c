@@ -4195,6 +4195,9 @@ s16b calc_hp_regen(void)
 	if (p_ptr->schange == SHAPE_TROLL) regen_amount += base;
 	else if (p_ptr->prace == RACE_HALF_TROLL) regen_amount += base / 2;
 
+	/* Warriors heal quckly, especially when severly wounded */
+	if (p_ptr->oath & OATH_OF_IRON) regen_amount += 2 * base * (p_ptr->mhp - p_ptr->chp) / p_ptr->mhp;
+
 	/* Necromantic rage -- +200% */
 	if (p_ptr->necro_rage > NECRO_WEAKNESS_LENGTH) regen_amount += base * 2;
 
