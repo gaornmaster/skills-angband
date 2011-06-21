@@ -2856,6 +2856,37 @@ s16b wield_slot(const object_type *o_ptr)
 			return (INVEN_Q1);
 		}
 
+        case TV_FOOD:
+        {
+            int dam, typ;
+            food_hit_damage(o_ptr, -1, &dam, &typ);
+
+            /* Only specialized food can be used in quiver */
+            if (typ != GF_HURT && object_aware_p(o_ptr))
+            {
+                return (INVEN_Q1);
+            }
+            else
+            {
+                return (-1);
+            }
+        }
+		case TV_POTION:
+		{
+		    int dam, rad, typ;
+		    bool do_fire_star;
+		    potion_smash_damage(o_ptr, -1, &dam, &typ, &rad, &do_fire_star);
+
+		    if (object_aware_p(o_ptr) && dam > 0)
+		    {
+		        return (INVEN_Q1);
+            }
+            else
+            {
+                return (-1);
+            }
+		}
+
 		case TV_POUCH:
 		{
 		    return (INVEN_POUCH);

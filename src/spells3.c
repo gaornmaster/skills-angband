@@ -18,6 +18,110 @@
 
 #include "angband.h"
 
+void food_hit_damage(object_type *o_ptr, int who, int *dam, int *typ)
+{
+
+	/* By default, use character power for effects */
+	int skill = S_NOSKILL;
+
+	/* If "who" is -1, use throwing skill for some things. */
+	if (who == -1) skill = S_THROWING;
+
+	/* If "who" is -2, use burglary skill for some things. */
+	if (who == -2) skill = S_BURGLARY;
+
+
+	/* Analyze the food */
+	switch (o_ptr->sval)
+	{
+		case SV_FOOD_BLINDNESS:
+		case SV_FOOD_CONFUSION:
+		case SV_FOOD_HALLUCINATION:
+		{
+			*typ = GF_DO_CONF;
+			*dam = get_skill(skill, 20, 65);
+			break;
+		}
+
+		case SV_FOOD_PARANOIA:
+		{
+			*typ = GF_DO_FEAR;
+			*dam = get_skill(skill, 20, 65);
+			break;
+		}
+
+		case SV_FOOD_PARALYSIS:
+		{
+			*typ = GF_DO_SLEEP;
+			*dam = get_skill(skill, 25, 75);
+			break;
+		}
+
+		case SV_FOOD_POISON:
+		{
+			*typ = GF_POIS;
+			*dam = get_skill(skill, 10, 30);
+			break;
+		}
+
+		case SV_FOOD_ENVENOMATION:
+		{
+			*typ = GF_POIS;
+			*dam = get_skill(skill, 30, 150);
+			break;
+		}
+
+		case SV_FOOD_SICKNESS:
+		{
+			*typ = GF_POIS;
+			*dam = get_skill(skill, 20, 60);
+			break;
+		}
+
+		case SV_FOOD_DISEASE:
+		{
+			*typ = GF_POIS;
+			*dam = get_skill(skill, 40, 150);
+			break;
+		}
+
+		case SV_FOOD_RUINATION:
+		{
+			*typ = GF_POIS;
+			*dam = get_skill(skill, 60, 250);
+			break;
+		}
+
+		case SV_FOOD_METAMORPHOSIS:
+		{
+			*typ = GF_DO_POLY;
+			*dam = get_skill(skill, 40, 120);
+			break;
+		}
+
+		case SV_FOOD_REGEN_MANA:
+		{
+			*typ = GF_MANA;
+			*dam = get_skill(skill, 0, 100);
+			break;
+		}
+
+		/* No special effects for most things */
+		default:
+		{
+			/* Most things must be thrown or used in a trap */
+			if (who)
+			{
+				*typ = GF_HURT;
+
+				/* Damage ranges from 0.5x to 1.5x normal */
+				*dam = damroll(o_ptr->dd, o_ptr->ds) * get_skill(skill, 5, 15);
+				*dam = div_round(dam, 10);
+			}
+			break;
+		}
+	}
+}
 
 /*
  * Food hits a monster, observe effects
@@ -40,106 +144,8 @@ void food_hit_effect(int who, int y, int x, object_type *o_ptr)
 	int dam = 0;
 	u32b flg;
 
-	/* By default, use character power for effects */
-	int skill = S_NOSKILL;
-
-	/* If "who" is -1, use throwing skill for some things. */
-	if (who == -1) skill = S_THROWING;
-
-	/* If "who" is -2, use burglary skill for some things. */
-	if (who == -2) skill = S_BURGLARY;
-
-
-	/* Analyze the food */
-	switch (o_ptr->sval)
-	{
-		case SV_FOOD_BLINDNESS:
-		case SV_FOOD_CONFUSION:
-		case SV_FOOD_HALLUCINATION:
-		{
-			typ = GF_DO_CONF;
-			dam = get_skill(skill, 20, 65);
-			break;
-		}
-
-		case SV_FOOD_PARANOIA:
-		{
-			typ = GF_DO_FEAR;
-			dam = get_skill(skill, 20, 65);
-			break;
-		}
-
-		case SV_FOOD_PARALYSIS:
-		{
-			typ = GF_DO_SLEEP;
-			dam = get_skill(skill, 25, 75);
-			break;
-		}
-
-		case SV_FOOD_POISON:
-		{
-			typ = GF_POIS;
-			dam = get_skill(skill, 10, 30);
-			break;
-		}
-
-		case SV_FOOD_ENVENOMATION:
-		{
-			typ = GF_POIS;
-			dam = get_skill(skill, 30, 150);
-			break;
-		}
-
-		case SV_FOOD_SICKNESS:
-		{
-			typ = GF_POIS;
-			dam = get_skill(skill, 20, 60);
-			break;
-		}
-
-		case SV_FOOD_DISEASE:
-		{
-			typ = GF_POIS;
-			dam = get_skill(skill, 40, 150);
-			break;
-		}
-
-		case SV_FOOD_RUINATION:
-		{
-			typ = GF_POIS;
-			dam = get_skill(skill, 60, 250);
-			break;
-		}
-
-		case SV_FOOD_METAMORPHOSIS:
-		{
-			typ = GF_DO_POLY;
-			dam = get_skill(skill, 40, 120);
-			break;
-		}
-
-		case SV_FOOD_REGEN_MANA:
-		{
-			typ = GF_MANA;
-			dam = get_skill(skill, 0, 100);
-			break;
-		}
-
-		/* No special effects for most things */
-		default:
-		{
-			/* Most things must be thrown or used in a trap */
-			if (who)
-			{
-				typ = GF_HURT;
-
-				/* Damage ranges from 0.5x to 1.5x normal */
-				dam = damroll(o_ptr->dd, o_ptr->ds) * get_skill(skill, 5, 15);
-				dam = div_round(dam, 10);
-			}
-			break;
-		}
-	}
+    /* Determine damage */
+    food_hit_damage(o_ptr, who, &dam, &typ);
 
 	/* No damage, no effects */
 	if (!dam) return;
@@ -155,7 +161,204 @@ void food_hit_effect(int who, int y, int x, object_type *o_ptr)
 }
 
 
+void potion_smash_damage(object_type* o_ptr, int who, int *dam, int *typ, int *rad, bool *do_fire_star)
+{
+    int sides, dice;
+    int skill = S_NOSKILL;
 
+	/* If "who" is -1, use throwing skill for some things. */
+	if (who == -1) skill = S_THROWING;
+
+	/* If "who" is -2, use burglary skill for some things. */
+	if (who == -2) skill = S_BURGLARY;
+
+
+	/* Analyze the potion */
+	switch (o_ptr->sval)
+	{
+		case SV_POTION_GRENADE:
+		{
+			int dummy, p = o_ptr->pval;
+
+			/* Pval of potion -> sval of essence -> kind of magic */
+			*typ = essence_to_magic(&dummy, &p);
+
+			*dam = damroll(o_ptr->dd, o_ptr->ds);
+			*rad = 1 + div_round(*dam, 100);
+			break;
+		}
+
+		case SV_POTION_SLOWNESS:
+		{
+			*typ = GF_DO_SLOW;
+			if (who < 0) *dam = get_skill(skill, 20, 75);
+			else         *dam = 20;
+			break;
+		}
+
+		case SV_POTION_POISON:
+		{
+			*typ = GF_POIS;
+			if (who < 0) sides = get_skill(skill, 4, 16);
+			else         sides = 4;
+			*dam = damroll(3, sides);
+			break;
+		}
+
+		case SV_POTION_BLINDNESS:
+		case SV_POTION_CONFUSION:
+		{
+			*typ = GF_DO_CONF;
+			if (who < 0) *dam = get_skill(skill, 20, 65);
+			else         *dam = 20;
+			break;
+		}
+
+		case SV_POTION_SLEEP:
+		{
+			*typ = GF_DO_SLEEP;
+			if (who < 0) *dam = get_skill(skill, 20, 70);
+			else         *dam = 20;
+			break;
+		}
+
+		case SV_POTION_LOSE_MEMORIES:
+		{
+			*typ = GF_FORGET;
+			if (who < 0) dice = get_skill(skill, 5, 20);
+			else         dice = 10;
+			*dam = damroll(dice, 8);
+			break;
+		}
+
+		/* General "curse" potions */
+		case SV_POTION_DEC_STR:
+		case SV_POTION_DEC_INT:
+		case SV_POTION_DEC_WIS:
+		case SV_POTION_DEC_DEX:
+		case SV_POTION_DEC_CON:
+		case SV_POTION_DEC_CHR:
+		{
+			*typ = GF_CURSE;
+			if (who < 0) *dam = get_skill(skill, 20, 80);
+			else         *dam = 40;
+			break;
+		}
+
+		case SV_POTION_DETONATIONS:
+		{
+			*typ = GF_SHARD;
+			*dam = damroll(o_ptr->dd, o_ptr->ds);
+			break;
+		}
+
+		case SV_POTION_DEATH:
+		{
+			*typ = GF_DEATH;
+			*dam = damroll(o_ptr->dd, o_ptr->ds);
+			break;
+		}
+
+		case SV_POTION_SPEED:
+		{
+			*typ = GF_DO_SPEED;
+			break;
+		}
+
+		case SV_POTION_CURE_LIGHT:
+		{
+			*typ = GF_DO_HEAL;
+			*dam = damroll(2, 8);
+			break;
+		}
+
+		case SV_POTION_CURE_SERIOUS:
+		{
+			*typ = GF_DO_HEAL;
+			*dam = damroll(4, 8);
+			break;
+		}
+
+		case SV_POTION_CURE_CRITICAL:
+		{
+			*typ = GF_DO_HEAL;
+			*dam = damroll(8, 8);
+			break;
+		}
+
+		case SV_POTION_HEALING:
+		{
+			*typ = GF_DO_HEAL;
+			*dam = damroll(10, 30);
+			break;
+		}
+
+		case SV_POTION_STAR_HEALING:
+		{
+			*typ = GF_DO_HEAL;
+			*dam = damroll(10, 70);
+			break;
+		}
+
+		case SV_POTION_LIFE:
+		{
+			*typ = GF_DO_HEAL;
+			*dam = damroll(15, 120);
+			break;
+		}
+
+		case SV_POTION_RESTORE_MANA:
+		{
+			*typ = GF_MANA;
+			if (who < 0) dice = get_skill(skill, 5, 24);
+			else         dice = 12;
+			*dam = damroll(dice, 12);
+			break;
+		}
+
+		case SV_POTION_ENLIGHTENMENT:
+		{
+			*typ = GF_ENLIGHTENMENT;
+			*rad = 10;
+			do_fire_star = TRUE;
+			break;
+		}
+		case SV_POTION_STAR_ENLIGHTENMENT:
+		{
+			*typ = GF_ENLIGHTENMENT;
+			*rad = 18;
+			do_fire_star = TRUE;
+			break;
+		}
+
+		case SV_POTION_SELF_KNOWLEDGE:
+		{
+			*typ = GF_ENLIGHTENMENT;
+			*rad = 6;
+			do_fire_star = TRUE;
+			break;
+		}
+
+		case SV_POTION_GAIN_SKILL:
+		{
+			*typ = GF_GAIN_LEVEL;
+			*dam = 30;
+			break;
+		}
+
+		case SV_POTION_STAR_GAIN_SKILL:
+		{
+			*typ = GF_GAIN_LEVEL;
+			*dam = 150;
+			break;
+		}
+		default:
+		{
+			/* No effect, no identify */
+			return;
+		}
+	}
+}
 
 /*
  * Smash a potion, observe effects
@@ -182,206 +385,13 @@ bool potion_smash_effect(int who, int y, int x, object_type *o_ptr)
 	int dice, sides;
 	u32b flg;
 
-	int skill = S_NOSKILL;
 	bool notice;
 
 
 	/* Check if potions are allowed to smash */
 	if (!allow_activate) return (FALSE);
 
-
-	/* If "who" is -1, use throwing skill for some things. */
-	if (who == -1) skill = S_THROWING;
-
-	/* If "who" is -2, use burglary skill for some things. */
-	if (who == -2) skill = S_BURGLARY;
-
-
-	/* Analyze the potion */
-	switch (o_ptr->sval)
-	{
-		case SV_POTION_GRENADE:
-		{
-			int dummy, p = o_ptr->pval;
-
-			/* Pval of potion -> sval of essence -> kind of magic */
-			typ = essence_to_magic(&dummy, &p);
-
-			dam = damroll(o_ptr->dd, o_ptr->ds);
-			rad = 1 + div_round(dam, 100);
-			break;
-		}
-
-		case SV_POTION_SLOWNESS:
-		{
-			typ = GF_DO_SLOW;
-			if (who < 0) dam = get_skill(skill, 20, 75);
-			else         dam = 20;
-			break;
-		}
-
-		case SV_POTION_POISON:
-		{
-			typ = GF_POIS;
-			if (who < 0) sides = get_skill(skill, 4, 16);
-			else         sides = 4;
-			dam = damroll(3, sides);
-			break;
-		}
-
-		case SV_POTION_BLINDNESS:
-		case SV_POTION_CONFUSION:
-		{
-			typ = GF_DO_CONF;
-			if (who < 0) dam = get_skill(skill, 20, 65);
-			else         dam = 20;
-			break;
-		}
-
-		case SV_POTION_SLEEP:
-		{
-			typ = GF_DO_SLEEP;
-			if (who < 0) dam = get_skill(skill, 20, 70);
-			else         dam = 20;
-			break;
-		}
-
-		case SV_POTION_LOSE_MEMORIES:
-		{
-			typ = GF_FORGET;
-			if (who < 0) dice = get_skill(skill, 5, 20);
-			else         dice = 10;
-			dam = damroll(dice, 8);
-			break;
-		}
-
-		/* General "curse" potions */
-		case SV_POTION_DEC_STR:
-		case SV_POTION_DEC_INT:
-		case SV_POTION_DEC_WIS:
-		case SV_POTION_DEC_DEX:
-		case SV_POTION_DEC_CON:
-		case SV_POTION_DEC_CHR:
-		{
-			typ = GF_CURSE;
-			if (who < 0) dam = get_skill(skill, 20, 80);
-			else         dam = 40;
-			break;
-		}
-
-		case SV_POTION_DETONATIONS:
-		{
-			typ = GF_SHARD;
-			dam = damroll(o_ptr->dd, o_ptr->ds);
-			break;
-		}
-
-		case SV_POTION_DEATH:
-		{
-			typ = GF_DEATH;
-			dam = damroll(o_ptr->dd, o_ptr->ds);
-			break;
-		}
-
-		case SV_POTION_SPEED:
-		{
-			typ = GF_DO_SPEED;
-			break;
-		}
-
-		case SV_POTION_CURE_LIGHT:
-		{
-			typ = GF_DO_HEAL;
-			dam = damroll(2, 8);
-			break;
-		}
-
-		case SV_POTION_CURE_SERIOUS:
-		{
-			typ = GF_DO_HEAL;
-			dam = damroll(4, 8);
-			break;
-		}
-
-		case SV_POTION_CURE_CRITICAL:
-		{
-			typ = GF_DO_HEAL;
-			dam = damroll(8, 8);
-			break;
-		}
-
-		case SV_POTION_HEALING:
-		{
-			typ = GF_DO_HEAL;
-			dam = damroll(10, 30);
-			break;
-		}
-
-		case SV_POTION_STAR_HEALING:
-		{
-			typ = GF_DO_HEAL;
-			dam = damroll(10, 70);
-			break;
-		}
-
-		case SV_POTION_LIFE:
-		{
-			typ = GF_DO_HEAL;
-			dam = damroll(15, 120);
-			break;
-		}
-
-		case SV_POTION_RESTORE_MANA:
-		{
-			typ = GF_MANA;
-			if (who < 0) dice = get_skill(skill, 5, 24);
-			else         dice = 12;
-			dam = damroll(dice, 12);
-			break;
-		}
-
-		case SV_POTION_ENLIGHTENMENT:
-		{
-			typ = GF_ENLIGHTENMENT;
-			rad = 10;
-			do_fire_star = TRUE;
-			break;
-		}
-		case SV_POTION_STAR_ENLIGHTENMENT:
-		{
-			typ = GF_ENLIGHTENMENT;
-			rad = 18;
-			do_fire_star = TRUE;
-			break;
-		}
-
-		case SV_POTION_SELF_KNOWLEDGE:
-		{
-			typ = GF_ENLIGHTENMENT;
-			rad = 6;
-			do_fire_star = TRUE;
-			break;
-		}
-
-		case SV_POTION_GAIN_SKILL:
-		{
-			typ = GF_GAIN_LEVEL;
-			dam = 30;
-			break;
-		}
-
-		case SV_POTION_STAR_GAIN_SKILL:
-		{
-			typ = GF_GAIN_LEVEL;
-			dam = 150;
-			break;
-		}
-		default:
-		{
-			/* No effect, no identify */
-			return (FALSE);
-		}
-	}
+    potion_smash_damage(o_ptr, who, &dam, &typ, &rad, &do_fire_star);
 
 	/* Require a projection type */
 	if (!typ) return (FALSE);
