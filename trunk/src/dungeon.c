@@ -886,23 +886,10 @@ static void process_world(void)
 	    (p_ptr->berserk <= BERSERK_WEAKNESS_LENGTH) &&
 	    (p_ptr->necro_rage <= NECRO_WEAKNESS_LENGTH))
 	{
-		/* Mortal wound or Deep Gash */
-		if (p_ptr->cut > 200)
-		{
-			i = 3;
-		}
-
-		/* Severe cut */
-		else if (p_ptr->cut > 100)
-		{
-			i = 2;
-		}
-
-		/* Other cuts */
-		else
-		{
-			i = 1;
-		}
+		/* Mortal wounds (1000) -> 30! */
+		/* Deep gash (200) -> 6 */
+		/* Severe cut (100) -> 3 */
+		i = (p_ptr->cut + 32) / 33;
 
 		/* Take damage */
 		if (take_hit(i, 0, NULL, "a fatal wound")) return;
