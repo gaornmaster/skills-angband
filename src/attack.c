@@ -85,8 +85,9 @@ int monster_evade_or_resist(object_type *o_ptr,
 
 
 	/* Some monsters are great at dodging  -EZ- */
-	if ((r_ptr->flags2 & (RF2_EVASIVE)) && (!m_ptr->csleep) &&
+	if (((r_ptr->flags2 & (RF2_EVASIVE)) && (!m_ptr->csleep) &&
 	    (!m_ptr->confused) && (!one_in_(m_ptr->stunned ? 2 : 3)))
+		|| (m_ptr->mflag & (MFLAG_TOWN)))
 	{
 		/* Monster is at least partially visible */
 		if (m_ptr->ml)

@@ -2045,7 +2045,6 @@ static bool project_m(int who, int y, int x, int dam, int typ, u32b flg)
 
 	bool fear = FALSE;
 
-
 	/* No monster here */
 	if (!(cave_m_idx[y][x] > 0)) return (FALSE);
 
@@ -2067,6 +2066,14 @@ static bool project_m(int who, int y, int x, int dam, int typ, u32b flg)
 		/* Skip monsters with the given racial index */
 		if (project_immune == m_ptr->r_idx) return (FALSE);
 	}
+
+	/* Ignore town monsters */
+	if (m_ptr->mflag & (MFLAG_TOWN))
+	{
+		msg_format("%s dodges out of the way and looks at you askance.", name);
+		return (FALSE);
+	}
+
 
 	/* Optionally - Only affect monsters with a specified flag */
 	if (p_ptr->proj_mon_flags)
