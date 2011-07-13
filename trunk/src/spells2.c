@@ -1486,6 +1486,13 @@ void teleport_player_level(void)
 		p_ptr->depth++;
 	}
 
+	else if (quest_check(p_ptr->depth) == QUEST_FIXED &&
+			(p_ptr->character_type == PCHAR_IRONMAN || p_ptr->character_type == PCHAR_IRONMAN_PARTIAL))
+	{
+		message(MSG_GENERIC, 0, "You must stay and fight your demons.");
+		return;
+	}
+
 	else if ((quest_check(p_ptr->depth) == QUEST_FIXED) ||
 	   (p_ptr->depth >= MAX_DEPTH - 1))
 	{
@@ -1494,7 +1501,7 @@ void teleport_player_level(void)
 		/* New depth */
 		p_ptr->depth--;
 	}
-	else if ((p_ptr->character_type != PCHAR_IRONMAN) && (one_in_(2)))
+	else if ((p_ptr->character_type != PCHAR_IRONMAN && p_ptr->character_type != PCHAR_IRONMAN_PARTIAL) && (one_in_(2)))
 	{
 		message(MSG_TPLEVEL, 0, "You rise up through the ceiling.");
 

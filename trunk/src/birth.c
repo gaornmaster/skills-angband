@@ -866,6 +866,7 @@ void player_wipe(bool full)
 
 	/* Character type is always normal to begin with -- except for ironman players */
     if (ironman_play) p_ptr->character_type = PCHAR_IRONMAN;
+    else if (ironman_partial) p_ptr->character_type = PCHAR_IRONMAN_PARTIAL;
     else              p_ptr->character_type = PCHAR_NORMAL;
 
 	/* And does not use multiple lives  XXX */
