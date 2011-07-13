@@ -29,6 +29,17 @@ void do_cmd_go_up(void)
 		return;
 	}
 
+	/* Partial Ironman -- return to town */
+	if (p_ptr->character_type == PCHAR_IRONMAN_PARTIAL)
+	{
+		/* Hack -- take a turn */
+		p_ptr->energy_use = 100;
+		p_ptr->depth = 0;
+		p_ptr->leaving = TRUE;
+		return;
+
+	}
+
 	/* Ironman */
 	if ((p_ptr->character_type == PCHAR_IRONMAN) && (!p_ptr->total_winner))
 	{
@@ -84,6 +95,20 @@ void do_cmd_go_down(void)
 	/* Create a way back (usually) */
 	p_ptr->create_stair = FEAT_LESS;
 
+	/* Partial Ironman characters visit each level but once, excep
+	t for quest levels */
+	if (p_ptr->character_type == PCHAR_IRONMAN_PARTIAL && p_ptr->depth == 0)
+	{
+		if (quest_check(p_ptr->max_depth) == QUEST_FIXED)
+		{
+			p_ptr->depth = p_ptr->max_depth - 1;
+		}
+		else
+		{
+			p_ptr->depth = p_ptr->max_depth;
+		}
+	}
+
 	/* New level */
 	p_ptr->depth++;
 
@@ -96,6 +121,7 @@ void do_cmd_go_down(void)
 		/* Create a way back (usually) */
 		p_ptr->create_stair = FEAT_LESS2;
 	}
+
 
 	/* Leaving */
 	p_ptr->leaving = TRUE;

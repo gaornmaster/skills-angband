@@ -417,11 +417,12 @@
 /*
  * Player character types used by character_type
  */
-#define PCHAR_BEGINNER   0    /* Beginner character, cheats death */
+#define PCHAR_BEGINNER    0    /* Beginner character, cheats death */
 /* xxx for future addition */
-#define PCHAR_NORMAL     2    /* Normal character, one life only */
-/* xxx for future addition */
-#define PCHAR_IRONMAN    4    /* Ironman character */
+#define PCHAR_NORMAL      2    /* Normal character, one life only */
+#define PCHAR_IRONMAN_PARTIAL 3    /* Only one chance per level */
+#define PCHAR_IRONMAN     4    /* Ironman character */
+
 
 #define PCHAR_MAX        6    /* Maximum number of character types */
 
@@ -4373,6 +4374,7 @@
 #define OPT_birth_no_return_stair          105
 #define OPT_birth_smart_cheat              106
 #define OPT_birth_stores_only_sell         107
+#define OPT_ironman_partial                108
 
 
 /*
@@ -4458,6 +4460,7 @@
 	/* Birth options */
 #define birth_autoroll              op_ptr->opt[OPT_birth_autoroll]
 #define ironman_play                op_ptr->opt[OPT_ironman_play]
+#define ironman_partial             op_ptr->opt[OPT_ironman_partial]
 #define birth_no_stores             op_ptr->opt[OPT_birth_no_stores]
 #define birth_no_artifacts          op_ptr->opt[OPT_birth_no_artifacts]
 #define birth_no_return_stair       op_ptr->opt[OPT_birth_no_return_stair]

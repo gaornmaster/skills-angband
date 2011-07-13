@@ -1113,6 +1113,7 @@ static void do_options(void)
 		/* Adjust character type as requested */
 		if (beginner_play)      p_ptr->character_type = PCHAR_BEGINNER;
 		else if (ironman_play)  p_ptr->character_type = PCHAR_IRONMAN;
+		else if (ironman_partial)  p_ptr->character_type = PCHAR_IRONMAN_PARTIAL;
 		else                    p_ptr->character_type = PCHAR_NORMAL;
 	}
 }

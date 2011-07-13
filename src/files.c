@@ -3504,6 +3504,19 @@ static bool file_character_options(FILE *fff)
 		flag = TRUE;
 	}
 
+	/* Ironman play */
+	if (p_ptr->character_type == PCHAR_IRONMAN)
+	{
+		if ((p_ptr->total_winner) || (p_ptr->is_dead)) desc = "refused";
+		else desc = "refuse";
+		fprintf(fff,
+			"You %s to dawdle.\n",
+			desc);
+
+		flag = TRUE;
+	}
+
+
 	/* No stores */
 	if (birth_no_stores)
 	{
@@ -5508,9 +5521,11 @@ s32b total_points(void)
 	/* +40% for ironman */
 	if (p_ptr->character_type == PCHAR_IRONMAN) score += k * 4 / 10;
 
+
 	/* Otherwise +15% for no stores, +5% for no return stairs */
 	else
 	{
+		if (p_ptr->character_type == PCHAR_IRONMAN_PARTIAL) score += k * 1 / 10;
 		if (birth_no_stores)   score += k * 3 / 20;
 		if (birth_no_return_stair) score += k / 20;
 	}

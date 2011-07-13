@@ -2410,7 +2410,7 @@ cptr option_text[OPT_MAX] =
 	"birth_no_return_stair",          /* OPT_no_dungeon_stair */
 	"birth_smart_cheat",              /* OPT_smart_cheat */
 	"birth_stores_only_sell",         /* OPT_birth_stores_only_sell */
-	NULL,
+	"ironman_partial",                /* OPT_ironman_partial */
 	NULL
 };
 
@@ -2547,7 +2547,7 @@ cptr option_desc[OPT_MAX] =
 	"No stairs back the way you came",        /* OPT_birth_no_return_stair */
 	"Monsters exploit your weaknesses",       /* OPT_birth_smart_cheat */
 	"Not a game of shopping",                 /* OPT_birth_stores_only_sell */
-	NULL,
+	"Visit each level no more than once",     /* OPT_ironman_partial */
 	NULL
 };
 
@@ -2684,7 +2684,7 @@ const bool option_norm[OPT_MAX] =
 	FALSE, 		/* OPT_birth_no_return_stair */
 	FALSE,		/* OPT_birth_smart_cheat */
 	TRUE,		/* OPT_birth_stores_only_sell */
-	FALSE,
+	FALSE,      /* OPT_ironman_partial */
 	FALSE
 };
 
@@ -2810,7 +2810,7 @@ const byte option_page[OPT_PAGE_MAX][OPT_PAGE_PER] =
 		255,
 		OPT_birth_autoroll,
 		OPT_birth_stores_only_sell,
-		255,
+		OPT_ironman_partial,
 		255,
 		255,
 		OPT_cheat_know,
@@ -3728,7 +3728,7 @@ cptr character_type_name[PCHAR_MAX] =
 	"Beginner",
 	"",
 	"Normal",
-	"",
+	"Ironman-partial",
 	"Ironman",
 	""
 };
@@ -3741,7 +3741,7 @@ cptr character_type_desc[PCHAR_MAX] =
 	"Beginner character: Can cheat death.",
 	"",
 	"Normal character: One life only.",
-	"",
+	"Partial ironman: Can only visit each level once.",
 	"Ironman character: Cannot go upwards or recall.",
 	""
 };
