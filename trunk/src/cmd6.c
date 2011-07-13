@@ -982,7 +982,7 @@ cptr do_object(int mode, object_type *o_ptr)
 			if (info) return (format("(damage %dd%d)", o_ptr->dd, o_ptr->ds));
 
 			/* Hurt, but do not (immediately) kill, the character */
-			(void)take_hit(MAX(0, p_ptr->chp - 10), 0,
+			(void)take_hit(MAX(0, p_ptr->chp - 40), 0,
 				"Massive explosions rupture your body!",
 				"a potion of Detonations");
 

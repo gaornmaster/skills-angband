@@ -891,6 +891,8 @@ static void process_world(void)
 		/* Severe cut (100) -> 3 */
 		i = (p_ptr->cut + 32) / 33;
 
+		if (i > 30) i = 30;
+
 		/* Take damage */
 		if (take_hit(i, 0, NULL, "a fatal wound")) return;
 	}
