@@ -1,0 +1,3 @@
+Skills Angband, or Sangband for short, is the oldest variant of Angband still active; many long-time players remember it with great fondness.  It was among the first roguelikes anywhere to introduce skills, shapechanges, fully-fledged natural and necromantic realms, and special character talents.  Whole webpages have been devoted to its features, and many a game developer has been influenced by them.
+
+<img src='http://skills-angband.googlecode.com/files/news.png'>
